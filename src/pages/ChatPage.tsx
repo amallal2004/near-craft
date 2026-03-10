@@ -31,7 +31,8 @@ export default function ChatPage() {
     enabled: !!jobId,
   });
 
-  const otherUserId = job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null;
+  const withUserId = searchParams.get("with");
+  const otherUserId = withUserId || (job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null);
 
   const { data: messages } = useQuery({
     queryKey: ["messages", jobId],
