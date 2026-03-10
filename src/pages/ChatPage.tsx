@@ -32,7 +32,12 @@ export default function ChatPage() {
   });
 
   const withUserId = searchParams.get("with");
-  const otherUserId = withUserId || (job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null);
+  // Resolve the other user: from query param, from assigned worker, from existing messages
+  const otherFromJob = job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null;
+  const otherFromMessages = messages?.find(m => m.sender_id !== user?.id)?.sender_id
+    ?? messages?.find(m => m.receiver_id !== user?.id)?.receiver_id
+    ?? null;
+  const otherUserId = withUserId || otherFromJob || otherFromMessages;
 
   const { data: messages } = useQuery({
     queryKey: ["messages", jobId],
