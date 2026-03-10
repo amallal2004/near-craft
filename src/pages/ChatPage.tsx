@@ -17,6 +17,7 @@ import { format } from "date-fns";
 export default function ChatPage() {
   const { id: jobId } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [message, setMessage] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
