@@ -56,14 +56,21 @@ export default function ChatPage() {
     onError: (err: Error) => { toast({ title: "Failed to send", description: err.message, variant: "destructive" }); },
   });
 
+  const canChat = !!otherUserId;
+
   return (
     <AppLayout>
       <div className="flex flex-col h-[calc(100vh-3.5rem-5rem)] lg:h-[calc(100vh-3.5rem)]">
         <div className="border-b p-4">
           <h2 className="font-heading font-semibold">{job?.title ?? "Chat"}</h2>
+          {!canChat && job && (
+            <p className="text-sm text-muted-foreground mt-1">Chat will be available once a worker is assigned to this job.</p>
+          )}
         </div>
         <div className="flex-1 overflow-y-auto p-4 space-y-3">
-          {messages && messages.length > 0 ? messages.map((msg) => {
+          {!canChat ? (
+            <EmptyState icon={MessageSquare} title="No chat available" description="A worker needs to be assigned to this job before you can start chatting." />
+          ) : messages && messages.length > 0 ? messages.map((msg) => {
             const isMine = msg.sender_id === user?.id;
             const sender = (msg as any).profiles;
             return (
@@ -87,8 +94,8 @@ export default function ChatPage() {
         </div>
         <div className="border-t p-4">
           <form onSubmit={(e) => { e.preventDefault(); sendMessage.mutate(); }} className="flex gap-2">
-            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder="Type a message..." className="flex-1" />
-            <Button type="submit" size="icon" disabled={!message.trim() || sendMessage.isPending}><Send className="h-4 w-4" /></Button>
+            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder={canChat ? "Type a message..." : "Chat unavailable..."} className="flex-1" disabled={!canChat} />
+            <Button type="submit" size="icon" disabled={!canChat || !message.trim() || sendMessage.isPending}><Send className="h-4 w-4" /></Button>
           </form>
         </div>
       </div>
