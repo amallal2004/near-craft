@@ -95,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const activeRole: ActiveRole = profile?.active_role ?? "customer";
 
   return (
-    <AuthContext.Provider value={{ session, user, profile, activeRole, isLoading, signOut, switchRole, refreshProfile }}>
+    <AuthContext.Provider value={{ session, user, profile, activeRole, isAdmin, isLoading, signOut, switchRole, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );
