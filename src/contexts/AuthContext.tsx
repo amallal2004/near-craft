@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   activeRole: ActiveRole;
+  isAdmin: boolean;
   isLoading: boolean;
   signOut: () => Promise<void>;
   switchRole: (role: ActiveRole) => Promise<void>;
