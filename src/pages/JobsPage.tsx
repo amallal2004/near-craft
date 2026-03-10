@@ -34,7 +34,7 @@ function WorkerJobFeed() {
         const cat = categories?.find(c => c.slug === categoryFilter);
         if (cat) query = query.eq("category_id", cat.id);
       }
-      if (urgencyFilter !== "all") query = query.eq("urgency", urgencyFilter);
+      if (urgencyFilter !== "all") query = query.eq("urgency", urgencyFilter as "low" | "medium" | "urgent");
       const { data } = await query;
       let result = data ?? [];
       if (search) result = result.filter(j => j.title.toLowerCase().includes(search.toLowerCase()) || j.description.toLowerCase().includes(search.toLowerCase()));
