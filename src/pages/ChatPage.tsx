@@ -1,6 +1,6 @@
 import { useState, useRef, useEffect } from "react";
 import { useToast } from "@/hooks/use-toast";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
@@ -17,6 +17,7 @@ import { format } from "date-fns";
 export default function ChatPage() {
   const { id: jobId } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const [searchParams] = useSearchParams();
   const { toast } = useToast();
   const queryClient = useQueryClient();
   const [message, setMessage] = useState("");
@@ -30,7 +31,8 @@ export default function ChatPage() {
     enabled: !!jobId,
   });
 
-  const otherUserId = job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null;
+  const withUserId = searchParams.get("with");
+  const otherUserId = withUserId || (job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null);
 
   const { data: messages } = useQuery({
     queryKey: ["messages", jobId],
