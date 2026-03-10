@@ -8,6 +8,7 @@ interface AuthContextType {
   user: User | null;
   profile: Profile | null;
   activeRole: ActiveRole;
+  isAdmin: boolean;
   isLoading: boolean;
   signOut: () => Promise<void>;
   switchRole: (role: ActiveRole) => Promise<void>;
@@ -21,6 +22,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [profile, setProfile] = useState<Profile | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(false);
 
   const fetchProfile = async (userId: string) => {
     const { data } = await supabase
@@ -29,6 +31,16 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       .eq("id", userId)
       .single();
     setProfile(data);
+
+    // Check admin role from user_roles table
+    const { data: roleData } = await supabase
+      .from("user_roles")
+      .select("role")
+      .eq("user_id", userId)
+      .eq("role", "admin" as any)
+      .maybeSingle();
+    setIsAdmin(!!roleData);
+
     return data;
   };
 
@@ -62,6 +74,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const signOut = async () => {
     await supabase.auth.signOut();
     setProfile(null);
+    setIsAdmin(false);
   };
 
   const switchRole = async (role: ActiveRole) => {
@@ -82,7 +95,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const activeRole: ActiveRole = profile?.active_role ?? "customer";
 
   return (
-    <AuthContext.Provider value={{ session, user, profile, activeRole, isLoading, signOut, switchRole, refreshProfile }}>
+    <AuthContext.Provider value={{ session, user, profile, activeRole, isAdmin, isLoading, signOut, switchRole, refreshProfile }}>
       {children}
     </AuthContext.Provider>
   );

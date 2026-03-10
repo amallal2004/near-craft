@@ -84,7 +84,7 @@ function AppSidebarContent() {
 }
 
 function TopBar() {
-  const { profile, activeRole, switchRole, signOut } = useAuth();
+  const { profile, activeRole, isAdmin, switchRole, signOut } = useAuth();
   const { unreadCount } = useRealtimeNotifications();
   const navigate = useNavigate();
   const otherRole = activeRole === "customer" ? "worker" : "customer";
@@ -130,10 +130,12 @@ function TopBar() {
             <Settings className="mr-2 h-4 w-4" />
             Settings
           </DropdownMenuItem>
-          <DropdownMenuItem onClick={() => navigate("/admin")}>
-            <Shield className="mr-2 h-4 w-4" />
-            Admin
-          </DropdownMenuItem>
+          {isAdmin && (
+            <DropdownMenuItem onClick={() => navigate("/admin")}>
+              <Shield className="mr-2 h-4 w-4" />
+              Admin
+            </DropdownMenuItem>
+          )}
           <DropdownMenuSeparator />
           <DropdownMenuItem onClick={signOut} className="text-destructive">
             <LogOut className="mr-2 h-4 w-4" />
