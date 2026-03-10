@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from "react";
+import { useToast } from "@/hooks/use-toast";
 import { useParams } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/layout/AppLayout";
@@ -16,6 +17,7 @@ import { format } from "date-fns";
 export default function ChatPage() {
   const { id: jobId } = useParams<{ id: string }>();
   const { user } = useAuth();
+  const { toast } = useToast();
   const queryClient = useQueryClient();
   const [message, setMessage] = useState("");
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -43,13 +45,15 @@ export default function ChatPage() {
 
   const sendMessage = useMutation({
     mutationFn: async () => {
-      if (!message.trim() || !otherUserId) return;
+      if (!message.trim()) return;
+      if (!otherUserId) throw new Error("No recipient found. A worker must be assigned to this job before you can chat.");
       const { error } = await supabase.from("messages").insert({
         job_id: jobId!, sender_id: user!.id, receiver_id: otherUserId, content: message.trim(),
       });
       if (error) throw error;
     },
     onSuccess: () => { setMessage(""); queryClient.invalidateQueries({ queryKey: ["messages", jobId] }); },
+    onError: (err: Error) => { toast({ title: "Failed to send", description: err.message, variant: "destructive" }); },
   });
 
   return (
