@@ -84,7 +84,7 @@ function AppSidebarContent() {
 }
 
 function TopBar() {
-  const { profile, activeRole, switchRole, signOut } = useAuth();
+  const { profile, activeRole, isAdmin, switchRole, signOut } = useAuth();
   const { unreadCount } = useRealtimeNotifications();
   const navigate = useNavigate();
   const otherRole = activeRole === "customer" ? "worker" : "customer";
