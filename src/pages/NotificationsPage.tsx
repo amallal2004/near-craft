@@ -6,9 +6,18 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CardSkeleton } from "@/components/ui/skeletons";
-import { Bell, CheckCheck } from "lucide-react";
+import { Bell, CheckCheck, MessageSquare, Briefcase, AlertTriangle, Star, CreditCard } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { cn } from "@/lib/utils";
+
+const typeIcons: Record<string, any> = {
+  message: MessageSquare,
+  job: Briefcase,
+  application: Briefcase,
+  review: Star,
+  payment: CreditCard,
+  dispute: AlertTriangle,
+};
 
 export default function NotificationsPage() {
   const { user } = useAuth();
@@ -42,25 +51,42 @@ export default function NotificationsPage() {
 
   return (
     <AppLayout>
-      <div className="p-6 lg:p-8">
-        <div className="flex items-center justify-between mb-6">
-          <h1 className="text-3xl font-heading font-bold">Notifications</h1>
-          <Button variant="ghost" size="sm" onClick={() => markAllRead.mutate()}><CheckCheck className="mr-2 h-4 w-4" /> Mark all read</Button>
+      <div className="page-container">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+          <div className="page-header mb-0">
+            <h1>Notifications</h1>
+            <p>Stay updated on your jobs and messages</p>
+          </div>
+          <Button variant="outline" size="sm" className="rounded-full" onClick={() => markAllRead.mutate()}>
+            <CheckCheck className="mr-2 h-4 w-4" /> Mark all read
+          </Button>
         </div>
         {isLoading ? (
-          <div className="space-y-4">{[1, 2, 3].map(i => <CardSkeleton key={i} />)}</div>
+          <div className="space-y-3">{[1, 2, 3].map(i => <CardSkeleton key={i} />)}</div>
         ) : notifications && notifications.length > 0 ? (
           <div className="space-y-1">
-            {notifications.map((n) => (
-              <button key={n.id} onClick={() => handleClick(n)} className={cn("w-full text-left flex items-start gap-4 rounded-lg p-4 transition-colors hover:bg-muted/50", !n.is_read && "bg-primary/5")}>
-                <div className={cn("mt-1 h-2 w-2 rounded-full shrink-0", n.is_read ? "bg-transparent" : "bg-primary")} />
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-sm">{n.title}</p>
-                  {n.body && <p className="text-sm text-muted-foreground truncate">{n.body}</p>}
-                  <p className="text-xs text-muted-foreground mt-1">{formatDistanceToNow(new Date(n.created_at!), { addSuffix: true })}</p>
-                </div>
-              </button>
-            ))}
+            {notifications.map((n) => {
+              const IconComp = typeIcons[n.type] || Bell;
+              return (
+                <button key={n.id} onClick={() => handleClick(n)} className={cn(
+                  "w-full text-left flex items-start gap-4 rounded-xl p-4 transition-all duration-150 hover:bg-muted/50",
+                  !n.is_read && "bg-accent/40"
+                )}>
+                  <div className={cn(
+                    "mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl shrink-0",
+                    n.is_read ? "bg-muted" : "bg-accent"
+                  )}>
+                    <IconComp className={cn("h-4 w-4", n.is_read ? "text-muted-foreground" : "text-accent-foreground")} />
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <p className={cn("text-sm", !n.is_read && "font-semibold")}>{n.title}</p>
+                    {n.body && <p className="text-sm text-muted-foreground truncate mt-0.5">{n.body}</p>}
+                    <p className="text-xs text-muted-foreground mt-1">{formatDistanceToNow(new Date(n.created_at!), { addSuffix: true })}</p>
+                  </div>
+                  {!n.is_read && <div className="mt-2 h-2 w-2 rounded-full bg-primary shrink-0" />}
+                </button>
+              );
+            })}
           </div>
         ) : (
           <EmptyState icon={Bell} title="No notifications" description="You're all caught up!" />
