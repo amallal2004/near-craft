@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CardSkeleton } from "@/components/ui/skeletons";
-import { Briefcase } from "lucide-react";
+import { Briefcase, ArrowRight } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function ApplicationsPage() {
@@ -23,22 +23,28 @@ export default function ApplicationsPage() {
 
   return (
     <AppLayout>
-      <div className="p-6 lg:p-8">
-        <h1 className="mb-6 text-3xl font-heading font-bold">My Applications</h1>
+      <div className="page-container">
+        <div className="page-header">
+          <h1>My Applications</h1>
+          <p>Track the status of your job applications</p>
+        </div>
         {isLoading ? (
-          <div className="space-y-4">{[1, 2, 3].map(i => <CardSkeleton key={i} />)}</div>
+          <div className="space-y-3">{[1, 2, 3].map(i => <CardSkeleton key={i} />)}</div>
         ) : applications && applications.length > 0 ? (
-          <div className="space-y-3">
+          <div className="space-y-2">
             {applications.map((app) => {
               const job = (app as any).jobs;
               return (
-                <Link key={app.id} to={`/jobs/${app.job_id}`} className="block rounded-xl border bg-card p-5 transition-all hover:border-primary/30 hover:shadow-sm">
+                <Link key={app.id} to={`/jobs/${app.job_id}`} className="group block rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-card-hover hover:border-primary/20">
                   <div className="flex items-start justify-between gap-4">
                     <div className="min-w-0">
-                      <h3 className="font-semibold truncate">{job?.title}</h3>
-                      <p className="text-sm text-muted-foreground">{job?.categories?.icon} {job?.categories?.name} · Offer: ${Number(app.offer_price)} · {formatDistanceToNow(new Date(app.created_at!), { addSuffix: true })}</p>
+                      <h3 className="font-heading font-semibold truncate group-hover:text-primary transition-colors">{job?.title}</h3>
+                      <p className="text-sm text-muted-foreground mt-1">{job?.categories?.icon} {job?.categories?.name} · Offer: ${Number(app.offer_price)} · {formatDistanceToNow(new Date(app.created_at!), { addSuffix: true })}</p>
                     </div>
-                    <StatusBadge status={app.status} type="application" />
+                    <div className="flex items-center gap-2">
+                      <StatusBadge status={app.status} type="application" />
+                      <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                    </div>
                   </div>
                 </Link>
               );

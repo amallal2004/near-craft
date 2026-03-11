@@ -42,7 +42,6 @@ export default function ChatPage() {
     enabled: !!jobId,
   });
 
-  // Resolve the other user: from query param, from assigned worker, or from existing messages
   const otherFromJob = job ? (job.customer_id === user?.id ? job.selected_worker_id : job.customer_id) : null;
   const otherFromMessages = messages?.find(m => m.sender_id !== user?.id)?.sender_id
     ?? messages?.find(m => m.receiver_id !== user?.id)?.receiver_id
@@ -68,30 +67,33 @@ export default function ChatPage() {
 
   return (
     <AppLayout>
-      <div className="flex flex-col h-[calc(100vh-3.5rem-5rem)] lg:h-[calc(100vh-3.5rem)]">
-        <div className="border-b p-4">
+      <div className="flex flex-col h-[calc(100vh-4rem-5rem)] lg:h-[calc(100vh-4rem)]">
+        <div className="border-b bg-card px-5 py-4">
           <h2 className="font-heading font-semibold">{job?.title ?? "Chat"}</h2>
           {!canChat && job && (
             <p className="text-sm text-muted-foreground mt-1">Chat will be available once a worker is assigned to this job.</p>
           )}
         </div>
-        <div className="flex-1 overflow-y-auto p-4 space-y-3">
+        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-3 bg-background">
           {!canChat ? (
             <EmptyState icon={MessageSquare} title="No chat available" description="A worker needs to be assigned to this job before you can start chatting." />
           ) : messages && messages.length > 0 ? messages.map((msg) => {
             const isMine = msg.sender_id === user?.id;
             const sender = (msg as any).profiles;
             return (
-              <div key={msg.id} className={cn("flex gap-2", isMine ? "justify-end" : "justify-start")}>
+              <div key={msg.id} className={cn("flex gap-2.5", isMine ? "justify-end" : "justify-start")}>
                 {!isMine && (
-                  <Avatar className="h-8 w-8">
+                  <Avatar className="h-8 w-8 ring-2 ring-border mt-1">
                     <AvatarImage src={sender?.avatar_url} />
-                    <AvatarFallback className="text-xs bg-primary/10 text-primary">{sender?.name?.charAt(0) ?? "?"}</AvatarFallback>
+                    <AvatarFallback className="text-xs bg-accent text-accent-foreground font-semibold">{sender?.name?.charAt(0) ?? "?"}</AvatarFallback>
                   </Avatar>
                 )}
-                <div className={cn("max-w-[70%] rounded-2xl px-4 py-2.5", isMine ? "bg-primary text-primary-foreground" : "bg-muted")}>
-                  <p className="text-sm">{msg.content}</p>
-                  <p className={cn("text-[10px] mt-1", isMine ? "text-primary-foreground/70" : "text-muted-foreground")}>{format(new Date(msg.created_at!), "HH:mm")}</p>
+                <div className={cn(
+                  "max-w-[70%] rounded-2xl px-4 py-2.5 shadow-card",
+                  isMine ? "bg-primary text-primary-foreground rounded-br-md" : "bg-card border rounded-bl-md"
+                )}>
+                  <p className="text-sm leading-relaxed">{msg.content}</p>
+                  <p className={cn("text-[10px] mt-1", isMine ? "text-primary-foreground/60" : "text-muted-foreground")}>{format(new Date(msg.created_at!), "HH:mm")}</p>
                 </div>
               </div>
             );
@@ -100,10 +102,10 @@ export default function ChatPage() {
           )}
           <div ref={scrollRef} />
         </div>
-        <div className="border-t p-4">
+        <div className="border-t bg-card p-4">
           <form onSubmit={(e) => { e.preventDefault(); sendMessage.mutate(); }} className="flex gap-2">
-            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder={canChat ? "Type a message..." : "Chat unavailable..."} className="flex-1" disabled={!canChat} />
-            <Button type="submit" size="icon" disabled={!canChat || !message.trim() || sendMessage.isPending}><Send className="h-4 w-4" /></Button>
+            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder={canChat ? "Type a message..." : "Chat unavailable..."} className="flex-1 h-11 rounded-xl" disabled={!canChat} />
+            <Button type="submit" size="icon" className="h-11 w-11 rounded-xl shrink-0" disabled={!canChat || !message.trim() || sendMessage.isPending}><Send className="h-4 w-4" /></Button>
           </form>
         </div>
       </div>

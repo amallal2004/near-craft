@@ -32,20 +32,23 @@ export default function ReviewsPage() {
     enabled: !!user,
   });
 
-  const ReviewCard = ({ review, nameField }: { review: any; nameField: string }) => {
+  const ReviewCard = ({ review }: { review: any }) => {
     const profile = (review as any).profiles;
     return (
-      <div className="rounded-xl border p-5">
-        <div className="flex items-start gap-3">
-          <Avatar><AvatarImage src={profile?.avatar_url} /><AvatarFallback className="bg-primary/10 text-primary">{profile?.name?.charAt(0) ?? "?"}</AvatarFallback></Avatar>
-          <div className="flex-1">
-            <div className="flex items-center justify-between">
-              <p className="font-medium">{profile?.name}</p>
-              <span className="text-xs text-muted-foreground">{formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}</span>
+      <div className="rounded-xl border bg-card p-5 shadow-card hover:shadow-card-hover transition-shadow duration-200">
+        <div className="flex items-start gap-4">
+          <Avatar className="h-10 w-10 ring-2 ring-border">
+            <AvatarImage src={profile?.avatar_url} />
+            <AvatarFallback className="bg-accent text-accent-foreground font-semibold text-sm">{profile?.name?.charAt(0) ?? "?"}</AvatarFallback>
+          </Avatar>
+          <div className="flex-1 min-w-0">
+            <div className="flex items-center justify-between gap-2">
+              <p className="font-heading font-semibold">{profile?.name}</p>
+              <span className="text-xs text-muted-foreground shrink-0">{formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}</span>
             </div>
-            <Link to={`/jobs/${review.job_id}`} className="text-xs text-primary hover:underline">{(review as any).jobs?.title}</Link>
-            <StarRating rating={review.rating} size={14} className="mt-1" />
-            <p className="mt-2 text-sm text-muted-foreground">{review.comment}</p>
+            <Link to={`/jobs/${review.job_id}`} className="text-xs text-primary hover:underline font-medium">{(review as any).jobs?.title}</Link>
+            <StarRating rating={review.rating} size={14} className="mt-2" />
+            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{review.comment}</p>
           </div>
         </div>
       </div>
@@ -54,15 +57,21 @@ export default function ReviewsPage() {
 
   return (
     <AppLayout>
-      <div className="p-6 lg:p-8">
-        <h1 className="mb-6 text-3xl font-heading font-bold">Reviews</h1>
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Reviews</h1>
+          <p>See what others are saying about you</p>
+        </div>
         <Tabs defaultValue="received">
-          <TabsList><TabsTrigger value="received">Received</TabsTrigger><TabsTrigger value="given">Given</TabsTrigger></TabsList>
+          <TabsList className="rounded-xl">
+            <TabsTrigger value="received" className="rounded-lg">Received</TabsTrigger>
+            <TabsTrigger value="given" className="rounded-lg">Given</TabsTrigger>
+          </TabsList>
           <TabsContent value="received" className="mt-6 space-y-3">
-            {loadingReceived ? [1,2].map(i => <CardSkeleton key={i} />) : received && received.length > 0 ? received.map(r => <ReviewCard key={r.id} review={r} nameField="reviewer" />) : <EmptyState icon={Star} title="No reviews received yet" />}
+            {loadingReceived ? [1,2].map(i => <CardSkeleton key={i} />) : received && received.length > 0 ? received.map(r => <ReviewCard key={r.id} review={r} />) : <EmptyState icon={Star} title="No reviews received yet" description="Complete jobs to start receiving reviews" />}
           </TabsContent>
           <TabsContent value="given" className="mt-6 space-y-3">
-            {loadingGiven ? [1,2].map(i => <CardSkeleton key={i} />) : given && given.length > 0 ? given.map(r => <ReviewCard key={r.id} review={r} nameField="reviewee" />) : <EmptyState icon={Star} title="No reviews given yet" />}
+            {loadingGiven ? [1,2].map(i => <CardSkeleton key={i} />) : given && given.length > 0 ? given.map(r => <ReviewCard key={r.id} review={r} />) : <EmptyState icon={Star} title="No reviews given yet" description="Leave reviews after completing jobs" />}
           </TabsContent>
         </Tabs>
       </div>

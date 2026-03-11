@@ -9,7 +9,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { toast } from "sonner";
 import { Loader2, MapPin } from "lucide-react";
 import { useForm, Controller } from "react-hook-form";
@@ -60,45 +60,48 @@ export default function CreateJobPage() {
 
   return (
     <AppLayout>
-      <div className="mx-auto max-w-2xl p-6 lg:p-8">
-        <h1 className="mb-6 text-3xl font-heading font-bold">Post a Job</h1>
+      <div className="page-container max-w-2xl mx-auto">
+        <div className="page-header">
+          <h1>Post a Job</h1>
+          <p>Describe what you need and find the right worker</p>
+        </div>
         <Card>
           <CardContent className="pt-6">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
-                <Label>Title *</Label>
-                <Input {...register("title")} placeholder="e.g. Fix leaking kitchen faucet" />
+                <Label className="font-medium">Title *</Label>
+                <Input {...register("title")} placeholder="e.g. Fix leaking kitchen faucet" className="h-11 rounded-xl" />
                 {errors.title && <p className="text-xs text-destructive">{errors.title.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label>Description *</Label>
-                <Textarea {...register("description")} placeholder="Describe the job in detail..." rows={4} />
+                <Label className="font-medium">Description *</Label>
+                <Textarea {...register("description")} placeholder="Describe the job in detail..." rows={4} className="rounded-xl" />
                 {errors.description && <p className="text-xs text-destructive">{errors.description.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label>Category *</Label>
+                <Label className="font-medium">Category *</Label>
                 <Controller name="category_id" control={control} render={({ field }) => (
                   <Select value={field.value} onValueChange={field.onChange}>
-                    <SelectTrigger><SelectValue placeholder="Select a category" /></SelectTrigger>
+                    <SelectTrigger className="h-11 rounded-xl"><SelectValue placeholder="Select a category" /></SelectTrigger>
                     <SelectContent>{categories?.map((c) => <SelectItem key={c.id} value={c.id}>{c.icon} {c.name}</SelectItem>)}</SelectContent>
                   </Select>
                 )} />
                 {errors.category_id && <p className="text-xs text-destructive">{errors.category_id.message}</p>}
               </div>
               <div className="space-y-2">
-                <Label>Location *</Label>
+                <Label className="font-medium">Location *</Label>
                 <div className="flex gap-2">
-                  <Input {...register("location_text")} placeholder="City, State" className="flex-1" />
-                  <Button type="button" variant="outline" size="icon" onClick={useCurrentLocation}><MapPin className="h-4 w-4" /></Button>
+                  <Input {...register("location_text")} placeholder="City, State" className="flex-1 h-11 rounded-xl" />
+                  <Button type="button" variant="outline" size="icon" className="h-11 w-11 rounded-xl shrink-0" onClick={useCurrentLocation}><MapPin className="h-4 w-4" /></Button>
                 </div>
                 {errors.location_text && <p className="text-xs text-destructive">{errors.location_text.message}</p>}
               </div>
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <Label>Budget Type</Label>
+                  <Label className="font-medium">Budget Type</Label>
                   <Controller name="budget_type" control={control} render={({ field }) => (
                     <Select value={field.value} onValueChange={field.onChange}>
-                      <SelectTrigger><SelectValue /></SelectTrigger>
+                      <SelectTrigger className="h-11 rounded-xl"><SelectValue /></SelectTrigger>
                       <SelectContent>
                         <SelectItem value="fixed">Fixed Price</SelectItem>
                         <SelectItem value="hourly">Hourly Rate</SelectItem>
@@ -107,24 +110,27 @@ export default function CreateJobPage() {
                   )} />
                 </div>
                 <div className="space-y-2">
-                  <Label>Budget Amount ($) *</Label>
-                  <Input type="number" {...register("budget_amount", { valueAsNumber: true })} placeholder="100" />
+                  <Label className="font-medium">Budget Amount ($) *</Label>
+                  <Input type="number" {...register("budget_amount", { valueAsNumber: true })} placeholder="100" className="h-11 rounded-xl" />
                   {errors.budget_amount && <p className="text-xs text-destructive">{errors.budget_amount.message}</p>}
                 </div>
               </div>
               <div className="space-y-2">
-                <Label>Urgency</Label>
+                <Label className="font-medium">Urgency</Label>
                 <Controller name="urgency" control={control} render={({ field }) => (
                   <div className="grid grid-cols-3 gap-3">
                     {(["low", "medium", "urgent"] as const).map((u) => (
-                      <button key={u} type="button" onClick={() => field.onChange(u)} className={cn("rounded-lg border p-3 text-center text-sm font-medium transition-all", field.value === u ? "border-primary bg-primary/10 text-primary" : "hover:border-primary/50")}>
+                      <button key={u} type="button" onClick={() => field.onChange(u)} className={cn(
+                        "rounded-xl border p-3.5 text-center text-sm font-medium transition-all duration-150",
+                        field.value === u ? "border-primary bg-accent text-accent-foreground shadow-sm" : "hover:border-primary/30 hover:bg-muted"
+                      )}>
                         {u === "low" ? "🟢 Low" : u === "medium" ? "🟡 Medium" : "🔴 Urgent"}
                       </button>
                     ))}
                   </div>
                 )} />
               </div>
-              <Button type="submit" className="w-full h-11" disabled={isSubmitting}>
+              <Button type="submit" className="w-full h-12 rounded-xl text-base" disabled={isSubmitting}>
                 {isSubmitting ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
                 Post Job
               </Button>

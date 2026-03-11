@@ -5,6 +5,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Card, CardContent } from "@/components/ui/card";
 import { EmptyState } from "@/components/ui/empty-state";
 import { Shield, Users, Briefcase, AlertTriangle } from "lucide-react";
+import { motion } from "framer-motion";
 
 export default function AdminPage() {
   const { data: stats } = useQuery({
@@ -19,14 +20,35 @@ export default function AdminPage() {
     },
   });
 
+  const cards = [
+    { icon: Users, label: "Total Users", value: stats?.users ?? 0, color: "bg-accent" },
+    { icon: Briefcase, label: "Total Jobs", value: stats?.jobs ?? 0, color: "bg-accent" },
+    { icon: AlertTriangle, label: "Open Disputes", value: stats?.disputes ?? 0, color: "bg-destructive/10" },
+  ];
+
   return (
     <AppLayout>
-      <div className="p-6 lg:p-8">
-        <h1 className="mb-6 text-3xl font-heading font-bold">Admin Panel</h1>
+      <div className="page-container">
+        <div className="page-header">
+          <h1>Admin Panel</h1>
+          <p>Platform overview and management</p>
+        </div>
         <div className="grid gap-4 sm:grid-cols-3 mb-8">
-          <Card><CardContent className="flex items-center gap-4 p-6"><div className="rounded-lg bg-primary/10 p-3"><Users className="h-6 w-6 text-primary" /></div><div><p className="text-sm text-muted-foreground">Total Users</p><p className="text-2xl font-heading font-bold">{stats?.users ?? 0}</p></div></CardContent></Card>
-          <Card><CardContent className="flex items-center gap-4 p-6"><div className="rounded-lg bg-primary/10 p-3"><Briefcase className="h-6 w-6 text-primary" /></div><div><p className="text-sm text-muted-foreground">Total Jobs</p><p className="text-2xl font-heading font-bold">{stats?.jobs ?? 0}</p></div></CardContent></Card>
-          <Card><CardContent className="flex items-center gap-4 p-6"><div className="rounded-lg bg-destructive/10 p-3"><AlertTriangle className="h-6 w-6 text-destructive" /></div><div><p className="text-sm text-muted-foreground">Open Disputes</p><p className="text-2xl font-heading font-bold">{stats?.disputes ?? 0}</p></div></CardContent></Card>
+          {cards.map((card, i) => (
+            <motion.div key={card.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
+              <Card className="hover:shadow-card-hover transition-shadow duration-200">
+                <CardContent className="flex items-center gap-4 p-6">
+                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${card.color}`}>
+                    <card.icon className={`h-6 w-6 ${card.color.includes("destructive") ? "text-destructive" : "text-accent-foreground"}`} />
+                  </div>
+                  <div>
+                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{card.label}</p>
+                    <p className="text-2xl font-heading font-bold mt-0.5">{card.value}</p>
+                  </div>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ))}
         </div>
         <EmptyState icon={Shield} title="Admin features" description="User management, dispute resolution, and category management coming in the next iteration." />
       </div>
