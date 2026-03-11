@@ -35,20 +35,20 @@ export default function ReviewsPage() {
   const ReviewCard = ({ review }: { review: any }) => {
     const profile = (review as any).profiles;
     return (
-      <div className="rounded-xl border bg-card p-5 shadow-card hover:shadow-card-hover transition-shadow duration-200">
-        <div className="flex items-start gap-4">
-          <Avatar className="h-10 w-10 ring-2 ring-border">
-            <AvatarImage src={profile?.avatar_url} />
-            <AvatarFallback className="bg-accent text-accent-foreground font-semibold text-sm">{profile?.name?.charAt(0) ?? "?"}</AvatarFallback>
+      <div className="glass-card rounded-2xl border border-border/40 p-6 transition-all duration-300 hover:shadow-card-hover hover:border-primary/30 group mb-4">
+        <div className="flex items-start gap-5">
+          <Avatar className="h-12 w-12 ring-2 ring-border/50 group-hover:ring-primary/20 transition-all shadow-sm">
+            <AvatarImage src={profile?.avatar_url} className="object-cover" />
+            <AvatarFallback className="bg-gradient-to-br from-accent to-accent-foreground/20 text-accent-foreground font-bold">{profile?.name?.charAt(0)?.toUpperCase() ?? "?"}</AvatarFallback>
           </Avatar>
-          <div className="flex-1 min-w-0">
-            <div className="flex items-center justify-between gap-2">
-              <p className="font-heading font-semibold">{profile?.name}</p>
-              <span className="text-xs text-muted-foreground shrink-0">{formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}</span>
+          <div className="flex-1 min-w-0 p-0.5">
+            <div className="flex items-center justify-between gap-2 mb-1">
+              <p className="font-heading font-bold text-foreground group-hover:text-primary transition-colors">{profile?.name ?? "User"}</p>
+              <span className="text-xs font-medium text-muted-foreground shrink-0 bg-secondary/50 px-2 py-0.5 rounded-md">{formatDistanceToNow(new Date(review.created_at), { addSuffix: true })}</span>
             </div>
-            <Link to={`/jobs/${review.job_id}`} className="text-xs text-primary hover:underline font-medium">{(review as any).jobs?.title}</Link>
-            <StarRating rating={review.rating} size={14} className="mt-2" />
-            <p className="mt-2 text-sm text-muted-foreground leading-relaxed">{review.comment}</p>
+            <Link to={`/jobs/${review.job_id}`} className="text-xs font-semibold text-primary/80 hover:text-primary transition-colors uppercase tracking-wider block mb-2">{(review as any).jobs?.title}</Link>
+            <StarRating rating={review.rating} size={16} className="mt-1" />
+            <p className="mt-3 text-sm text-foreground/90 leading-relaxed">{review.comment}</p>
           </div>
         </div>
       </div>
@@ -57,21 +57,29 @@ export default function ReviewsPage() {
 
   return (
     <AppLayout>
-      <div className="page-container">
-        <div className="page-header">
-          <h1>Reviews</h1>
-          <p>See what others are saying about you</p>
+      <div className="page-container max-w-4xl mx-auto space-y-6">
+        <div className="page-header mb-8">
+          <h1 className="text-3xl font-heading font-bold">Reviews</h1>
+          <p className="text-muted-foreground mt-1">See what others are saying about you</p>
         </div>
         <Tabs defaultValue="received">
           <TabsList className="rounded-xl">
             <TabsTrigger value="received" className="rounded-lg">Received</TabsTrigger>
             <TabsTrigger value="given" className="rounded-lg">Given</TabsTrigger>
           </TabsList>
-          <TabsContent value="received" className="mt-6 space-y-3">
-            {loadingReceived ? [1,2].map(i => <CardSkeleton key={i} />) : received && received.length > 0 ? received.map(r => <ReviewCard key={r.id} review={r} />) : <EmptyState icon={Star} title="No reviews received yet" description="Complete jobs to start receiving reviews" />}
+          <TabsContent value="received" className="mt-8 space-y-4">
+            {loadingReceived ? [1,2].map(i => <CardSkeleton key={i} />) : received && received.length > 0 ? received.map(r => <ReviewCard key={r.id} review={r} />) : (
+                <div className="glass-card rounded-2xl p-12 border border-border/40 bg-card/40">
+                  <EmptyState icon={Star} title="No reviews received yet" description="Complete jobs to start receiving reviews" />
+                </div>
+            )}
           </TabsContent>
-          <TabsContent value="given" className="mt-6 space-y-3">
-            {loadingGiven ? [1,2].map(i => <CardSkeleton key={i} />) : given && given.length > 0 ? given.map(r => <ReviewCard key={r.id} review={r} />) : <EmptyState icon={Star} title="No reviews given yet" description="Leave reviews after completing jobs" />}
+          <TabsContent value="given" className="mt-8 space-y-4">
+            {loadingGiven ? [1,2].map(i => <CardSkeleton key={i} />) : given && given.length > 0 ? given.map(r => <ReviewCard key={r.id} review={r} />) : (
+                <div className="glass-card rounded-2xl p-12 border border-border/40 bg-card/40">
+                  <EmptyState icon={Star} title="No reviews given yet" description="Leave reviews after completing jobs" />
+                </div>
+            )}
           </TabsContent>
         </Tabs>
       </div>

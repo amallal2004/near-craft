@@ -42,8 +42,8 @@ function AppSidebarContent() {
   const collapsed = sidebarState === "collapsed";
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-sidebar-border">
-      <div className="flex h-16 items-center border-b border-sidebar-border px-5">
+    <Sidebar collapsible="icon" className="border-r-0 bg-transparent">
+      <div className="flex h-16 items-center px-6">
         {!collapsed && (
           <Link to="/dashboard" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-heading font-bold text-sm">G</div>
@@ -51,7 +51,7 @@ function AppSidebarContent() {
           </Link>
         )}
       </div>
-      <SidebarContent className="px-2 py-4">
+      <SidebarContent className="px-3 py-6">
         <SidebarGroup>
           <SidebarGroupLabel className="px-3 text-xs font-medium uppercase tracking-wider text-muted-foreground/70 mb-2">Navigation</SidebarGroupLabel>
           <SidebarGroupContent>
@@ -62,8 +62,8 @@ function AppSidebarContent() {
                     <NavLink
                       to={item.url}
                       end={item.url === "/dashboard"}
-                      className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-150 hover:bg-accent hover:text-accent-foreground"
-                      activeClassName="bg-accent text-accent-foreground shadow-sm"
+                      className="flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium text-muted-foreground transition-all duration-200 hover:bg-white/5 hover:text-foreground"
+                      activeClassName="bg-primary/10 text-primary !font-semibold shadow-sm"
                     >
                       <item.icon className="h-[18px] w-[18px] shrink-0" />
                       {!collapsed && <span>{item.title}</span>}
@@ -75,10 +75,10 @@ function AppSidebarContent() {
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
-      <div className="mt-auto border-t border-sidebar-border p-4">
+      <div className="mt-auto p-4">
         {!collapsed && (
-          <div className="flex items-center gap-3 rounded-lg bg-accent/50 p-3">
-            <Avatar className="h-9 w-9 ring-2 ring-primary/10">
+          <div className="flex items-center gap-3 rounded-2xl bg-card/60 backdrop-blur-md border border-border/50 p-3 shadow-sm transition-colors hover:bg-card/80">
+            <Avatar className="h-10 w-10 ring-2 ring-primary/20">
               <AvatarImage src={profile?.avatar_url ?? undefined} />
               <AvatarFallback className="bg-primary/10 text-primary text-xs font-semibold">{profile?.name?.charAt(0)?.toUpperCase() ?? "?"}</AvatarFallback>
             </Avatar>
@@ -100,7 +100,7 @@ function TopBar() {
   const otherRole = activeRole === "customer" ? "worker" : "customer";
 
   return (
-    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 border-b bg-background/80 backdrop-blur-md px-4 lg:px-6">
+    <header className="sticky top-0 z-40 flex h-16 items-center gap-4 bg-background/60 backdrop-blur-xl px-4 lg:px-8 border-b border-border/40">
       <SidebarTrigger className="lg:hidden" />
       <div className="hidden lg:block"><SidebarTrigger /></div>
       <div className="flex-1" />
@@ -163,7 +163,7 @@ function MobileBottomNav() {
   const items = activeRole === "worker" ? workerNav.slice(0, 5) : customerNav.slice(0, 5);
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t bg-background/95 backdrop-blur-md py-1.5 lg:hidden safe-area-pb">
+    <nav className="fixed bottom-0 left-0 right-0 z-50 flex items-center justify-around border-t border-border/40 bg-background/80 backdrop-blur-xl py-2 lg:hidden safe-area-pb">
       {items.map((item) => {
         const isActive = location.pathname === item.url || (item.url !== "/dashboard" && location.pathname.startsWith(item.url));
         return (
@@ -189,13 +189,19 @@ function MobileBottomNav() {
 export function AppLayout({ children }: { children: React.ReactNode }) {
   return (
     <SidebarProvider>
-      <div className="min-h-screen flex w-full bg-background">
-        <div className="hidden lg:block">
+      <div className="min-h-screen flex w-full bg-background relative selection:bg-primary/30 selection:text-foreground">
+        {/* Subtle dynamic background glow */}
+        <div className="pointer-events-none fixed inset-0 flex justify-center z-0 overflow-hidden">
+          <div className="w-[1000px] max-w-full h-full absolute top-[-20%] right-[-10%] bg-primary/5 blur-[120px] rounded-full opacity-50 dark:opacity-20 transition-opacity duration-1000" />
+          <div className="w-[800px] max-w-full h-full absolute bottom-[-20%] left-[-10%] bg-purple-500/5 blur-[120px] rounded-full opacity-50 dark:opacity-20 transition-opacity duration-1000" />
+        </div>
+        
+        <div className="hidden lg:block z-10 sticky top-0 h-screen border-r border-border/40 bg-card/30 backdrop-blur-3xl transition-all duration-300">
           <AppSidebarContent />
         </div>
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 z-10 relative">
           <TopBar />
-          <main className="flex-1 pb-24 lg:pb-0">
+          <main className="flex-1 pb-24 lg:pb-8 pt-4">
             {children}
           </main>
           <MobileBottomNav />

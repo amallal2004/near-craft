@@ -17,7 +17,7 @@ import { StarRating } from "@/components/ui/star-rating";
 import { EmptyState } from "@/components/ui/empty-state";
 import { CardSkeleton } from "@/components/ui/skeletons";
 import { toast } from "sonner";
-import { Loader2, MapPin, DollarSign, Clock, Users, Send, CheckCircle, MessageSquare, AlertTriangle } from "lucide-react";
+import { Loader2, MapPin, DollarSign, Clock, Users, Send, CheckCircle, MessageSquare, AlertTriangle, Star } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 
 export default function JobDetailPage() {
@@ -138,43 +138,52 @@ export default function JobDetailPage() {
         <div className="grid gap-6 lg:grid-cols-3">
           {/* Main content */}
           <div className="lg:col-span-2 space-y-6">
-            <Card>
-              <CardContent className="pt-6">
-                <h2 className="mb-3 text-base font-heading font-semibold">Description</h2>
-                <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed">{job.description}</p>
+            <Card className="glass-card">
+              <CardContent className="p-6 sm:p-8">
+                <h2 className="mb-4 text-lg font-heading font-semibold">Description</h2>
+                <p className="whitespace-pre-wrap text-muted-foreground leading-relaxed text-base">{job.description}</p>
               </CardContent>
             </Card>
 
-            {/* Applications (owner only) */}
             {isOwner && applications && applications.length > 0 && (
-              <Card>
-                <CardHeader><CardTitle>Applications ({applications.length})</CardTitle></CardHeader>
-                <CardContent className="space-y-3">
+              <Card className="glass-card">
+                <CardHeader className="p-6 pb-2 border-b/5 border-white/5"><CardTitle className="text-xl">Applications ({applications.length})</CardTitle></CardHeader>
+                <CardContent className="p-6 space-y-4">
                   {applications.map((app) => {
                     const worker = (app as any).profiles;
                     return (
-                      <div key={app.id} className="flex items-start gap-4 rounded-xl border p-4 hover:shadow-card-hover transition-shadow duration-200">
-                        <Avatar className="ring-2 ring-border">
+                      <div key={app.id} className="group flex items-start gap-5 rounded-2xl border bg-card/60 p-5 hover:bg-card/90 hover:border-primary/30 transition-all duration-300">
+                        <Avatar className="h-12 w-12 ring-2 ring-primary/20 group-hover:ring-primary/50 transition-all">
                           <AvatarImage src={worker?.avatar_url} />
-                          <AvatarFallback className="bg-accent text-accent-foreground font-semibold">{worker?.name?.charAt(0) ?? "?"}</AvatarFallback>
+                          <AvatarFallback className="bg-accent text-accent-foreground font-semibold text-lg">{worker?.name?.charAt(0) ?? "?"}</AvatarFallback>
                         </Avatar>
                         <div className="flex-1 min-w-0">
-                          <div className="flex items-center gap-2 flex-wrap">
-                            <span className="font-heading font-semibold">{worker?.name}</span>
-                            <StarRating rating={Number(worker?.avg_rating ?? 0)} size={12} />
+                          <div className="flex items-center justify-between flex-wrap gap-2 mb-1.5">
+                            <div className="flex items-center gap-3">
+                              <span className="text-lg font-heading font-semibold text-foreground">{worker?.name}</span>
+                              <div className="flex items-center gap-1 bg-accent/50 px-2 py-0.5 rounded-full text-xs font-medium">
+                                <StarRating rating={Number(worker?.avg_rating ?? 0)} size={12} />
+                                <span className="text-muted-foreground ml-1">{Number(worker?.avg_rating ?? 0).toFixed(1)}</span>
+                              </div>
+                            </div>
                             <StatusBadge status={app.status} type="application" />
                           </div>
-                          <p className="text-sm text-muted-foreground mt-1 leading-relaxed">{app.message}</p>
-                          <p className="text-sm font-semibold text-primary mt-1">${Number(app.offer_price)}</p>
+                          
+                          <p className="text-sm font-semibold text-primary mb-2 flex items-center gap-1.5">
+                            <DollarSign className="h-4 w-4" />
+                            {Number(app.offer_price)}
+                          </p>
+                          <p className="text-sm text-muted-foreground leading-relaxed">"{app.message}"</p>
+                          
+                          {app.status === "pending" && job.status === "open" && (
+                            <div className="flex gap-3 mt-4 pt-4 border-t border-border/50">
+                              <Button size="sm" className="rounded-xl flex-1 shadow-elevated" onClick={() => acceptApplication.mutate(app.id)}>Accept Application</Button>
+                              <Button size="sm" variant="outline" className="rounded-xl px-5 hover:bg-primary/5 hover:text-primary transition-colors" onClick={() => navigate(`/jobs/${id}/chat?with=${app.worker_id}`)}>
+                                <MessageSquare className="h-4 w-4 mr-2" /> Message
+                              </Button>
+                            </div>
+                          )}
                         </div>
-                        {app.status === "pending" && job.status === "open" && (
-                          <div className="flex gap-2 shrink-0">
-                            <Button size="sm" className="rounded-lg" onClick={() => acceptApplication.mutate(app.id)}>Accept</Button>
-                            <Button size="sm" variant="outline" className="rounded-lg" onClick={() => navigate(`/jobs/${id}/chat?with=${app.worker_id}`)}>
-                              <MessageSquare className="h-3.5 w-3.5" />
-                            </Button>
-                          </div>
-                        )}
                       </div>
                     );
                   })}
@@ -184,13 +193,15 @@ export default function JobDetailPage() {
 
             {/* Review form */}
             {job.status === "completed" && (isOwner || isSelectedWorker) && (
-              <Card>
-                <CardHeader><CardTitle>Leave a Review</CardTitle></CardHeader>
-                <CardContent className="space-y-4">
-                  <StarRating rating={reviewRating} interactive onChange={setReviewRating} size={28} />
-                  <Textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} placeholder="Share your experience (min 10 chars)..." rows={3} className="rounded-xl" />
-                  <Button onClick={() => submitReview.mutate()} disabled={reviewRating === 0 || reviewComment.length < 10 || submitReview.isPending} className="rounded-xl">
-                    {submitReview.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : null}
+              <Card className="glass-card">
+                <CardHeader className="p-6 pb-2"><CardTitle className="text-xl">Leave a Review</CardTitle></CardHeader>
+                <CardContent className="p-6 space-y-5">
+                  <div className="flex justify-center py-4 bg-accent/30 rounded-2xl">
+                    <StarRating rating={reviewRating} interactive onChange={setReviewRating} size={32} />
+                  </div>
+                  <Textarea value={reviewComment} onChange={(e) => setReviewComment(e.target.value)} placeholder="Share your experience working with them (min 10 chars)..." rows={4} className="rounded-xl resize-none" />
+                  <Button onClick={() => submitReview.mutate()} disabled={reviewRating === 0 || reviewComment.length < 10 || submitReview.isPending} className="w-full h-12 rounded-xl text-base shadow-elevated transition-transform hover:scale-[1.02]">
+                    {submitReview.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <Star className="mr-2 h-4 w-4" />}
                     Submit Review
                   </Button>
                 </CardContent>
@@ -200,49 +211,63 @@ export default function JobDetailPage() {
 
           {/* Sidebar */}
           <div className="space-y-4">
-            <Card>
-              <CardContent className="pt-6 space-y-5">
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent shrink-0">
-                    <DollarSign className="h-5 w-5 text-accent-foreground" />
+            <Card className="glass-card border-t-[3px] border-t-primary/50">
+              <CardContent className="p-6 space-y-6">
+                <div className="flex flex-col gap-5">
+                  <div className="flex items-center gap-4 group">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-primary/10 text-primary group-hover:scale-110 group-hover:bg-primary group-hover:text-primary-foreground transition-all duration-300">
+                      <DollarSign className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Budget</p>
+                      <p className="text-2xl font-bold font-heading text-foreground">${Number(job.budget_amount)} <span className="text-sm font-medium text-muted-foreground">{job.budget_type === "hourly" ? "/hr" : "fixed"}</span></p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Budget</p>
-                    <p className="text-lg font-bold">${Number(job.budget_amount)} <span className="text-sm font-normal text-muted-foreground">{job.budget_type === "hourly" ? "/hr" : "fixed"}</span></p>
+                  
+                  <div className="h-px w-full bg-border/40" />
+                  
+                  <div className="flex items-center gap-4 group">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-accent-foreground group-hover:scale-110 transition-transform duration-300">
+                      <MapPin className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Location</p>
+                      <p className="font-semibold text-foreground text-base">{job.location_text}</p>
+                    </div>
                   </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent shrink-0">
-                    <MapPin className="h-5 w-5 text-accent-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Location</p>
-                    <p className="font-medium">{job.location_text}</p>
-                  </div>
-                </div>
-                <div className="flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-accent shrink-0">
-                    <Users className="h-5 w-5 text-accent-foreground" />
-                  </div>
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">Applications</p>
-                    <p className="font-medium">{job.application_count}</p>
+                  
+                  <div className="h-px w-full bg-border/40" />
+                  
+                  <div className="flex items-center gap-4 group">
+                    <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-accent text-accent-foreground group-hover:scale-110 transition-transform duration-300">
+                      <Users className="h-6 w-6" />
+                    </div>
+                    <div>
+                      <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Applicants</p>
+                      <p className="font-semibold text-foreground text-base">
+                        <span className="text-primary mr-1 text-lg">{job.application_count}</span> workers applied
+                      </p>
+                    </div>
                   </div>
                 </div>
               </CardContent>
             </Card>
 
             {/* Customer info */}
-            <Card>
-              <CardContent className="pt-6">
-                <div className="flex items-center gap-3">
-                  <Avatar className="ring-2 ring-border">
+            <Card className="glass-card">
+              <CardContent className="p-6">
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-widest mb-4 inline-block">Posted By</h3>
+                <div className="flex items-center gap-4 p-3 rounded-2xl bg-accent/20 hover:bg-accent/40 transition-colors">
+                  <Avatar className="h-14 w-14 ring-2 ring-border/50">
                     <AvatarImage src={customer?.avatar_url} />
-                    <AvatarFallback className="bg-accent text-accent-foreground font-semibold">{customer?.name?.charAt(0) ?? "?"}</AvatarFallback>
+                    <AvatarFallback className="bg-primary/20 text-primary font-bold text-lg">{customer?.name?.charAt(0) ?? "C"}</AvatarFallback>
                   </Avatar>
                   <div>
-                    <p className="font-heading font-semibold">{customer?.name ?? "Customer"}</p>
-                    <StarRating rating={Number(customer?.avg_rating ?? 0)} size={12} />
+                    <p className="font-heading font-bold text-lg text-foreground leading-tight mb-1">{customer?.name ?? "Customer"}</p>
+                    <div className="flex items-center gap-1.5 text-sm">
+                      <StarRating rating={Number(customer?.avg_rating ?? 0)} size={14} />
+                      <span className="text-muted-foreground font-medium">({Number(customer?.avg_rating ?? 0).toFixed(1)})</span>
+                    </div>
                   </div>
                 </div>
               </CardContent>

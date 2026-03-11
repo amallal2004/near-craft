@@ -51,13 +51,13 @@ export default function NotificationsPage() {
 
   return (
     <AppLayout>
-      <div className="page-container">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-8">
+      <div className="page-container max-w-4xl mx-auto space-y-6">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-6 mb-8">
           <div className="page-header mb-0">
-            <h1>Notifications</h1>
-            <p>Stay updated on your jobs and messages</p>
+            <h1 className="text-3xl font-heading font-bold">Notifications</h1>
+            <p className="text-muted-foreground mt-1">Stay updated on your jobs and messages</p>
           </div>
-          <Button variant="outline" size="sm" className="rounded-full" onClick={() => markAllRead.mutate()}>
+          <Button variant="outline" className="rounded-xl h-10 px-4 bg-card/50 backdrop-blur-sm border-border/40 hover:bg-accent/50 transition-colors" onClick={() => markAllRead.mutate()}>
             <CheckCheck className="mr-2 h-4 w-4" /> Mark all read
           </Button>
         </div>
@@ -69,27 +69,33 @@ export default function NotificationsPage() {
               const IconComp = typeIcons[n.type] || Bell;
               return (
                 <button key={n.id} onClick={() => handleClick(n)} className={cn(
-                  "w-full text-left flex items-start gap-4 rounded-xl p-4 transition-all duration-150 hover:bg-muted/50",
-                  !n.is_read && "bg-accent/40"
+                  "w-full text-left flex items-start gap-5 rounded-2xl p-5 mb-3 transition-all duration-300 border hover:-translate-y-0.5",
+                  !n.is_read 
+                    ? "bg-primary/5 border-primary/20 shadow-[0_4px_20px_-4px_rgba(var(--primary),0.1)] hover:shadow-card-hover" 
+                    : "glass-card border-border/40 hover:border-primary/30"
                 )}>
                   <div className={cn(
-                    "mt-0.5 flex h-9 w-9 items-center justify-center rounded-xl shrink-0",
-                    n.is_read ? "bg-muted" : "bg-accent"
+                    "flex h-12 w-12 items-center justify-center rounded-2xl shrink-0 transition-colors shadow-sm",
+                    n.is_read ? "bg-secondary text-muted-foreground" : "bg-primary/10 text-primary"
                   )}>
-                    <IconComp className={cn("h-4 w-4", n.is_read ? "text-muted-foreground" : "text-accent-foreground")} />
+                    <IconComp className="h-5 w-5" />
                   </div>
-                  <div className="flex-1 min-w-0">
-                    <p className={cn("text-sm", !n.is_read && "font-semibold")}>{n.title}</p>
-                    {n.body && <p className="text-sm text-muted-foreground truncate mt-0.5">{n.body}</p>}
-                    <p className="text-xs text-muted-foreground mt-1">{formatDistanceToNow(new Date(n.created_at!), { addSuffix: true })}</p>
+                  <div className="flex-1 min-w-0 pt-0.5">
+                    <div className="flex items-center justify-between mb-1 gap-2">
+                       <p className={cn("text-base font-heading truncate", !n.is_read ? "font-bold text-foreground" : "font-semibold text-foreground/80")}>{n.title}</p>
+                       <span className="text-xs font-medium text-muted-foreground shrink-0 bg-secondary/30 px-2 py-0.5 rounded-md">{formatDistanceToNow(new Date(n.created_at!), { addSuffix: true })}</span>
+                    </div>
+                    {n.body && <p className="text-sm text-muted-foreground leading-relaxed mt-1 pr-8">{n.body}</p>}
                   </div>
-                  {!n.is_read && <div className="mt-2 h-2 w-2 rounded-full bg-primary shrink-0" />}
+                  {!n.is_read && <div className="mt-3 h-2.5 w-2.5 rounded-full bg-primary shrink-0 shadow-[0_0_8px_rgba(var(--primary),0.6)] animate-pulse" />}
                 </button>
               );
             })}
           </div>
         ) : (
-          <EmptyState icon={Bell} title="No notifications" description="You're all caught up!" />
+          <div className="glass-card rounded-2xl p-12 border border-border/40 bg-card/40">
+            <EmptyState icon={Bell} title="No notifications" description="You're all caught up! Check back later for updates." />
+          </div>
         )}
       </div>
     </AppLayout>

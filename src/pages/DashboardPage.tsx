@@ -15,14 +15,14 @@ import { motion } from "framer-motion";
 function StatCard({ icon: Icon, label, value, loading, color = "bg-accent" }: { icon: any; label: string; value: string | number; loading?: boolean; color?: string }) {
   if (loading) return <StatCardSkeleton />;
   return (
-    <Card className="hover:shadow-card-hover transition-shadow duration-200">
-      <CardContent className="flex items-center gap-4 p-5">
+    <Card className="glass-card hover:-translate-y-1 transition-transform duration-300">
+      <CardContent className="flex items-center gap-5 p-6">
         <div className={`stat-icon-box ${color}`}>
-          <Icon className="h-5 w-5 text-accent-foreground" />
+          <Icon className="h-6 w-6 text-accent-foreground" />
         </div>
         <div>
-          <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{label}</p>
-          <p className="text-2xl font-heading font-bold mt-0.5">{value}</p>
+          <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{label}</p>
+          <p className="text-3xl font-heading font-bold mt-1 text-foreground">{value}</p>
         </div>
       </CardContent>
     </Card>
@@ -31,18 +31,24 @@ function StatCard({ icon: Icon, label, value, loading, color = "bg-accent" }: { 
 
 function JobListItem({ job, showApplications = false }: { job: any; showApplications?: boolean }) {
   return (
-    <Link to={`/jobs/${job.id}`} className="group block rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-card-hover hover:border-primary/20">
+    <Link to={`/jobs/${job.id}`} className="group block glass-card p-6 transition-all duration-300 hover:border-primary/40 hover:bg-card/80">
       <div className="flex items-start justify-between gap-4">
         <div className="min-w-0 flex-1">
-          <h3 className="font-heading font-semibold truncate group-hover:text-primary transition-colors">{job.title}</h3>
-          <p className="text-sm text-muted-foreground mt-1">
-            {(job as any).categories?.icon} {(job as any).categories?.name}
-            {showApplications && <> · ${Number(job.budget_amount)} · {job.application_count} applications</>}
+          <h3 className="text-lg font-heading font-semibold truncate group-hover:text-primary transition-colors">{job.title}</h3>
+          <p className="text-sm font-medium text-muted-foreground mt-2 flex items-center gap-2">
+            <span className="inline-flex items-center justify-center p-1 rounded-md bg-secondary text-secondary-foreground">{job.categories?.icon}</span>
+            {job.categories?.name}
+            {showApplications && <span className="text-muted-foreground/50 text-xs px-2">•</span>}
+            {showApplications && <span className="font-semibold text-foreground">${Number(job.budget_amount)}</span>}
+            {showApplications && <span className="text-muted-foreground/50 text-xs px-2">•</span>}
+            {showApplications && <span className="text-primary-glow">{job.application_count} applications</span>}
           </p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-3">
           <StatusBadge status={job.status} />
-          <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+          <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+            <ArrowRight className="h-4 w-4 text-primary" />
+          </div>
         </div>
       </div>
     </Link>
@@ -67,11 +73,11 @@ function CustomerDashboard() {
     <div className="page-container space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="page-header mb-0">
-          <h1>Dashboard</h1>
-          <p>Manage your jobs and hire workers</p>
+          <h1 className="text-4xl font-heading font-bold">Dashboard</h1>
+          <p className="text-lg text-muted-foreground mt-2">Manage your jobs and hire workers</p>
         </div>
-        <Button asChild className="rounded-full px-6 shadow-card">
-          <Link to="/jobs/new"><PlusCircle className="mr-2 h-4 w-4" /> Post a Job</Link>
+        <Button size="lg" asChild className="rounded-full px-8 shadow-elevated hover:scale-105 transition-transform">
+          <Link to="/jobs/new"><PlusCircle className="mr-2 h-5 w-5" /> Post a Job</Link>
         </Button>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
@@ -85,15 +91,17 @@ function CustomerDashboard() {
           <StatCard icon={TrendingUp} label="Total Jobs" value={jobs?.length ?? 0} loading={isLoading} />
         </motion.div>
       </div>
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-heading font-semibold">Recent Jobs</h2>
-          <Button variant="ghost" size="sm" asChild className="text-primary"><Link to="/jobs">View all <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
+      <div className="mt-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-2xl font-heading font-semibold tracking-tight">Recent Jobs</h2>
+          <Button variant="ghost" className="text-primary hover:text-primary-glow font-medium group" asChild>
+            <Link to="/jobs">View all <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" /></Link>
+          </Button>
         </div>
         {isLoading ? (
-          <div className="space-y-3">{[1, 2, 3].map((i) => <CardSkeleton key={i} />)}</div>
+          <div className="space-y-4">{[1, 2, 3].map((i) => <CardSkeleton key={i} />)}</div>
         ) : jobs && jobs.length > 0 ? (
-          <div className="space-y-2">
+          <div className="space-y-4">
             {jobs.map((job) => <JobListItem key={job.id} job={job} showApplications />)}
           </div>
         ) : (
@@ -130,11 +138,11 @@ function WorkerDashboard() {
     <div className="page-container space-y-8">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div className="page-header mb-0">
-          <h1>Dashboard</h1>
-          <p>Find gigs and manage your work</p>
+          <h1 className="text-4xl font-heading font-bold">Dashboard</h1>
+          <p className="text-lg text-muted-foreground mt-2">Find gigs and manage your work</p>
         </div>
-        <Button asChild className="rounded-full px-6 shadow-card">
-          <Link to="/jobs"><Search className="mr-2 h-4 w-4" /> Browse Jobs</Link>
+        <Button size="lg" asChild className="rounded-full px-8 shadow-elevated hover:scale-105 transition-transform">
+          <Link to="/jobs"><Search className="mr-2 h-5 w-5" /> Browse Jobs</Link>
         </Button>
       </div>
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -151,23 +159,34 @@ function WorkerDashboard() {
           <StatCard icon={Star} label="Rating" value={profile?.avg_rating ? Number(profile.avg_rating).toFixed(1) : "N/A"} loading={false} />
         </motion.div>
       </div>
-      <div>
-        <div className="flex items-center justify-between mb-4">
-          <h2 className="text-lg font-heading font-semibold">Recent Applications</h2>
-          <Button variant="ghost" size="sm" asChild className="text-primary"><Link to="/applications">View all <ArrowRight className="ml-1 h-3.5 w-3.5" /></Link></Button>
+      <div className="mt-12">
+        <div className="flex items-center justify-between mb-6">
+          <h2 className="text-lg font-heading font-semibold tracking-tight">Recent Applications</h2>
+          <Button variant="ghost" className="text-primary hover:text-primary-glow font-medium group" asChild>
+            <Link to="/applications">View all <ArrowRight className="ml-2 h-4 w-4 group-hover:translate-x-1 transition-transform" /></Link>
+          </Button>
         </div>
         {isLoading ? (
-          <div className="space-y-3">{[1, 2, 3].map((i) => <CardSkeleton key={i} />)}</div>
+          <div className="space-y-4">{[1, 2, 3].map((i) => <CardSkeleton key={i} />)}</div>
         ) : applications && applications.length > 0 ? (
-          <div className="space-y-2">
+          <div className="space-y-4">
             {applications.map((app) => (
-              <Link key={app.id} to={`/jobs/${app.job_id}`} className="group block rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-card-hover hover:border-primary/20">
+              <Link key={app.id} to={`/jobs/${app.job_id}`} className="group block glass-card p-6 transition-all duration-300 hover:border-primary/40 hover:bg-card/80">
                 <div className="flex items-start justify-between gap-4">
-                  <div className="min-w-0">
-                    <h3 className="font-heading font-semibold truncate group-hover:text-primary transition-colors">{(app as any).jobs?.title}</h3>
-                    <p className="text-sm text-muted-foreground mt-1">Offer: ${Number(app.offer_price)} · Applied {formatDistanceToNow(new Date(app.created_at!), { addSuffix: true })}</p>
+                  <div className="min-w-0 flex-1">
+                    <h3 className="text-lg font-heading font-semibold truncate group-hover:text-primary transition-colors">{(app as any).jobs?.title}</h3>
+                    <p className="text-sm font-medium text-muted-foreground mt-2 flex items-center gap-2">
+                      <span className="font-semibold text-foreground">Offer: ${Number(app.offer_price)}</span>
+                      <span className="text-muted-foreground/50 text-xs px-2">•</span>
+                      <span>Applied {formatDistanceToNow(new Date(app.created_at!), { addSuffix: true })}</span>
+                    </p>
                   </div>
-                  <StatusBadge status={app.status} type="application" />
+                  <div className="flex items-center gap-3">
+                    <StatusBadge status={app.status} type="application" />
+                    <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                      <ArrowRight className="h-4 w-4 text-primary" />
+                    </div>
+                  </div>
                 </div>
               </Link>
             ))}

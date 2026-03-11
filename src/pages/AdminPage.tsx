@@ -28,29 +28,35 @@ export default function AdminPage() {
 
   return (
     <AppLayout>
-      <div className="page-container">
-        <div className="page-header">
-          <h1>Admin Panel</h1>
-          <p>Platform overview and management</p>
+      <div className="page-container max-w-6xl mx-auto space-y-8">
+        <div className="page-header text-center sm:text-left mb-8">
+          <h1 className="text-4xl font-heading font-bold">Admin Panel</h1>
+          <p className="text-lg text-muted-foreground mt-2">Platform overview and management</p>
         </div>
-        <div className="grid gap-4 sm:grid-cols-3 mb-8">
+        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 mb-8">
           {cards.map((card, i) => (
             <motion.div key={card.label} initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: i * 0.1 }}>
-              <Card className="hover:shadow-card-hover transition-shadow duration-200">
-                <CardContent className="flex items-center gap-4 p-6">
-                  <div className={`flex h-12 w-12 items-center justify-center rounded-xl ${card.color}`}>
-                    <card.icon className={`h-6 w-6 ${card.color.includes("destructive") ? "text-destructive" : "text-accent-foreground"}`} />
+              <Card className="glass-card hover:shadow-card-hover hover:-translate-y-1 transition-all duration-300 border-none ring-1 ring-border/50">
+                <CardContent className="flex items-center gap-5 p-6 relative overflow-hidden">
+                  {/* Subtle background glow based on card color */}
+                  <div className={`absolute top-0 right-0 w-32 h-32 blur-3xl rounded-full opacity-10 ${card.color.includes("destructive") ? "bg-destructive" : "bg-primary"}`}></div>
+                  
+                  <div className={`flex h-14 w-14 items-center justify-center rounded-2xl ${card.color} shadow-sm z-10`}>
+                    <card.icon className={`h-7 w-7 ${card.color.includes("destructive") ? "text-destructive" : "text-primary"}`} />
                   </div>
-                  <div>
-                    <p className="text-xs font-medium text-muted-foreground uppercase tracking-wider">{card.label}</p>
-                    <p className="text-2xl font-heading font-bold mt-0.5">{card.value}</p>
+                  <div className="z-10">
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest">{card.label}</p>
+                    <p className="text-3xl font-heading font-bold mt-1 text-foreground">{card.value}</p>
                   </div>
                 </CardContent>
               </Card>
             </motion.div>
           ))}
         </div>
-        <EmptyState icon={Shield} title="Admin features" description="User management, dispute resolution, and category management coming in the next iteration." />
+        
+        <div className="glass-card rounded-2xl p-8 border border-border/40 bg-card/40">
+          <EmptyState icon={Shield} title="Admin features" description="User management, dispute resolution, and category management coming in the next iteration. For now, you can view the high-level metrics above." />
+        </div>
       </div>
     </AppLayout>
   );

@@ -61,12 +61,12 @@ export default function CreateJobPage() {
   return (
     <AppLayout>
       <div className="page-container max-w-2xl mx-auto">
-        <div className="page-header">
-          <h1>Post a Job</h1>
-          <p>Describe what you need and find the right worker</p>
+        <div className="page-header text-center mb-10">
+          <h1 className="text-4xl font-heading font-bold">Post a Job</h1>
+          <p className="text-lg text-muted-foreground mt-2">Describe what you need and find the right worker</p>
         </div>
-        <Card>
-          <CardContent className="pt-6">
+        <Card className="glass-card">
+          <CardContent className="p-8 sm:p-10">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="space-y-2">
                 <Label className="font-medium">Title *</Label>

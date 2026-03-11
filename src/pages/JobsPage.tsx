@@ -73,15 +73,17 @@ function WorkerJobFeed() {
       ) : jobs && jobs.length > 0 ? (
         <div className="grid gap-4 md:grid-cols-2">
           {jobs.map((job) => (
-            <Link key={job.id} to={`/jobs/${job.id}`} className="group rounded-xl border bg-card p-6 transition-all duration-200 hover:shadow-card-hover hover:border-primary/20">
-              <div className="flex items-start justify-between mb-3">
-                <span className="text-sm text-muted-foreground font-medium">{(job as any).categories?.icon} {(job as any).categories?.name}</span>
+            <Link key={job.id} to={`/jobs/${job.id}`} className="group glass-card p-6 transition-all duration-300 hover:border-primary/40 hover:bg-card/80">
+              <div className="flex items-start justify-between mb-4">
+                <span className="inline-flex items-center gap-2 px-2.5 py-1 rounded-md bg-secondary text-secondary-foreground text-xs font-semibold tracking-wide uppercase">
+                  {(job as any).categories?.icon} {(job as any).categories?.name}
+                </span>
                 <StatusBadge status={job.urgency} type="urgency" />
               </div>
-              <h3 className="mb-2 text-lg font-heading font-semibold group-hover:text-primary transition-colors">{job.title}</h3>
-              <p className="mb-4 text-sm text-muted-foreground line-clamp-2 leading-relaxed">{job.description}</p>
-              <div className="flex flex-wrap items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1.5"><DollarSign className="h-3.5 w-3.5" />${Number(job.budget_amount)} {job.budget_type === "hourly" ? "/hr" : "fixed"}</span>
+              <h3 className="mb-3 text-xl font-heading font-semibold group-hover:text-primary transition-colors">{job.title}</h3>
+              <p className="mb-5 text-sm text-muted-foreground line-clamp-2 leading-relaxed font-light">{job.description}</p>
+              <div className="flex flex-wrap items-center gap-y-3 gap-x-5 text-sm font-medium text-muted-foreground">
+                <span className="flex items-center gap-1.5 text-foreground"><DollarSign className="h-4 w-4 text-muted-foreground" />${Number(job.budget_amount)} {job.budget_type === "hourly" ? "/hr" : "fixed"}</span>
                 <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" />{job.location_text}</span>
                 <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" />{formatDistanceToNow(new Date(job.created_at!), { addSuffix: true })}</span>
                 <span className="flex items-center gap-1.5"><Briefcase className="h-3.5 w-3.5" />{job.application_count} apps</span>
@@ -126,17 +128,26 @@ function CustomerJobFeed() {
       {isLoading ? (
         <div className="space-y-3">{[1, 2, 3].map((i) => <CardSkeleton key={i} />)}</div>
       ) : jobs && jobs.length > 0 ? (
-        <div className="space-y-2">
+        <div className="space-y-4">
           {jobs.map((job) => (
-            <Link key={job.id} to={`/jobs/${job.id}`} className="group block rounded-xl border bg-card p-5 transition-all duration-200 hover:shadow-card-hover hover:border-primary/20">
+            <Link key={job.id} to={`/jobs/${job.id}`} className="group block glass-card p-6 transition-all duration-300 hover:border-primary/40 hover:bg-card/80">
               <div className="flex items-start justify-between gap-4">
                 <div className="min-w-0 flex-1">
-                  <h3 className="font-heading font-semibold truncate group-hover:text-primary transition-colors">{job.title}</h3>
-                  <p className="text-sm text-muted-foreground mt-1">{(job as any).categories?.icon} {(job as any).categories?.name} · ${Number(job.budget_amount)} · {job.application_count} applications</p>
+                  <h3 className="text-lg font-heading font-semibold truncate group-hover:text-primary transition-colors">{job.title}</h3>
+                  <p className="text-sm font-medium text-muted-foreground mt-2 flex items-center gap-2">
+                    <span className="inline-flex items-center justify-center p-1 rounded-md bg-secondary text-secondary-foreground">{(job as any).categories?.icon}</span>
+                    {(job as any).categories?.name}
+                    <span className="text-muted-foreground/50 text-xs px-2">•</span>
+                    <span className="font-semibold text-foreground">${Number(job.budget_amount)}</span>
+                    <span className="text-muted-foreground/50 text-xs px-2">•</span>
+                    <span className="text-primary-glow">{job.application_count} applications</span>
+                  </p>
                 </div>
-                <div className="flex items-center gap-2">
+                <div className="flex items-center gap-3">
                   <StatusBadge status={job.status} />
-                  <ArrowRight className="h-4 w-4 text-muted-foreground opacity-0 group-hover:opacity-100 transition-opacity" />
+                  <div className="h-8 w-8 rounded-full bg-primary/10 flex items-center justify-center -translate-x-2 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300">
+                    <ArrowRight className="h-4 w-4 text-primary" />
+                  </div>
                 </div>
               </div>
             </Link>
@@ -153,14 +164,14 @@ export default function JobsPage() {
   const { activeRole } = useAuth();
   return (
     <AppLayout>
-      <div className="page-container">
-        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
+      <div className="page-container max-w-5xl mx-auto">
+        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-10">
           <div className="page-header mb-0">
-            <h1>{activeRole === "worker" ? "Browse Jobs" : "My Jobs"}</h1>
-            <p>{activeRole === "worker" ? "Find gigs near you" : "Manage your posted jobs"}</p>
+            <h1 className="text-4xl font-heading font-bold">{activeRole === "worker" ? "Browse Jobs" : "My Jobs"}</h1>
+            <p className="text-lg text-muted-foreground mt-2">{activeRole === "worker" ? "Find gigs near you" : "Manage your posted jobs"}</p>
           </div>
           {activeRole === "customer" && (
-            <Button asChild className="rounded-full px-6 shadow-card"><Link to="/jobs/new"><PlusCircle className="mr-2 h-4 w-4" /> Post a Job</Link></Button>
+            <Button size="lg" asChild className="rounded-full px-8 shadow-elevated hover:scale-105 transition-transform"><Link to="/jobs/new"><PlusCircle className="mr-2 h-5 w-5" /> Post a Job</Link></Button>
           )}
         </div>
         {activeRole === "worker" ? <WorkerJobFeed /> : <CustomerJobFeed />}

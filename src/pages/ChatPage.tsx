@@ -68,13 +68,13 @@ export default function ChatPage() {
   return (
     <AppLayout>
       <div className="flex flex-col h-[calc(100vh-4rem-5rem)] lg:h-[calc(100vh-4rem)]">
-        <div className="border-b bg-card px-5 py-4">
+        <div className="border-b border-border/40 bg-card/80 backdrop-blur-md px-6 py-5 shadow-sm">
           <h2 className="font-heading font-semibold">{job?.title ?? "Chat"}</h2>
           {!canChat && job && (
             <p className="text-sm text-muted-foreground mt-1">Chat will be available once a worker is assigned to this job.</p>
           )}
         </div>
-        <div className="flex-1 overflow-y-auto px-4 py-6 space-y-3 bg-background">
+        <div className="flex-1 overflow-y-auto px-6 py-8 space-y-6 bg-background relative">
           {!canChat ? (
             <EmptyState icon={MessageSquare} title="No chat available" description="A worker needs to be assigned to this job before you can start chatting." />
           ) : messages && messages.length > 0 ? messages.map((msg) => {
@@ -89,8 +89,8 @@ export default function ChatPage() {
                   </Avatar>
                 )}
                 <div className={cn(
-                  "max-w-[70%] rounded-2xl px-4 py-2.5 shadow-card",
-                  isMine ? "bg-primary text-primary-foreground rounded-br-md" : "bg-card border rounded-bl-md"
+                  "max-w-[70%] rounded-2xl px-5 py-3 shadow-sm",
+                  isMine ? "bg-primary text-primary-foreground rounded-br-sm bg-gradient-to-br from-primary to-primary/90" : "glass-card bg-card/60 backdrop-blur-sm border-border/40 rounded-bl-sm"
                 )}>
                   <p className="text-sm leading-relaxed">{msg.content}</p>
                   <p className={cn("text-[10px] mt-1", isMine ? "text-primary-foreground/60" : "text-muted-foreground")}>{format(new Date(msg.created_at!), "HH:mm")}</p>
@@ -102,10 +102,10 @@ export default function ChatPage() {
           )}
           <div ref={scrollRef} />
         </div>
-        <div className="border-t bg-card p-4">
-          <form onSubmit={(e) => { e.preventDefault(); sendMessage.mutate(); }} className="flex gap-2">
-            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder={canChat ? "Type a message..." : "Chat unavailable..."} className="flex-1 h-11 rounded-xl" disabled={!canChat} />
-            <Button type="submit" size="icon" className="h-11 w-11 rounded-xl shrink-0" disabled={!canChat || !message.trim() || sendMessage.isPending}><Send className="h-4 w-4" /></Button>
+        <div className="border-t border-border/40 bg-card/80 backdrop-blur-md p-5">
+          <form onSubmit={(e) => { e.preventDefault(); sendMessage.mutate(); }} className="flex gap-3">
+            <Input value={message} onChange={(e) => setMessage(e.target.value)} placeholder={canChat ? "Type a message..." : "Chat unavailable..."} className="flex-1 h-12 rounded-xl bg-background border-border/40 focus-visible:ring-primary/30" disabled={!canChat} />
+            <Button type="submit" size="icon" className="h-12 w-12 rounded-xl shrink-0 shadow-md hover:shadow-lg hover:-translate-y-0.5 transition-all" disabled={!canChat || !message.trim() || sendMessage.isPending}><Send className="h-5 w-5" /></Button>
           </form>
         </div>
       </div>
