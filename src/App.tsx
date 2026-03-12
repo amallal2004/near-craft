@@ -25,6 +25,8 @@ import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import AdminPage from "./pages/AdminPage";
 import NotFound from "./pages/NotFound";
+import PaymentSuccessPage from "./pages/PaymentSuccessPage";
+import PaymentCancelPage from "./pages/PaymentCancelPage";
 
 const queryClient = new QueryClient();
 
@@ -55,6 +57,8 @@ const App = () => (
             <Route path="/profile" element={<OnboardingGuard><ProfilePage /></OnboardingGuard>} />
             <Route path="/settings" element={<OnboardingGuard><SettingsPage /></OnboardingGuard>} />
             <Route path="/admin" element={<OnboardingGuard><AdminPage /></OnboardingGuard>} />
+            <Route path="/payment-success" element={<OnboardingGuard><PaymentSuccessPage /></OnboardingGuard>} />
+            <Route path="/payment-cancel" element={<OnboardingGuard><PaymentCancelPage /></OnboardingGuard>} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
