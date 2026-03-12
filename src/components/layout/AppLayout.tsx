@@ -3,7 +3,7 @@ import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
-import { Bell, Home, Briefcase, MessageSquare, Search, PlusCircle, User, Settings, LogOut, Shield, ArrowLeftRight } from "lucide-react";
+import { Bell, Home, Briefcase, MessageSquare, Search, PlusCircle, User, Settings, LogOut, Shield, ArrowLeftRight, Users } from "lucide-react";
 import { useRealtimeNotifications } from "@/hooks/useRealtimeNotifications";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { cn } from "@/lib/utils";
@@ -12,6 +12,7 @@ import { SidebarProvider, SidebarTrigger, Sidebar, SidebarContent, SidebarGroup,
 
 const customerNav = [
   { title: "Dashboard", url: "/dashboard", icon: Home },
+  { title: "Browse Workers", url: "/workers", icon: Users },
   { title: "My Jobs", url: "/jobs", icon: Briefcase },
   { title: "Post a Job", url: "/jobs/new", icon: PlusCircle },
   { title: "Messages", url: "/messages", icon: MessageSquare },
@@ -47,7 +48,7 @@ function AppSidebarContent() {
         {!collapsed && (
           <Link to="/dashboard" className="flex items-center gap-2">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-heading font-bold text-sm">G</div>
-            <span className="text-lg font-heading font-bold">GigLocal</span>
+            <span className="text-lg font-heading font-bold">GigUp</span>
           </Link>
         )}
       </div>

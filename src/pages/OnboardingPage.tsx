@@ -75,7 +75,7 @@ export default function OnboardingPage() {
 
     await refreshProfile();
     setLoading(false);
-    toast.success("Welcome to GigLocal!");
+    toast.success("Welcome to GigUp!");
     navigate("/dashboard", { replace: true });
   };
 
@@ -93,7 +93,7 @@ export default function OnboardingPage() {
         {step === 1 && (
           <div className="space-y-6">
             <div className="text-center mb-10">
-              <h1 className="text-4xl font-heading font-bold tracking-tight">How will you use NearCraft?</h1>
+              <h1 className="text-4xl font-heading font-bold tracking-tight">How will you use GigUp?</h1>
               <p className="mt-3 text-lg text-muted-foreground">Select your primary role. You can always switch later.</p>
             </div>
             <div className="grid sm:grid-cols-2 gap-6">

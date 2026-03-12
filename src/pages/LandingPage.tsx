@@ -49,7 +49,7 @@ export default function LandingPage() {
         <div className="container mx-auto flex h-20 items-center justify-between px-6">
           <Link to="/" className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-primary to-primary-glow text-primary-foreground font-heading font-bold text-lg shadow-lg shadow-primary/20">G</div>
-            <span className="text-2xl font-heading font-bold tracking-tight">GigLocal</span>
+            <span className="text-2xl font-heading font-bold tracking-tight">GigUp</span>
           </Link>
           <div className="flex items-center gap-4">
             <ThemeToggle />
@@ -154,7 +154,7 @@ export default function LandingPage() {
         <div className="container mx-auto px-6">
           <div className="text-center mb-20">
             <h2 className="text-4xl lg:text-5xl font-heading font-bold mb-6">Engineered for trust</h2>
-            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">Every aspect of GigLocal is designed to give you peace of mind.</p>
+            <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-light">Every aspect of GigUp is designed to give you peace of mind.</p>
           </div>
           <div className="grid gap-10 md:grid-cols-3 max-w-6xl mx-auto">
             {features.map((feat, i) => (
@@ -193,9 +193,9 @@ export default function LandingPage() {
         <div className="container mx-auto px-6 text-center">
           <div className="flex items-center justify-center gap-3 mb-6">
             <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-primary text-primary-foreground font-heading font-bold text-sm">G</div>
-            <span className="text-xl font-heading font-bold">GigLocal</span>
+            <span className="text-xl font-heading font-bold">GigUp</span>
           </div>
-          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} GigLocal. Built with precision.</p>
+          <p className="text-sm text-muted-foreground">&copy; {new Date().getFullYear()} GigUp. Built with precision.</p>
         </div>
       </footer>
     </div>

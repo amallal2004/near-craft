@@ -43,7 +43,7 @@ export default function SignupPage() {
           <CardHeader className="text-center pb-6 pt-8">
             <Link to="/" className="mb-6 inline-flex items-center justify-center gap-3 transition-transform hover:scale-105">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground font-heading font-bold text-lg shadow-sm">N</div>
-              <span className="text-2xl font-heading font-bold tracking-tight">NearCraft</span>
+              <span className="text-2xl font-heading font-bold tracking-tight">GigUp</span>
             </Link>
             <CardTitle className="text-2xl font-heading font-bold">Create your account</CardTitle>
             <CardDescription className="text-base mt-2">Start hiring or finding gigs today</CardDescription>
@@ -95,7 +95,7 @@ export default function SignupPage() {
         <div className="absolute bottom-1/4 -left-20 h-96 w-96 rounded-full bg-accent/20 blur-[100px]" />
         <div className="relative max-w-lg text-center px-8 z-10 glass-card p-12 mx-12 border-primary/10">
           <h2 className="mb-6 text-4xl font-heading font-bold leading-tight">Join the new standard of work.</h2>
-          <p className="text-lg text-muted-foreground leading-relaxed">Thousands of premium customers and top-tier workers already trust NearCraft for local services.</p>
+          <p className="text-lg text-muted-foreground leading-relaxed">Thousands of premium customers and top-tier workers already trust GigUp for local services.</p>
         </div>
       </div>
     </div>

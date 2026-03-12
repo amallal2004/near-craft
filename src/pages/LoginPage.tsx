@@ -38,7 +38,7 @@ export default function LoginPage() {
           <CardHeader className="text-center pb-6 pt-8">
             <Link to="/" className="mb-6 inline-flex items-center justify-center gap-3 transition-transform hover:scale-105">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-primary text-primary-foreground font-heading font-bold text-lg shadow-sm">N</div>
-              <span className="text-2xl font-heading font-bold tracking-tight">NearCraft</span>
+              <span className="text-2xl font-heading font-bold tracking-tight">GigUp</span>
             </Link>
             <CardTitle className="text-2xl font-heading font-bold">Welcome back</CardTitle>
             <CardDescription className="text-base mt-2">Sign in to your account to continue</CardDescription>
