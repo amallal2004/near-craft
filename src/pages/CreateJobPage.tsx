@@ -110,7 +110,7 @@ export default function CreateJobPage() {
                   )} />
                 </div>
                 <div className="space-y-2">
-                  <Label className="font-medium">Budget Amount ($) *</Label>
+                  <Label className="font-medium">Budget Amount (₹) *</Label>
                   <Input type="number" {...register("budget_amount", { valueAsNumber: true })} placeholder="100" className="h-11 rounded-xl" />
                   {errors.budget_amount && <p className="text-xs text-destructive">{errors.budget_amount.message}</p>}
                 </div>

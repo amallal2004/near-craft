@@ -204,8 +204,7 @@ export default function JobDetailPage() {
                           </div>
                           
                           <p className="text-sm font-semibold text-primary mb-2 flex items-center gap-1.5">
-                            <DollarSign className="h-4 w-4" />
-                            {Number(app.offer_price)}
+                            ₹{Number(app.offer_price)}
                           </p>
                           <p className="text-sm text-muted-foreground leading-relaxed">"{app.message}"</p>
                           
@@ -254,7 +253,7 @@ export default function JobDetailPage() {
                     </div>
                     <div>
                       <p className="text-xs font-semibold text-muted-foreground uppercase tracking-widest mb-1">Budget</p>
-                      <p className="text-2xl font-bold font-heading text-foreground">${Number(job.budget_amount)} <span className="text-sm font-medium text-muted-foreground">{job.budget_type === "hourly" ? "/hr" : "fixed"}</span></p>
+                      <p className="text-2xl font-bold font-heading text-foreground">₹{Number(job.budget_amount)} <span className="text-sm font-medium text-muted-foreground">{job.budget_type === "hourly" ? "/hr" : "fixed"}</span></p>
                     </div>
                   </div>
                   
@@ -315,7 +314,7 @@ export default function JobDetailPage() {
                   <SheetHeader><SheetTitle className="font-heading">Apply to this job</SheetTitle></SheetHeader>
                   <div className="space-y-4 mt-6">
                     <div className="space-y-2">
-                      <Label className="font-medium">Your offer ($)</Label>
+                      <Label className="font-medium">Your offer (₹)</Label>
                       <Input type="number" value={applyPrice} onChange={(e) => setApplyPrice(e.target.value)} placeholder="100" className="h-11 rounded-xl" />
                     </div>
                     <div className="space-y-2">

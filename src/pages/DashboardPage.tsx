@@ -39,7 +39,7 @@ function JobListItem({ job, showApplications = false }: { job: any; showApplicat
             <span className="inline-flex items-center justify-center p-1 rounded-md bg-secondary text-secondary-foreground">{job.categories?.icon}</span>
             {job.categories?.name}
             {showApplications && <span className="text-muted-foreground/50 text-xs px-2">•</span>}
-            {showApplications && <span className="font-semibold text-foreground">${Number(job.budget_amount)}</span>}
+            {showApplications && <span className="font-semibold text-foreground">₹{Number(job.budget_amount)}</span>}
             {showApplications && <span className="text-muted-foreground/50 text-xs px-2">•</span>}
             {showApplications && <span className="text-primary-glow">{job.application_count} applications</span>}
           </p>
@@ -176,7 +176,7 @@ function WorkerDashboard() {
                   <div className="min-w-0 flex-1">
                     <h3 className="text-lg font-heading font-semibold truncate group-hover:text-primary transition-colors">{(app as any).jobs?.title}</h3>
                     <p className="text-sm font-medium text-muted-foreground mt-2 flex items-center gap-2">
-                      <span className="font-semibold text-foreground">Offer: ${Number(app.offer_price)}</span>
+                      <span className="font-semibold text-foreground">Offer: ₹{Number(app.offer_price)}</span>
                       <span className="text-muted-foreground/50 text-xs px-2">•</span>
                       <span>Applied {formatDistanceToNow(new Date(app.created_at!), { addSuffix: true })}</span>
                     </p>

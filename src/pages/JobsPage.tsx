@@ -83,7 +83,7 @@ function WorkerJobFeed() {
               <h3 className="mb-3 text-xl font-heading font-semibold group-hover:text-primary transition-colors">{job.title}</h3>
               <p className="mb-5 text-sm text-muted-foreground line-clamp-2 leading-relaxed font-light">{job.description}</p>
               <div className="flex flex-wrap items-center gap-y-3 gap-x-5 text-sm font-medium text-muted-foreground">
-                <span className="flex items-center gap-1.5 text-foreground"><DollarSign className="h-4 w-4 text-muted-foreground" />${Number(job.budget_amount)} {job.budget_type === "hourly" ? "/hr" : "fixed"}</span>
+                <span className="flex items-center gap-1.5 text-foreground"><DollarSign className="h-4 w-4 text-muted-foreground" />₹{Number(job.budget_amount)} {job.budget_type === "hourly" ? "/hr" : "fixed"}</span>
                 <span className="flex items-center gap-1.5"><MapPin className="h-3.5 w-3.5" />{job.location_text}</span>
                 <span className="flex items-center gap-1.5"><Clock className="h-3.5 w-3.5" />{formatDistanceToNow(new Date(job.created_at!), { addSuffix: true })}</span>
                 <span className="flex items-center gap-1.5"><Briefcase className="h-3.5 w-3.5" />{job.application_count} apps</span>
@@ -138,7 +138,7 @@ function CustomerJobFeed() {
                     <span className="inline-flex items-center justify-center p-1 rounded-md bg-secondary text-secondary-foreground">{(job as any).categories?.icon}</span>
                     {(job as any).categories?.name}
                     <span className="text-muted-foreground/50 text-xs px-2">•</span>
-                    <span className="font-semibold text-foreground">${Number(job.budget_amount)}</span>
+                    <span className="font-semibold text-foreground">₹{Number(job.budget_amount)}</span>
                     <span className="text-muted-foreground/50 text-xs px-2">•</span>
                     <span className="text-primary-glow">{job.application_count} applications</span>
                   </p>

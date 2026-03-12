@@ -183,16 +183,16 @@ export default function OnboardingPage() {
                 <div className="space-y-4">
                   <div className="flex justify-between items-center">
                     <Label className="font-medium text-foreground/80 mb-0">Hourly Rate</Label>
-                    <span className="text-sm font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-full">${hourlyRateMin} - ${hourlyRateMax}/hr</span>
+                    <span className="text-sm font-semibold text-primary bg-primary/10 px-2.5 py-1 rounded-full">₹{hourlyRateMin} - ₹{hourlyRateMax}/hr</span>
                   </div>
                   <div className="flex items-center gap-4">
                     <div className="relative flex-1">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">₹</span>
                       <Input type="number" value={hourlyRateMin} onChange={(e) => setHourlyRateMin(Number(e.target.value))} className="pl-7 rounded-xl bg-background/50" />
                     </div>
                     <span className="text-muted-foreground font-medium">to</span>
                     <div className="relative flex-1">
-                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">$</span>
+                      <span className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground">₹</span>
                       <Input type="number" value={hourlyRateMax} onChange={(e) => setHourlyRateMax(Number(e.target.value))} className="pl-7 rounded-xl bg-background/50" />
                     </div>
                   </div>
@@ -235,7 +235,7 @@ export default function OnboardingPage() {
                 {locationText && <div className="flex justify-between items-center py-2 border-b border-border/40"><span className="text-muted-foreground">Location</span><span className="font-medium text-foreground">{locationText}</span></div>}
                 {role === "worker" && (
                   <>
-                    <div className="flex justify-between items-center py-2 border-b border-border/40"><span className="text-muted-foreground">Rate</span><span className="font-semibold text-foreground">${hourlyRateMin}-${hourlyRateMax}/hr</span></div>
+                    <div className="flex justify-between items-center py-2 border-b border-border/40"><span className="text-muted-foreground">Rate</span><span className="font-semibold text-foreground">₹{hourlyRateMin}-₹{hourlyRateMax}/hr</span></div>
                     <div className="flex justify-between items-center py-2"><span className="text-muted-foreground">Skills</span><span className="font-semibold text-foreground">{selectedSkills.length} selected</span></div>
                   </>
                 )}

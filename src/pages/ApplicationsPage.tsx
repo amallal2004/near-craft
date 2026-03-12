@@ -45,7 +45,7 @@ export default function ApplicationsPage() {
                           {job?.categories?.icon} {job?.categories?.name}
                         </span>
                         <span>&bull;</span>
-                        <span className="font-medium text-foreground/80">Offer: <span className="text-primary">${Number(app.offer_price)}</span></span>
+                        <span className="font-medium text-foreground/80">Offer: <span className="text-primary">₹{Number(app.offer_price)}</span></span>
                         <span>&bull;</span>
                         <span>{formatDistanceToNow(new Date(app.created_at!), { addSuffix: true })}</span>
                       </div>

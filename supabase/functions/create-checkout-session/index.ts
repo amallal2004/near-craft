@@ -85,7 +85,7 @@ serve(async (req) => {
       line_items: [
         {
           price_data: {
-            currency: "usd",
+            currency: "inr",
             product_data: {
               name: `Job: ${job.title}`,
               description: `Payment for ${categoryName} service on Near-Craft`,
