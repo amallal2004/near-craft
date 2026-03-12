@@ -42,6 +42,7 @@ serve(async (req) => {
       const workerId = metadata.worker_id;
       const amountPaid = session.amount_total ? session.amount_total / 100 : 0;
       const platformFee = amountPaid * 0.10;
+      const workerShare = amountPaid - platformFee;
 
       const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey);
 
@@ -75,6 +76,39 @@ serve(async (req) => {
       if (paymentError) {
         console.error("Payment insert error:", paymentError);
         throw paymentError;
+      }
+
+      // Handle Transfer to Worker
+      if (workerId) {
+        // Fetch worker's stripe account id
+        const { data: workerProfile } = await supabaseAdmin
+          .from("profiles")
+          .select("stripe_account_id, payouts_enabled")
+          .eq("id", workerId)
+          .single();
+
+        if (workerProfile?.stripe_account_id) {
+          console.log(`Transferring ${workerShare} to worker ${workerId} (Stripe: ${workerProfile.stripe_account_id})`);
+          
+          try {
+            const transfer = await stripe.transfers.create({
+              amount: Math.round(workerShare * 100),
+              currency: session.currency || "inr",
+              destination: workerProfile.stripe_account_id,
+              metadata: {
+                job_id: jobId,
+                customer_id: customerId,
+              },
+            });
+            console.log(`Transfer successful: ${transfer.id}`);
+          } catch (transferErr: any) {
+            console.error(`Transfer failed for worker ${workerId}:`, transferErr.message);
+            // We don't throw here to avoid failing the whole webhook if just the transfer fails
+            // In a real app, you'd want a way to retry this
+          }
+        } else {
+          console.log(`Worker ${workerId} has no connected Stripe account. Funds remain in platform account.`);
+        }
       }
       
       console.log(`Successfully processed job ${jobId}`);
