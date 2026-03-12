@@ -86,6 +86,40 @@ export default function JobDetailPage() {
     onError: (e: any) => toast.error(e.message),
   });
 
+  const createCheckoutSession = useMutation({
+    mutationFn: async () => {
+      const { data: { session } } = await supabase.auth.getSession();
+      
+      const { data, error } = await supabase.functions.invoke("create-checkout-session", {
+        body: {
+          jobId: id,
+          successUrl: `${window.location.origin}/payment-success?jobId=${id}`,
+          cancelUrl: `${window.location.origin}/payment-cancel?jobId=${id}`,
+        },
+        headers: {
+          Authorization: `Bearer ${session?.access_token}`
+        }
+      });
+      
+      if (error) {
+        console.error("Function error:", error);
+        // Try to get a better message if it's from our own rejection
+        const errorMsg = error instanceof Error ? error.message : "Payment session creation failed";
+        throw new Error(errorMsg);
+      }
+
+      if (data?.url) {
+        window.location.href = data.url;
+      } else if (data?.error) {
+        throw new Error(data.error);
+      }
+    },
+    onError: (e: any) => {
+      console.error("Mutation error:", e);
+      toast.error(e.message || "Failed to initiate payment");
+    },
+  });
+
   const acceptApplication = useMutation({
     mutationFn: async (appId: string) => {
       const app = applications?.find(a => a.id === appId);
@@ -323,7 +357,10 @@ export default function JobDetailPage() {
 
             {isOwner && job.status === "pending_review" && (
               <div className="space-y-2">
-                <Button className="w-full rounded-xl" onClick={() => updateJobStatus.mutate("completed")}><CheckCircle className="mr-2 h-4 w-4" /> Confirm Completion</Button>
+                <Button className="w-full rounded-xl" onClick={() => createCheckoutSession.mutate()} disabled={createCheckoutSession.isPending}>
+                  {createCheckoutSession.isPending ? <Loader2 className="mr-2 h-4 w-4 animate-spin" /> : <DollarSign className="mr-2 h-4 w-4" />}
+                  Pay Now \& Confirm Completion
+                </Button>
                 <Button variant="destructive" className="w-full rounded-xl" onClick={() => updateJobStatus.mutate("disputed")}><AlertTriangle className="mr-2 h-4 w-4" /> Raise Dispute</Button>
               </div>
             )}
