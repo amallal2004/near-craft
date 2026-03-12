@@ -24,6 +24,8 @@ import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
 import SettingsPage from "./pages/SettingsPage";
 import AdminPage from "./pages/AdminPage";
+import WorkersPage from "./pages/WorkersPage";
+import WorkerProfilePage from "./pages/WorkerProfilePage";
 import NotFound from "./pages/NotFound";
 import PaymentSuccessPage from "./pages/PaymentSuccessPage";
 import PaymentCancelPage from "./pages/PaymentCancelPage";
@@ -51,12 +53,15 @@ const App = () => (
             <Route path="/jobs/:id" element={<OnboardingGuard><JobDetailPage /></OnboardingGuard>} />
             <Route path="/jobs/:id/chat" element={<OnboardingGuard><ChatPage /></OnboardingGuard>} />
             <Route path="/messages" element={<OnboardingGuard><MessagesPage /></OnboardingGuard>} />
+            <Route path="/messages/direct" element={<OnboardingGuard><ChatPage /></OnboardingGuard>} />
             <Route path="/applications" element={<OnboardingGuard><ApplicationsPage /></OnboardingGuard>} />
             <Route path="/notifications" element={<OnboardingGuard><NotificationsPage /></OnboardingGuard>} />
             <Route path="/reviews" element={<OnboardingGuard><ReviewsPage /></OnboardingGuard>} />
             <Route path="/profile" element={<OnboardingGuard><ProfilePage /></OnboardingGuard>} />
             <Route path="/settings" element={<OnboardingGuard><SettingsPage /></OnboardingGuard>} />
             <Route path="/admin" element={<OnboardingGuard><AdminPage /></OnboardingGuard>} />
+            <Route path="/workers" element={<OnboardingGuard><WorkersPage /></OnboardingGuard>} />
+            <Route path="/workers/:id" element={<OnboardingGuard><WorkerProfilePage /></OnboardingGuard>} />
             <Route path="/payment-success" element={<OnboardingGuard><PaymentSuccessPage /></OnboardingGuard>} />
             <Route path="/payment-cancel" element={<OnboardingGuard><PaymentCancelPage /></OnboardingGuard>} />
             <Route path="*" element={<NotFound />} />

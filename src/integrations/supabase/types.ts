@@ -283,7 +283,7 @@ export type Database = {
           created_at: string | null
           id: string
           is_read: boolean | null
-          job_id: string
+          job_id: string | null
           message_type: Database["public"]["Enums"]["message_type"]
           receiver_id: string
           sender_id: string
@@ -294,7 +294,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_read?: boolean | null
-          job_id: string
+          job_id?: string | null
           message_type?: Database["public"]["Enums"]["message_type"]
           receiver_id: string
           sender_id: string
@@ -305,7 +305,7 @@ export type Database = {
           created_at?: string | null
           id?: string
           is_read?: boolean | null
-          job_id?: string
+          job_id?: string | null
           message_type?: Database["public"]["Enums"]["message_type"]
           receiver_id?: string
           sender_id?: string
@@ -461,8 +461,10 @@ export type Database = {
           location_text: string | null
           name: string | null
           penalty_count: number | null
+          payouts_enabled: boolean | null
           phone: string | null
           role: Database["public"]["Enums"]["user_role"]
+          stripe_account_id: string | null
           total_reviews: number | null
           updated_at: string | null
         }
@@ -480,9 +482,11 @@ export type Database = {
           lng?: number | null
           location_text?: string | null
           name?: string | null
+          payouts_enabled?: boolean | null
           penalty_count?: number | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          stripe_account_id?: string | null
           total_reviews?: number | null
           updated_at?: string | null
         }
@@ -500,9 +504,11 @@ export type Database = {
           lng?: number | null
           location_text?: string | null
           name?: string | null
+          payouts_enabled?: boolean | null
           penalty_count?: number | null
           phone?: string | null
           role?: Database["public"]["Enums"]["user_role"]
+          stripe_account_id?: string | null
           total_reviews?: number | null
           updated_at?: string | null
         }

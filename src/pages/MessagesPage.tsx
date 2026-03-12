@@ -16,17 +16,25 @@ export default function MessagesPage() {
   const { data: conversations, isLoading } = useQuery({
     queryKey: ["conversations", user?.id],
     queryFn: async () => {
-      const { data: msgs } = await supabase.from("messages").select("job_id, content, created_at, sender_id, receiver_id, is_read, jobs(title)").or(`sender_id.eq.${user!.id},receiver_id.eq.${user!.id}`).order("created_at", { ascending: false });
+      const { data: msgs } = await supabase.from("messages").select("id, job_id, content, created_at, sender_id, receiver_id, is_read, jobs(title)").or(`sender_id.eq.${user!.id},receiver_id.eq.${user!.id}`).order("created_at", { ascending: false });
       if (!msgs) return [];
-      const jobMap = new Map<string, any>();
+      const conversationMap = new Map<string, any>();
       for (const msg of msgs) {
-        if (!jobMap.has(msg.job_id)) {
-          const otherId = msg.sender_id === user!.id ? msg.receiver_id : msg.sender_id;
-          const { data: otherProfile } = await supabase.from("profiles").select("name, avatar_url").eq("id", otherId).single();
-          jobMap.set(msg.job_id, { ...msg, otherProfile, unread: msgs.filter(m => m.job_id === msg.job_id && m.receiver_id === user!.id && !m.is_read).length });
+        const otherId = msg.sender_id === user!.id ? msg.receiver_id : msg.sender_id;
+        const convId = msg.job_id || `direct_${[msg.sender_id, msg.receiver_id].sort().join('_')}`;
+        
+        if (!conversationMap.has(convId)) {
+          const { data: otherProfile } = await supabase.from("profiles").select("id, name, avatar_url").eq("id", otherId).single();
+          
+          const unreadCount = msgs.filter(m => {
+            const mConvId = m.job_id || `direct_${[m.sender_id, m.receiver_id].sort().join('_')}`;
+            return mConvId === convId && m.receiver_id === user!.id && !m.is_read;
+          }).length;
+          
+          conversationMap.set(convId, { ...msg, convId, otherProfile, unread: unreadCount });
         }
       }
-      return Array.from(jobMap.values());
+      return Array.from(conversationMap.values());
     },
     enabled: !!user,
   });
@@ -43,7 +51,7 @@ export default function MessagesPage() {
         ) : conversations && conversations.length > 0 ? (
           <div className="space-y-1.5">
             {conversations.map((conv: any) => (
-              <Link key={conv.job_id} to={`/jobs/${conv.job_id}/chat`} className={cn(
+              <Link key={conv.convId} to={conv.job_id ? `/jobs/${conv.job_id}/chat` : `/messages/direct?with=${conv.otherProfile?.id}`} className={cn(
                 "group flex items-center gap-5 rounded-2xl border p-5 transition-all duration-300 hover:shadow-card-hover hover:-translate-y-0.5",
                 conv.unread > 0 
                   ? "bg-primary/5 border-primary/30 shadow-[0_4px_20px_-4px_rgba(var(--primary),0.1)] relative overflow-hidden" 
@@ -61,7 +69,7 @@ export default function MessagesPage() {
                   </div>
                   <p className="text-xs font-semibold text-primary/80 uppercase tracking-wider truncate mb-1.5 flex items-center gap-1.5">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary/50"></span>
-                    {(conv.jobs as any)?.title}
+                    {conv.job_id ? (conv.jobs as any)?.title : "Direct Message"}
                   </p>
                   <p className={cn("text-sm truncate leading-relaxed", conv.unread > 0 ? "text-foreground font-medium" : "text-muted-foreground")}>{conv.content}</p>
                 </div>

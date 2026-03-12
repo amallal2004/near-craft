@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useAuth } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { useQuery } from "@tanstack/react-query";
@@ -8,9 +9,11 @@ import { Card, CardContent } from "@/components/ui/card";
 import { StatCardSkeleton, CardSkeleton } from "@/components/ui/skeletons";
 import { StatusBadge } from "@/components/ui/status-badge";
 import { EmptyState } from "@/components/ui/empty-state";
-import { Briefcase, Star, PlusCircle, Search, Clock, Users, TrendingUp, ArrowRight } from "lucide-react";
+import { Briefcase, Star, PlusCircle, Search, Clock, Users, TrendingUp, ArrowRight, Loader2, Check } from "lucide-react";
 import { formatDistanceToNow } from "date-fns";
 import { motion } from "framer-motion";
+import { toast } from "sonner";
+import { cn } from "@/lib/utils";
 
 function StatCard({ icon: Icon, label, value, loading, color = "bg-accent" }: { icon: any; label: string; value: string | number; loading?: boolean; color?: string }) {
   if (loading) return <StatCardSkeleton />;
@@ -112,6 +115,73 @@ function CustomerDashboard() {
   );
 }
 
+const PayoutSettings = () => {
+  const { user, profile, session, refreshProfile } = useAuth();
+  const [loading, setLoading] = useState(false);
+
+  const handleConnectStripe = async () => {
+    setLoading(true);
+    try {
+      if (!session?.access_token) {
+        throw new Error("You must be logged in to connect your account.");
+      }
+
+      const { data, error } = await supabase.functions.invoke("create-connect-account", {
+        body: {
+          returnUrl: window.location.origin + "/dashboard",
+          refreshUrl: window.location.origin + "/dashboard",
+        },
+        headers: {
+          Authorization: `Bearer ${session.access_token}`,
+        },
+      });
+
+      if (error) throw error;
+      if (data?.url) {
+        window.location.href = data.url;
+      }
+    } catch (error: any) {
+      toast.error(error.message || "Failed to start Stripe onboarding");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  return (
+    <Card className="glass-card border-primary/20 overflow-hidden">
+      <div className="h-1 w-full bg-gradient-to-r from-primary/50 to-accent/50"></div>
+      <CardContent className="p-6">
+        <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="flex items-center gap-4">
+            <div className="p-3 rounded-2xl bg-primary/10 text-primary">
+              <TrendingUp className="h-6 w-6" />
+            </div>
+            <div>
+              <h3 className="text-xl font-heading font-bold">Payout Settings</h3>
+              <p className="text-sm text-muted-foreground">
+                {profile?.payouts_enabled 
+                  ? "Your Stripe account is connected and ready for payouts." 
+                  : "Connect your bank account via Stripe to receive payments for completed jobs."}
+              </p>
+            </div>
+          </div>
+          <Button 
+            onClick={handleConnectStripe} 
+            disabled={loading || profile?.payouts_enabled}
+            className={cn("rounded-full px-8 shadow-elevated", profile?.payouts_enabled ? "bg-green-500/10 text-green-500 border-green-500/20 hover:bg-green-500/20" : "")}
+            variant={profile?.payouts_enabled ? "outline" : "default"}
+          >
+            {loading ? <Loader2 className="h-4 w-4 animate-spin mr-2" /> : null}
+            {profile?.payouts_enabled ? (
+              <span className="flex items-center gap-2"><Check className="h-4 w-4" /> Connected</span>
+            ) : "Set up Payouts"}
+          </Button>
+        </div>
+      </CardContent>
+    </Card>
+  );
+};
+
 function WorkerDashboard() {
   const { user, profile } = useAuth();
   const { data: applications, isLoading } = useQuery({
@@ -145,6 +215,11 @@ function WorkerDashboard() {
           <Link to="/jobs"><Search className="mr-2 h-5 w-5" /> Browse Jobs</Link>
         </Button>
       </div>
+
+      <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }}>
+        <PayoutSettings />
+      </motion.div>
+
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <motion.div initial={{ opacity: 0, y: 10 }} animate={{ opacity: 1, y: 0 }} transition={{ delay: 0 }}>
           <StatCard icon={Search} label="Open Gigs" value={openJobsCount ?? 0} loading={false} />
