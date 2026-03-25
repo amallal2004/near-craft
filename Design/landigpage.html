@@ -1,0 +1,843 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "surface-container-lowest": "#ffffff",
+                        "on-primary-container": "#fffbff",
+                        "surface-tint": "#bb152c",
+                        "inverse-on-surface": "#ecf1ff",
+                        "surface-container-low": "#f0f3ff",
+                        "on-tertiary-fixed": "#2f1400",
+                        "primary-container": "#db313f",
+                        "secondary": "#485f84",
+                        "inverse-primary": "#ffb3b1",
+                        "primary": "#b7102a",
+                        "tertiary": "#8b4c11",
+                        "outline-variant": "#e4bebc",
+                        "on-tertiary-fixed-variant": "#6f3800",
+                        "on-secondary-fixed": "#001b3c",
+                        "on-surface-variant": "#5b403f",
+                        "surface-container-highest": "#d5e3ff",
+                        "on-surface": "#001b3c",
+                        "on-primary-fixed-variant": "#92001c",
+                        "on-primary-fixed": "#410007",
+                        "surface-container-high": "#dee8ff",
+                        "on-tertiary-container": "#fffbff",
+                        "surface-dim": "#c8dbff",
+                        "on-background": "#001b3c",
+                        "secondary-fixed": "#d5e3ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-variant": "#d5e3ff",
+                        "on-secondary": "#ffffff",
+                        "primary-fixed-dim": "#ffb3b1",
+                        "on-primary": "#ffffff",
+                        "error": "#ba1a1a",
+                        "outline": "#8f6f6e",
+                        "error-container": "#ffdad6",
+                        "tertiary-container": "#a96428",
+                        "on-secondary-container": "#445a7f",
+                        "inverse-surface": "#183153",
+                        "primary-fixed": "#ffdad8",
+                        "tertiary-fixed": "#ffdcc4",
+                        "tertiary-fixed-dim": "#ffb780",
+                        "secondary-container": "#bbd3fd",
+                        "surface-container": "#e7eeff",
+                        "background": "#f9f9ff",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed-variant": "#30476a",
+                        "on-error": "#ffffff",
+                        "secondary-fixed-dim": "#b0c7f1",
+                        "surface": "#f9f9ff",
+                        "surface-bright": "#f9f9ff"
+                    },
+                    fontFamily: {
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .hide-scrollbar::-webkit-scrollbar {
+            display: none;
+        }
+
+        .hide-scrollbar {
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+    </style>
+</head>
+
+<body class="bg-surface font-body text-on-surface">
+    <!-- TopAppBar -->
+    <nav
+        class="sticky top-0 w-full z-50 bg-white dark:bg-slate-900 shadow-[0_20px_40px_rgba(0,27,60,0.06)] font-['Plus_Jakarta_Sans'] antialiased">
+        <div class="flex items-center justify-between px-6 py-4 max-w-[1440px] mx-auto">
+            <div class="flex items-center gap-8">
+                <span class="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50">MinuteWorker</span>
+                <div class="hidden lg:flex items-center gap-6">
+                    <a class="text-red-600 dark:text-red-400 font-bold border-b-2 border-red-600 py-1 transition-all"
+                        href="#">Find Services</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors py-1"
+                        href="#">Find Freelancers</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors py-1" href="#">How
+                        It Works</a>
+                    <a class="text-slate-600 dark:text-slate-400 hover:text-red-600 transition-colors py-1"
+                        href="#">Enterprise</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <button
+                    class="px-5 py-2 text-slate-600 font-medium hover:bg-slate-50 dark:hover:bg-slate-800 rounded-lg transition-all">Sign
+                    In</button>
+                <button
+                    class="px-6 py-2 bg-gradient-to-br from-primary to-primary-container text-white font-bold rounded-xl shadow-lg hover:opacity-90 transition-all">Join
+                    Now</button>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <header class="relative overflow-hidden bg-surface py-20 lg:py-32">
+        <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-center">
+            <div class="z-10">
+                <span
+                    class="inline-block py-1 px-3 bg-secondary-container text-on-secondary-container text-xs font-bold tracking-widest uppercase rounded-full mb-6">Expertise
+                    on Demand</span>
+                <h1
+                    class="font-headline text-5xl lg:text-7xl font-extrabold text-on-surface leading-[1.1] tracking-tighter mb-8">
+                    Find Skilled <span class="text-primary">Freelancers</span> for Any Task, Anytime
+                </h1>
+                <p class="text-lg text-on-surface-variant max-w-lg mb-10 leading-relaxed">
+                    The world's most agile marketplace for editorial, technical, and creative talent. Get your projects
+                    moving in minutes.
+                </p>
+                <!-- Search Bar -->
+                <div
+                    class="flex flex-col md:flex-row p-2 bg-surface-container-lowest rounded-2xl shadow-xl border border-outline-variant/20 mb-6 max-w-2xl">
+                    <div class="flex-1 flex items-center px-4 py-2 gap-3 border-r border-outline-variant/10">
+                        <span class="material-symbols-outlined text-outline">search</span>
+                        <input
+                            class="w-full bg-transparent border-none focus:ring-0 text-on-surface font-medium placeholder:text-outline-variant"
+                            placeholder="What service are you looking for?" type="text" />
+                    </div>
+                    <div class="px-4 py-2 flex items-center gap-2 min-w-[160px]">
+                        <span class="material-symbols-outlined text-outline text-sm">category</span>
+                        <select
+                            class="bg-transparent border-none focus:ring-0 text-on-surface font-semibold text-sm cursor-pointer w-full">
+                            <option>All Categories</option>
+                            <option>Design</option>
+                            <option>Development</option>
+                            <option>Writing</option>
+                        </select>
+                    </div>
+                    <button
+                        class="bg-primary text-white px-8 py-3 rounded-xl font-bold hover:bg-primary-container transition-colors">Search</button>
+                </div>
+                <div class="flex flex-wrap gap-3 items-center">
+                    <span class="text-sm font-bold text-on-surface-variant">Popular:</span>
+                    <a class="text-xs font-semibold px-3 py-1 bg-surface-container-high rounded-full hover:bg-primary hover:text-white transition-colors"
+                        href="#">Logo Design</a>
+                    <a class="text-xs font-semibold px-3 py-1 bg-surface-container-high rounded-full hover:bg-primary hover:text-white transition-colors"
+                        href="#">Wordpress</a>
+                    <a class="text-xs font-semibold px-3 py-1 bg-surface-container-high rounded-full hover:bg-primary hover:text-white transition-colors"
+                        href="#">SEO</a>
+                </div>
+                <!-- Trust Indicator -->
+                <div class="mt-12 flex gap-12 items-center">
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-black text-on-surface">600+</span>
+                        <span class="text-xs font-bold text-outline uppercase tracking-wider">Active Freelancers</span>
+                    </div>
+                    <div class="flex flex-col">
+                        <span class="text-2xl font-black text-on-surface">10K+</span>
+                        <span class="text-xs font-bold text-outline uppercase tracking-wider">Projects Done</span>
+                    </div>
+                    <div class="flex items-center gap-2">
+                        <div class="flex items-center bg-tertiary-fixed text-on-tertiary-fixed px-3 py-1 rounded-lg">
+                            <span class="material-symbols-outlined text-sm mr-1"
+                                style="font-variation-settings: 'FILL' 1;">star</span>
+                            <span class="font-bold text-lg">4.9</span>
+                        </div>
+                        <span class="text-xs font-bold text-outline uppercase tracking-wider">Rating</span>
+                    </div>
+                </div>
+            </div>
+            <div class="relative hidden lg:block">
+                <div class="absolute -top-20 -right-20 w-96 h-96 bg-primary/5 rounded-full blur-3xl"></div>
+                <div class="absolute -bottom-20 -left-20 w-80 h-80 bg-secondary/5 rounded-full blur-3xl"></div>
+                <div class="grid grid-cols-2 gap-6 relative">
+                    <div class="space-y-6">
+                        <div
+                            class="bg-white p-4 rounded-3xl shadow-2xl transform -rotate-3 hover:rotate-0 transition-transform duration-500">
+                            <img class="w-full h-48 object-cover rounded-2xl mb-4"
+                                data-alt="Professional female freelancer smiling"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuDvvaEIdS5h4LctMAn0e7dRoctNqaz8pjZ6SoY44henaZiT0q9C01gqv5EBrJnyc2Nt6tbD0Tj5CWsIX86ROOrjExy5eYn7QwARo_v8eWJUA77su2v80gjEEuK5i6-oUquvaNuB9nP7_qesN8FPJgGXoFyUDuSADgpbY0dTKZqrcSiwa2iTIZN17t9Ol4hLfytz_tusxOXLPbQ_DQV7-pUpqeBS74mrMZrJj9wDW18NwPoIMf-etGz9AYWIBLclS0o-Jhuig41bQiE" />
+                            <h4 class="font-bold text-on-surface">Sarah Jenkins</h4>
+                            <p class="text-xs text-on-surface-variant">Senior UI/UX Designer</p>
+                        </div>
+                        <div class="bg-white p-6 rounded-3xl shadow-xl transform translate-x-12 translate-y-4">
+                            <div class="flex items-center gap-3">
+                                <div
+                                    class="w-12 h-12 bg-primary-container rounded-full flex items-center justify-center">
+                                    <span class="material-symbols-outlined text-white">bolt</span>
+                                </div>
+                                <div>
+                                    <p class="text-sm font-bold">Fast Delivery</p>
+                                    <p class="text-xs text-on-surface-variant">Avg. 24 hours</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="space-y-6 pt-12">
+                        <div class="bg-white p-6 rounded-3xl shadow-xl -translate-x-8">
+                            <div class="flex -space-x-3 mb-4">
+                                <img class="w-10 h-10 rounded-full border-2 border-white object-cover"
+                                    data-alt="User avatar 1"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCZoNhZ_Goau3RiG4w6yZRsRrIqyqag_R2V9QPaAthuvVbPKmh-Z0b0UWQX77ZxEYeSMygiyZZ3804QZwPzyoIyCQSJjvDkJYb6fIZb0MX8Z0VmFtWMhzqdcHmolW-dMWfAts-NGcfM2CFGyL-0uVeV8R97L-vero6Q1IGTTnxRan0PLp5mIbRH2F0gD49h8shjhs9QOMpbQZO15y3usXnmOWCOPaiUH62LgAL08KTNJpoQ80v58mTIFpE6jYrMZ9ImrHXfdggM56M" />
+                                <img class="w-10 h-10 rounded-full border-2 border-white object-cover"
+                                    data-alt="User avatar 2"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuALUNXtuGvP4vjGBTXt4xEOrBrp5-ewKAIlibO42Nqg6JdqoW2IlB9mc6LlkXF4rIcc7wrcQXqH9FYP3UOVrRgdHvH7BHwS2sC_cKgcj9hd9KFYU0ivTMBn3PIygxhS4x78-M6RyVxv3RoHH4ozlpDrb77O8LBg-8rwAxuMXjgyujBXsmh2UIFstV3mvEEzY6IjXSXOahcR9e_7gQho3lezUxZjxg22JdPXIlgrfcbYiP2a99SpS94NYXmt3V5-6TL1WBm0Ss63Rbs" />
+                                <img class="w-10 h-10 rounded-full border-2 border-white object-cover"
+                                    data-alt="User avatar 3"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBIOUSPV-8RZ65y52RyReY4O-h9wf83NzNwbbF9Mtr45XKWtRYfh4tdWbQWhA-rNrIGDUERRGIAmJp1LXfEmK8s-OxRxN2cgpVwMv_12khD9XWB97lQhhzdJuyOzeIbDazl8M5hI6uXVT1G41tgZvb5b6fnt349NWIxbYFK_RCa6XNqPEkDucLOnt5DxVTsWthq4yU25ALoEJ6FoyxYM_JtgtVDKm78g325BW4pZUsuA0fl-5GTK2QGTz3srD3TA9yhgBtYRsymTb0" />
+                                <div
+                                    class="w-10 h-10 rounded-full bg-surface-container-high border-2 border-white flex items-center justify-center text-[10px] font-bold text-primary">
+                                    +2k</div>
+                            </div>
+                            <p class="text-xs font-bold uppercase text-outline tracking-widest">Happy Clients</p>
+                        </div>
+                        <div
+                            class="bg-white p-4 rounded-3xl shadow-2xl transform rotate-6 hover:rotate-0 transition-transform duration-500">
+                            <img class="w-full h-48 object-cover rounded-2xl mb-4"
+                                data-alt="Male professional freelancer"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaQXc4LJkn37VnoYZR6gN6kxEUn1OiYTM08INc_LP_fNyA2UV5fv0wgFVrH_W9L-EL4LcNv9eNZobbZsYNINlumPBt7PIICA-aKLZImEGNBf57VR_jTfS-sf93fABz5TMdrOkN18PefkoVtFX-1pjSOb_0ZIAhLlhbTQnr-N5yARa6yzM7_YLFmYXGVlb2sJoko2V30nUpWCKePYsfGrTxirJyvM_EEnuZ9ZFIY7yKLAD4s53UsOH3_Zmr9XUAN1X4NtStoLNZATk" />
+                            <h4 class="font-bold text-on-surface">Marcello V.</h4>
+                            <p class="text-xs text-on-surface-variant">Full-stack Developer</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <!-- Trusted By -->
+    <section class="py-12 bg-surface-container-low overflow-hidden border-y border-outline-variant/10">
+        <div class="max-w-7xl mx-auto px-6">
+            <p class="text-center text-xs font-bold text-outline uppercase tracking-[0.2em] mb-10">Empowering
+                world-class teams</p>
+            <div class="flex justify-between items-center opacity-40 grayscale flex-wrap gap-12">
+                <span class="text-3xl font-black italic">TECHFLOW</span>
+                <span class="text-3xl font-black tracking-tighter">NEXUS</span>
+                <span class="text-3xl font-bold font-headline">Studio.</span>
+                <span class="text-3xl font-black tracking-tight">VANTAGE</span>
+                <span class="text-3xl font-serif font-bold">LUMINA</span>
+            </div>
+        </div>
+    </section>
+    <!-- Categories Section -->
+    <section class="py-24 bg-surface">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-end mb-16">
+                <div>
+                    <h2 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-4">Browse by
+                        Category</h2>
+                    <p class="text-on-surface-variant max-w-md">Find exactly what you need with our curated list of
+                        professional services.</p>
+                </div>
+                <a class="text-primary font-bold flex items-center gap-2 hover:translate-x-1 transition-transform"
+                    href="#">
+                    View All Categories <span class="material-symbols-outlined">arrow_forward</span>
+                </a>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <!-- Category Card -->
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">code</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Programming</h3>
+                    <p class="text-sm text-on-surface-variant">120+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">brush</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Design</h3>
+                    <p class="text-sm text-on-surface-variant">85+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">trending_up</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Marketing</h3>
+                    <p class="text-sm text-on-surface-variant">64+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">edit_note</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Writing</h3>
+                    <p class="text-sm text-on-surface-variant">92+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">videocam</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Video</h3>
+                    <p class="text-sm text-on-surface-variant">45+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">record_voice_over</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Voiceover</h3>
+                    <p class="text-sm text-on-surface-variant">30+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">monitoring</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Data Science</h3>
+                    <p class="text-sm text-on-surface-variant">22+ active experts</p>
+                </div>
+                <div
+                    class="group bg-surface-container-lowest p-8 rounded-3xl border border-transparent hover:border-primary/20 transition-all duration-300 cursor-pointer">
+                    <div
+                        class="w-14 h-14 bg-surface-container-high rounded-2xl flex items-center justify-center mb-6 group-hover:bg-primary group-hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-3xl">translate</span>
+                    </div>
+                    <h3 class="font-bold text-xl mb-2">Translation</h3>
+                    <p class="text-sm text-on-surface-variant">58+ active experts</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Popular Services -->
+    <section class="py-24 bg-surface-container-low">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-12">Popular Services</h2>
+            <div class="flex gap-8 overflow-x-auto pb-12 hide-scrollbar">
+                <!-- Service Card -->
+                <div class="min-w-[320px] bg-white rounded-3xl overflow-hidden shadow-md group">
+                    <div class="relative overflow-hidden h-48">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            data-alt="Branding design project mockup"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAWspvDgn_mcTrIa98JcNd-E6JcrNoVYwVgwDhhGWMj-RmRccewqYUKwF4zVS0Qqa8n-Xg8YRs0dFYb59EBJUu1SFCkUadm6UMIxCtzjDGIlTXYdPV9jx8dOq2hMAMxjDVU26R31NyFhsD-BR6PlBGQ2_v8zjtpBC93SIYRHJtH5gdCothuOhxW-5_2HyM-gUw10zyMbj31iEu5bjtjYU1q6sbQCi4zqVJ9bzh6eQemnrhN7yJgiStiRbo0TgFi6R0lM_hcWproOxw" />
+                        <div
+                            class="absolute top-4 left-4 bg-white/90 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-widest text-primary">
+                            Trending</div>
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <img class="w-10 h-10 rounded-full object-cover" data-alt="Freelancer profile small"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuD1tQJlwTz6XLUke8juY_x6VIpI43JBxgBVjgZNfnLRvtujhy19AGZ8SEGszzoK-O63IfV29dHvUOBCaPufRo16R0L_r8mRquSW0cWUnL1BP-e0_BZ0hRBEaUciF-uht5ci4R7vzAZKgEm9yU4B-S3OEONzxrkBF-arfZmn9qeVEGdHNRaMWujtU86RDgIyd9XEEIgq3isVd6wF-T2fNYCsu-UL1MjKhRshUcbFffOLs-rRypIbsxSE3ePyA8AuGtZz8XNpPEaEcgo" />
+                            <div>
+                                <h4 class="text-sm font-bold">Alex Rivera</h4>
+                                <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Level 2 Seller
+                                </p>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg mb-4 line-clamp-2">I will design a unique minimalist brand identity
+                            for your startup</h3>
+                        <div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-tertiary-container text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm font-bold">4.9</span>
+                                <span class="text-xs text-outline">(1.2k)</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-outline font-bold uppercase block text-right">Starting
+                                    at</span>
+                                <span class="text-xl font-black text-primary">$80</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat Service Card 1 -->
+                <div class="min-w-[320px] bg-white rounded-3xl overflow-hidden shadow-md group">
+                    <div class="relative overflow-hidden h-48">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            data-alt="Website development code editor"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBfOcSFxFL3-YpuML7QgJpASjuDFE2qlxYfl_SF5YZ_FH8AGbhsIgZO9F1OF1cV5jZZjhhjOJL1NyG11lFGNx-duwZxhG8NuzJkW78Od_fDJMbj2JGzBhcGJedyLEjWyRq-2bI7t7Av1O4LyLCdIwWvkhOIyVZJd-9Wi9G3BkJBjZGr1hQsTiY9xM21jK9rX9jduhJclFLULuE3q73cKjqPtV8Jj-IEhYkimDO7lIYl2Zmh7juf81Zqlu7-Da7Fcby6boqxMK-t2_k" />
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <img class="w-10 h-10 rounded-full object-cover" data-alt="Freelancer profile small"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAv9dmJwzYDocgVQs0RTcojwAWzAUNf8arux85T61iR_VOyYFNGG4I7DXzge9fDGRqWLc04rzveIvLpsIXOwbk1_35GDTbOEMUh07IaIKa8eTM9cgC1yMKK8p8s30Fiudo7fYbqiSFG1tSo2I9WZjUvf4h3JIBOFuP0dkG9F_14T_LGO1s8Ldrqxwa3OtnL-XXCG2w7fvjJisUHdTh_BnPvjosdN96Yy4DeFONbWxgDlTIPnNfxaIXuT1PSQhYACBAD8PhK50k6F9I" />
+                            <div>
+                                <h4 class="text-sm font-bold">Elena K.</h4>
+                                <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Top Rated</p>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg mb-4 line-clamp-2">I will build a high-converting landing page
+                            using Next.js</h3>
+                        <div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-tertiary-container text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm font-bold">5.0</span>
+                                <span class="text-xs text-outline">(850)</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-outline font-bold uppercase block text-right">Starting
+                                    at</span>
+                                <span class="text-xl font-black text-primary">$150</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Repeat Service Card 2 -->
+                <div class="min-w-[320px] bg-white rounded-3xl overflow-hidden shadow-md group">
+                    <div class="relative overflow-hidden h-48">
+                        <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                            data-alt="Copywriting on a laptop"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuD2M1qcAIShBdGZ7CgQ8h-xSTWgpCU_v6oNywmp_FHouHn3E1oqrQLEYDgg_xL4_oWFqq1E-SGVikxyHZVacMzCoCHJg7HflI5elLNeotSU0db4EYHTyJQHu6AnhYVv80qb9SpViONgHKZRwbICOyMirfZVEwVSYFIffiZ_vvrL23Uftisk03zS5qNRICwQT0PpanA3BmVUOOYBOpGcls0xyaw82ddd9lhb7vsWMyZMhvm9f2c2POM-ovZvM4EiGucadV_HVNufuJo" />
+                    </div>
+                    <div class="p-6">
+                        <div class="flex items-center gap-3 mb-4">
+                            <img class="w-10 h-10 rounded-full object-cover" data-alt="Freelancer profile small"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAmxwtQuOJUPsL33y-D7xsqpE3pnvxPZzU-ZVLasJ4lF6x4CtDh6mUxVposZBYs3Nb79nFUCeGRWo5J4yZ76iRiEKLQdxRCJZjyYWoi2LcCAR1KR59n0id_6c55Jw7APltSfa9fKF5-OMxOqC9O8UjR0K9e7EprW-9FvM6hDOOa1Fec6p7fNDvylPIjbSRAIUy8N9SNC_hELZ4xPJlnXK7jnpbzQ_3CxrvSVGu7Y8ASt_QbNwakMBnoyOw2JZNee4PAJTKtJHDr7nc" />
+                            <div>
+                                <h4 class="text-sm font-bold">Jordan S.</h4>
+                                <p class="text-[10px] font-bold text-outline uppercase tracking-wider">Pro Seller</p>
+                            </div>
+                        </div>
+                        <h3 class="font-bold text-lg mb-4 line-clamp-2">I will write SEO optimized articles for your
+                            tech blog</h3>
+                        <div class="flex items-center justify-between pt-4 border-t border-outline-variant/10">
+                            <div class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-tertiary-container text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm font-bold">4.8</span>
+                                <span class="text-xs text-outline">(430)</span>
+                            </div>
+                            <div>
+                                <span class="text-xs text-outline font-bold uppercase block text-right">Starting
+                                    at</span>
+                                <span class="text-xl font-black text-primary">$45</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- How It Works (Dark) -->
+    <section class="py-24 bg-[#1A1A2E] text-white overflow-hidden relative">
+        <div class="absolute top-0 right-0 w-1/3 h-full bg-primary/5 blur-[120px] rounded-full translate-x-1/2"></div>
+        <div class="max-w-7xl mx-auto px-6 relative z-10">
+            <div class="text-center mb-20">
+                <h2 class="font-headline text-4xl font-extrabold tracking-tight mb-4">Efficiency in Every Step</h2>
+                <p class="text-slate-400 max-w-xl mx-auto">Getting work done shouldn't be complicated. Our streamlined
+                    process connects you with experts in seconds.</p>
+            </div>
+            <div class="grid md:grid-cols-4 gap-12">
+                <div class="text-center relative">
+                    <div
+                        class="w-20 h-20 bg-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl border border-slate-700">
+                        <span class="material-symbols-outlined text-4xl text-primary">search</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Search</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Find experts by skill, rating, or previous work
+                        history.</p>
+                </div>
+                <div class="text-center relative">
+                    <div
+                        class="w-20 h-20 bg-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl border border-slate-700">
+                        <span class="material-symbols-outlined text-4xl text-primary">check_circle</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Choose</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Compare profiles, reviews, and portfolios to find
+                        your match.</p>
+                </div>
+                <div class="text-center relative">
+                    <div
+                        class="w-20 h-20 bg-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl border border-slate-700">
+                        <span class="material-symbols-outlined text-4xl text-primary">groups</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Collaborate</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Communicate directly through our secure workspace
+                        portal.</p>
+                </div>
+                <div class="text-center relative">
+                    <div
+                        class="w-20 h-20 bg-slate-800 rounded-3xl flex items-center justify-center mx-auto mb-8 shadow-xl border border-slate-700">
+                        <span class="material-symbols-outlined text-4xl text-primary">workspace_premium</span>
+                    </div>
+                    <h3 class="text-xl font-bold mb-4">Get Delivered</h3>
+                    <p class="text-slate-400 text-sm leading-relaxed">Approve the final work and watch your business
+                        grow.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Featured Freelancers -->
+    <section class="py-24 bg-surface">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-headline text-4xl font-extrabold text-on-surface tracking-tight mb-16">Featured Specialists
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Profile Card -->
+                <div
+                    class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center gap-6 mb-8">
+                        <img class="w-20 h-20 rounded-full object-cover" data-alt="Professional female portrait"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBpx0SlkOmCi_faCVUFguaB0YYb8WjpApXkegdbSeio5CWOxDyGr9hxkVAA2j98GnEg-ckc0O7k3Cgkafx6uUJZ-08S4WAnNLb0qsSznKQCtvZThCBZLs2w3cAPQkT7d_Pf5TdF9SP_Ti0SQ5kS1sil3nk3RvTYHL-gG5qJNfM3zBWOnI-3N1cO--LIgbThA5tPlIH2DVIY_vdJCkkjIAigXHgJ2L3nhSpE7UtSihC6zsAAQ5KpgdyKEBZcCvQtyCGd4dXit6c1qx0" />
+                        <div>
+                            <h3 class="font-bold text-xl">Lina Thompson</h3>
+                            <div class="flex items-center gap-1 text-tertiary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm font-black">5.0</span>
+                                <span class="text-xs text-outline font-medium">(480 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">Python</span>
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">React</span>
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">AWS
+                            Expert</span>
+                    </div>
+                    <button
+                        class="w-full py-3 bg-secondary-container text-on-secondary-container font-bold rounded-xl hover:bg-primary hover:text-white transition-colors">View
+                        Profile</button>
+                </div>
+                <!-- Profile Card 2 -->
+                <div
+                    class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center gap-6 mb-8">
+                        <img class="w-20 h-20 rounded-full object-cover" data-alt="Professional male portrait"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUdN6mxq15mP8jmalfLM-avPYrxDRGhJdUcg_NXLF5E09PC-Gf2zxEj5ykGnR-01WlJP2INj_vDP1FOmlmkU1StCH_dye3nJYW5zM2CvWnvDWcR9tKB2kKnuEkdBjFwfENR2_2vOGvetZF8wes0UJJvXX5hMfGPz-B_q9P_oYpjOf9TevP3u8ZaK9NFqHGmIfANT0JYJQaYu9ahzcvJ9QEN2WKfsuUk4Qf34rClft2c5Ao3AHQHSK28c29Ur3aTIWqDk1zbN4LNss" />
+                        <div>
+                            <h3 class="font-bold text-xl">David Chen</h3>
+                            <div class="flex items-center gap-1 text-tertiary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm font-black">4.9</span>
+                                <span class="text-xs text-outline font-medium">(215 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">UI
+                            Design</span>
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">Figma</span>
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">Branding</span>
+                    </div>
+                    <button
+                        class="w-full py-3 bg-secondary-container text-on-secondary-container font-bold rounded-xl hover:bg-primary hover:text-white transition-colors">View
+                        Profile</button>
+                </div>
+                <!-- Profile Card 3 -->
+                <div
+                    class="bg-surface-container-lowest p-8 rounded-[2rem] shadow-sm hover:shadow-xl transition-all duration-300">
+                    <div class="flex items-center gap-6 mb-8">
+                        <img class="w-20 h-20 rounded-full object-cover" data-alt="Professional female portrait"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCAsJLT5ee0CAFLToprF82oCCeUM_RBMR9K0BHHMbGGy6Koi1BeZtd-NsIobIBP91RJOunP1Z3gDM_8oYkxYXYclNA6bYliqceeeskg4B278R7RYiskTdjza9qpQZO1oZrzyxnVIVFIi3eIAZGRdPLn-Bv2r7-0noitnTJMa5mNAQNp-lZFhnnmSVyI2uPDqyTZmoAnHtiKkazohd_lU_I7N6cAN9vZhlNkrcb_RsL2My2TUGDA_VB3-kS2_ezi40KbxzIl1LjXoGk" />
+                        <div>
+                            <h3 class="font-bold text-xl">Maria Rossi</h3>
+                            <div class="flex items-center gap-1 text-tertiary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-sm font-black">4.9</span>
+                                <span class="text-xs text-outline font-medium">(322 reviews)</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">Content
+                            Marketing</span>
+                        <span
+                            class="text-[10px] font-bold px-3 py-1 bg-surface-container-high rounded-full uppercase tracking-tighter">SEO</span>
+                    </div>
+                    <button
+                        class="w-full py-3 bg-secondary-container text-on-secondary-container font-bold rounded-xl hover:bg-primary hover:text-white transition-colors">View
+                        Profile</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Stats Banner -->
+    <section class="py-16">
+        <div class="max-w-7xl mx-auto px-6">
+            <div
+                class="bg-gradient-to-r from-primary to-primary-container rounded-[2.5rem] p-12 lg:p-20 text-white flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative">
+                <div class="absolute -left-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
+                <div class="relative z-10 text-center lg:text-left">
+                    <h2 class="text-4xl lg:text-6xl font-black mb-4">MinuteWorker by the numbers</h2>
+                    <p class="text-primary-fixed/80 text-lg">Growth that reflects trust and quality across the globe.
+                    </p>
+                </div>
+                <div class="flex flex-wrap justify-center gap-16 relative z-10">
+                    <div class="text-center">
+                        <span class="block text-5xl lg:text-7xl font-black mb-2">50K+</span>
+                        <span class="text-sm font-bold uppercase tracking-widest opacity-80">Verified Users</span>
+                    </div>
+                    <div class="text-center">
+                        <span class="block text-5xl lg:text-7xl font-black mb-2">120K+</span>
+                        <span class="text-sm font-bold uppercase tracking-widest opacity-80">Services Offered</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Testimonials -->
+    <section class="py-24 bg-surface-container-low overflow-hidden">
+        <div class="max-w-7xl mx-auto px-6">
+            <h2 class="font-headline text-4xl font-extrabold text-on-surface text-center mb-16">What our community says
+            </h2>
+            <div class="grid md:grid-cols-3 gap-8">
+                <div class="bg-white p-10 rounded-3xl shadow-sm transform hover:-translate-y-2 transition-transform">
+                    <span class="material-symbols-outlined text-primary text-5xl mb-6">format_quote</span>
+                    <p class="text-lg font-medium text-on-surface mb-8 italic leading-relaxed">"Finding a developer who
+                        actually understands the creative vision is rare. MinuteWorker made it happen in 10 minutes."
+                    </p>
+                    <div class="flex items-center gap-4">
+                        <img class="w-12 h-12 rounded-full object-cover" data-alt="Testimonial author 1"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAOQ7bDKY7sr-tFyrRAU1SI09HlS5cqcH-eaSziW6PaqErBctBLp_OW4REiC2Efa1sK5vpSXVHu3PySOdaip1uFq07WDA7A9De-JHSChWTj62VcStJ7y_UJS0YYZKY6EevCXssmQkbpRRX4Bk5nay9pjF1_CqJa7b8rYtf9vWn6eaCtjc8yNgiwey9M7Z03xBOHIToToiAJp6ZzyAcm0oEd8eT4TcFIdUOKBAOU8hpqXpjND-uKLxaifysu0MopvzjKj7egonU25HY" />
+                        <div>
+                            <h4 class="font-bold">Thomas Wright</h4>
+                            <p class="text-xs text-outline font-bold">CEO, TechFlow</p>
+                        </div>
+                    </div>
+                </div>
+                <div
+                    class="bg-white p-10 rounded-3xl shadow-lg border-b-4 border-primary transform hover:-translate-y-2 transition-transform">
+                    <span class="material-symbols-outlined text-primary text-5xl mb-6">format_quote</span>
+                    <p class="text-lg font-medium text-on-surface mb-8 italic leading-relaxed">"The talent pool is
+                        incredible. I've outsourced entire departments through this platform with zero friction."</p>
+                    <div class="flex items-center gap-4">
+                        <img class="w-12 h-12 rounded-full object-cover" data-alt="Testimonial author 2"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfZ3I28F0m3VH1zZWxli6gLssoQgXYhPWbp4TE7HYI-L1hgfJ0vlf-w9NR8TnAuY55Y9e8ublsWcQm35MKAO-959e8mxuxrrtv8tdmBxsH1vmbL9pcZLaYQmm9n3p_-Xqi_2ByxaEUPrMvgtQvuIYQqeSFDJzdCm96EzfTcZOiT0TizZ_0g_bs4nNWsYwpPKeVHn5qw3oeOCvOFKfZVzig6ydzm7mSxV50dlAqlr8mAVcFsJ3Rxy4G2U22CgoVk4B2G4yNaQLjqfc" />
+                        <div>
+                            <h4 class="font-bold">Sarah Palmer</h4>
+                            <p class="text-xs text-outline font-bold">Creative Director</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white p-10 rounded-3xl shadow-sm transform hover:-translate-y-2 transition-transform">
+                    <span class="material-symbols-outlined text-primary text-5xl mb-6">format_quote</span>
+                    <p class="text-lg font-medium text-on-surface mb-8 italic leading-relaxed">"Flexible, reliable, and
+                        premium. The standard of work here is significantly higher than other marketplaces."</p>
+                    <div class="flex items-center gap-4">
+                        <img class="w-12 h-12 rounded-full object-cover" data-alt="Testimonial author 3"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCT1qcIuaC2v7g46VYR4phpBqNAC3QDwnSnZpD6IEbnUApsLnOS0Vmtmbdmh_6zEyWxnZpFCmobcaQoSLM6dL-htLMkxiX1B7WpzuvLWgzbX2x8hZ_FGvjeH2qeA2VgQjiYTi8mjG3CJgxfi5UCORObVKR8u7JrhH4Kb2fQa1Z0NgWQq7sTwcWQs_WFrCY4zxBr9qBzSfYEQxAsvGd0LYMQpt0_XIpdSYNCyy-XIwwj-MMde-gaGXxFO4X9cXGrw-6y9XT8MH648zQ" />
+                        <div>
+                            <h4 class="font-bold">Julian Banks</h4>
+                            <p class="text-xs text-outline font-bold">Founder, Nexus AI</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Review Breakdown -->
+    <section class="py-24 bg-surface">
+        <div class="max-w-3xl mx-auto px-6">
+            <div class="flex flex-col md:flex-row items-center gap-16">
+                <div class="text-center md:text-left">
+                    <h2 class="text-7xl font-black text-on-surface mb-2">4.9</h2>
+                    <div class="flex gap-1 text-tertiary-container mb-4 justify-center md:justify-start">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">star</span>
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">star_half</span>
+                    </div>
+                    <p class="text-outline font-bold uppercase tracking-widest text-xs">Based on 12,480 reviews</p>
+                </div>
+                <div class="flex-1 w-full space-y-4">
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold w-12">5 Star</span>
+                        <div class="flex-1 h-3 bg-surface-container-high rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[92%] rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold w-8">92%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold w-12">4 Star</span>
+                        <div class="flex-1 h-3 bg-surface-container-high rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[6%] rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold w-8">6%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold w-12">3 Star</span>
+                        <div class="flex-1 h-3 bg-surface-container-high rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[1%] rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold w-8">1%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold w-12">2 Star</span>
+                        <div class="flex-1 h-3 bg-surface-container-high rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[0.5%] rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold w-8">&lt;1%</span>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <span class="text-xs font-bold w-12">1 Star</span>
+                        <div class="flex-1 h-3 bg-surface-container-high rounded-full overflow-hidden">
+                            <div class="h-full bg-primary w-[0.5%] rounded-full"></div>
+                        </div>
+                        <span class="text-xs font-bold w-8">&lt;1%</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- CTA Section -->
+    <section class="py-24">
+        <div class="max-w-7xl mx-auto px-6">
+            <div
+                class="bg-surface-container-lowest rounded-[3rem] p-12 lg:p-24 border border-outline-variant/20 shadow-xl text-center relative overflow-hidden">
+                <div
+                    class="absolute top-0 left-0 w-64 h-64 bg-primary/5 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2">
+                </div>
+                <h2 class="font-headline text-5xl lg:text-6xl font-extrabold text-on-surface mb-8 tracking-tighter">
+                    Ready to Get Started?</h2>
+                <p class="text-on-surface-variant text-lg max-w-2xl mx-auto mb-12">Whether you're looking to hire the
+                    best talent or find your next big project, MinuteWorker is the bridge to your success.</p>
+                <div class="flex flex-col sm:flex-row justify-center gap-6">
+                    <button
+                        class="px-10 py-5 bg-primary text-white font-black rounded-2xl shadow-xl shadow-primary/20 hover:scale-105 transition-transform">Find
+                        a Freelancer</button>
+                    <button
+                        class="px-10 py-5 bg-secondary-container text-on-secondary-container font-black rounded-2xl hover:scale-105 transition-transform">Become
+                        a Freelancer</button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-slate-400 font-['Inter'] text-sm leading-relaxed w-full pt-16 pb-8">
+        <div
+            class="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 border-t border-slate-800 pt-16">
+            <div class="col-span-2 lg:col-span-1">
+                <span class="text-2xl font-black text-white mb-6 block">MinuteWorker</span>
+                <p class="text-slate-500 mb-8 max-w-xs">Connecting specialized talent with ambitious projects since
+                    2024.</p>
+                <div class="flex gap-4">
+                    <a class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined text-white text-lg">public</span>
+                    </a>
+                    <a class="w-10 h-10 bg-slate-800 rounded-lg flex items-center justify-center hover:bg-primary transition-colors"
+                        href="#">
+                        <span class="material-symbols-outlined text-white text-lg">alternate_email</span>
+                    </a>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">Categories</h4>
+                <ul class="space-y-4">
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Digital Marketing</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Design &amp; Creative</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity" href="#">Dev
+                            &amp; Tech</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Writing &amp; Translation</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">Community</h4>
+                <ul class="space-y-4">
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Events</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Blog</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Forum</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Podcast</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">Company</h4>
+                <ul class="space-y-4">
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">About</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Careers</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Press</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Contact</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-white font-bold mb-6">Support</h4>
+                <ul class="space-y-4">
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Help Center</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Safety</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Privacy</a></li>
+                    <li><a class="hover:text-red-400 underline-offset-4 hover:underline transition-opacity"
+                            href="#">Terms</a></li>
+                </ul>
+            </div>
+        </div>
+        <div
+            class="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
+            <p class="text-slate-500 text-xs">© 2024 MinuteWorker Inc. Editorial Excellence in Gig Work.</p>
+            <div class="flex gap-8">
+                <a class="text-xs hover:text-white transition-colors" href="#">Privacy Policy</a>
+                <a class="text-xs hover:text-white transition-colors" href="#">Terms of Service</a>
+                <a class="text-xs hover:text-white transition-colors" href="#">Cookie Settings</a>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>

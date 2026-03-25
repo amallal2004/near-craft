@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+
+<html class="light" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MinuteWorker - Profile Setup</title>
+<!-- Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<!-- Material Symbols -->
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<!-- Tailwind CSS -->
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#E63946",
+                        "secondary": "#485f84",
+                        "background-light": "#f8f6f6",
+                        "background-dark": "#211112",
+                        "surface-container-high": "#fde8e9",
+                        "on-surface": "#1e1e1e",
+                        "on-surface-variant": "#4b4b4b",
+                        "surface-container-lowest": "#ffffff",
+                    },
+                    fontFamily: {
+                        "display": ["Plus Jakarta Sans"],
+                        "headline": ["Plus Jakarta Sans"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    },
+                    borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .kinetic-gradient {
+            background: linear-gradient(135deg, #b7102a 0%, #db313f 100%);
+        }
+        .glass-panel {
+            background: rgba(213, 227, 255, 0.6);
+            backdrop-filter: blur(8px);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopNavBar -->
+<header class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-slate-50/80 backdrop-blur-md shadow-[0_20px_40px_rgba(0,27,60,0.06)]">
+<div class="text-2xl font-black italic tracking-tighter text-red-600">MinuteWorker</div>
+<button class="p-2 rounded-full hover:bg-slate-200/50 transition-colors">
+<span class="material-symbols-outlined text-slate-500" data-icon="help_outline">help_outline</span>
+</button>
+</header>
+<!-- Progress Indicator - Refined UX version from SCREEN_3 -->
+<div class="w-full flex justify-center mt-24 px-6">
+<div class="w-full max-w-md">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label text-[10px] font-bold uppercase tracking-[0.2em] text-[#E63946]">Step 2 of 3</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Profile Setup</span>
+</div>
+<div class="relative h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<!-- 2/3 progress (Step 2 of 3) -->
+<div class="absolute top-0 left-0 h-full bg-[#E63946] w-2/3 rounded-full transition-all duration-500"></div>
+<div class="absolute top-0 left-1/3 h-full w-[1px] bg-surface-container-lowest z-10"></div>
+<div class="absolute top-0 left-2/3 h-full w-[1px] bg-surface-container-lowest z-10"></div>
+</div>
+</div>
+</div>
+<main class="min-h-screen pb-32 flex flex-col items-center justify-start px-4 pt-12">
+<div class="w-full max-w-xl">
+<!-- Profile Setup Card -->
+<div class="bg-surface-container-lowest rounded-xl shadow-[0_20px_40px_rgba(0,27,60,0.06)] overflow-hidden">
+<!-- Visual Header -->
+<div class="h-32 w-full relative kinetic-gradient" style="background: #E63946;">
+<div class="absolute -bottom-10 left-8">
+<div class="h-20 w-20 bg-surface-container-high flex items-center justify-center border-4 border-surface-container-lowest rounded-full">
+<span class="material-symbols-outlined text-primary text-4xl" data-icon="person">person</span>
+</div>
+</div>
+</div>
+<div class="pt-14 px-8 pb-10">
+<h1 class="font-headline font-extrabold text-3xl tracking-tight text-on-surface mb-2">Tell us about yourself</h1>
+<p class="text-on-surface-variant body-md mb-8">We need a few more details to set up your professional profile and start matching you with local tasks.</p>
+<form class="space-y-6">
+<!-- Full Name -->
+<div class="space-y-2">
+<label class="block font-label font-bold text-[11px] uppercase tracking-widest text-on-surface-variant">
+                                Full Name <span class="text-primary">*</span>
+</label>
+<input class="w-full px-4 py-3 bg-surface-container-low border-0 rounded-lg focus:ring-2 focus:ring-tertiary/40 transition-all text-on-surface placeholder:text-slate-400" placeholder="e.g. Alex Rivera" type="text"/>
+</div>
+<!-- Phone -->
+<div class="space-y-2">
+<label class="block font-label font-bold text-[11px] uppercase tracking-widest text-on-surface-variant">
+                                Phone Number (Optional)
+                            </label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined text-lg" data-icon="phone">phone</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-0 rounded-lg focus:ring-2 focus:ring-tertiary/40 transition-all text-on-surface placeholder:text-slate-400" placeholder="+1 (555) 000-0000" type="tel"/>
+</div>
+</div>
+<!-- Location -->
+<div class="space-y-2">
+<label class="block font-label font-bold text-[11px] uppercase tracking-widest text-on-surface-variant">
+                                Location (Optional)
+                            </label>
+<div class="relative">
+<span class="absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant material-symbols-outlined text-lg" data-icon="location_on">location_on</span>
+<input class="w-full pl-12 pr-4 py-3 bg-surface-container-low border-0 rounded-lg focus:ring-2 focus:ring-tertiary/40 transition-all text-on-surface placeholder:text-slate-400" placeholder="City, State" type="text"/>
+</div>
+</div>
+<!-- Desktop Actions -->
+<div class="flex items-center justify-between pt-6">
+<button class="flex items-center gap-2 text-primary font-bold hover:bg-surface-container-high px-4 py-2 rounded-lg transition-colors" type="button">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+                                Back
+                            </button>
+<button class="kinetic-gradient text-white px-8 py-3 rounded-lg font-bold shadow-lg hover:brightness-110 active:scale-95 transition-all flex items-center gap-2" type="submit">
+                                Continue
+                                <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+</form>
+</div>
+</div>
+<!-- Trust Badges -->
+<div class="mt-8 grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface" data-icon="verified_user">verified_user</span>
+</div>
+<div>
+<p class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Security</p>
+<p class="text-xs text-on-surface font-semibold">Verified Privacy</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl flex items-center gap-3">
+<div class="h-10 w-10 rounded-full bg-slate-100 flex items-center justify-center">
+<span class="material-symbols-outlined text-on-surface" data-icon="speed">speed</span>
+</div>
+<div>
+<p class="font-label text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Efficiency</p>
+<p class="text-xs text-on-surface font-semibold">Fast Match</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-2 bg-white/90 backdrop-blur-md border-t border-slate-100 shadow-[0_-10px_30px_rgba(0,0,0,0.03)] md:hidden">
+<button class="flex flex-col items-center justify-center text-slate-500 px-4 py-2 hover:text-red-600 transition-all">
+<span class="material-symbols-outlined mb-1" data-icon="support_agent">support_agent</span>
+<span class="font-inter font-bold uppercase tracking-widest text-[10px]">Support</span>
+</button>
+<button class="flex flex-col items-center justify-center text-slate-500 px-4 py-2 hover:text-red-600 transition-all">
+<span class="material-symbols-outlined mb-1" data-icon="close">close</span>
+<span class="font-inter font-bold uppercase tracking-widest text-[10px]">Exit Setup</span>
+</button>
+</nav>
+</body></html>

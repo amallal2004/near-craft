@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>MinuteWorker - Select Your Path</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "secondary": "#485f84",
+                "primary-container": "#db313f",
+                "surface-container-highest": "#d5e3ff",
+                "on-secondary-fixed-variant": "#30476a",
+                "on-error-container": "#93000a",
+                "outline-variant": "#e4bebc",
+                "surface": "#f9f9ff",
+                "on-surface-variant": "#5b403f",
+                "error": "#ba1a1a",
+                "secondary-fixed-dim": "#b0c7f1",
+                "secondary-fixed": "#d5e3ff",
+                "on-error": "#ffffff",
+                "primary-fixed": "#ffdad8",
+                "on-secondary-fixed": "#001b3c",
+                "tertiary": "#8b4c11",
+                "surface-container": "#e7eeff",
+                "on-tertiary": "#ffffff",
+                "tertiary-fixed-dim": "#ffb780",
+                "tertiary-container": "#a96428",
+                "on-surface": "#001b3c",
+                "on-background": "#001b3c",
+                "outline": "#8f6f6e",
+                "primary": "#E63946",
+                "on-tertiary-fixed-variant": "#6f3800",
+                "on-primary-fixed-variant": "#92001c",
+                "tertiary-fixed": "#ffdcc4",
+                "inverse-primary": "#ffb3b1",
+                "error-container": "#ffdad6",
+                "surface-bright": "#f9f9ff",
+                "surface-container-high": "#dee8ff",
+                "inverse-on-surface": "#ecf1ff",
+                "surface-dim": "#c8dbff",
+                "on-secondary": "#ffffff",
+                "on-primary-fixed": "#410007",
+                "surface-container-low": "#f0f3ff",
+                "inverse-surface": "#183153",
+                "surface-variant": "#d5e3ff",
+                "surface-tint": "#bb152c",
+                "secondary-container": "#bbd3fd",
+                "on-primary-container": "#fffbff",
+                "surface-container-lowest": "#ffffff",
+                "on-primary": "#ffffff",
+                "background": "#f9f9ff",
+                "on-secondary-container": "#445a7f",
+                "primary-fixed-dim": "#ffb3b1",
+                "on-tertiary-container": "#fffbff",
+                "on-tertiary-fixed": "#2f1400"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Inter"],
+                "label": ["Inter"]
+              },
+              borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col">
+<!-- TopNavBar (Shared Component) -->
+<nav class="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-slate-50/80 backdrop-blur-md dark:bg-slate-950/80">
+<div class="text-2xl font-black italic text-[#E63946] dark:text-[#E63946] font-['Plus_Jakarta_Sans'] tracking-tight">MinuteWorker</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 hover:text-[#E63946] transition-colors p-2">
+<span class="material-symbols-outlined" data-icon="help_outline">help_outline</span>
+</button>
+</div>
+</nav>
+<!-- Main Content Area -->
+<main class="flex-grow flex flex-col items-center justify-center px-6 pt-24 pb-32 max-w-4xl mx-auto w-full">
+<!-- Progress Indicator -->
+<div class="w-full max-w-md mb-12">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label text-[10px] font-bold uppercase tracking-[0.2em] text-[#E63946]">Step 1 of 3</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Profile Setup</span>
+</div>
+<div class="relative h-1 w-full bg-surface-container-high rounded-full overflow-hidden">
+<div class="absolute top-0 left-0 h-full bg-[#E63946] w-1/3 rounded-full transition-all duration-500"></div>
+<div class="absolute top-0 left-1/3 h-full w-[1px] bg-surface-container-lowest z-10"></div>
+<div class="absolute top-0 left-2/3 h-full w-[1px] bg-surface-container-lowest z-10"></div>
+</div>
+</div>
+<!-- Hero Header -->
+<header class="text-center mb-12">
+<h1 class="font-headline text-4xl md:text-5xl font-extrabold tracking-tight text-on-surface mb-4">
+                How do you want to use <span class="text-[#E63946]">MinuteWorker</span>?
+            </h1>
+<p class="text-secondary text-lg max-w-lg mx-auto">
+                Choose your path below to get started. You can toggle between roles anytime later.
+            </p>
+</header>
+<!-- Role Selection Grid -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-8 w-full">
+<!-- Hire Option -->
+<button class="group relative flex flex-col items-start p-10 rounded-2xl bg-surface-container-lowest border-2 border-transparent hover:border-[#E63946]/20 hover:shadow-2xl hover:shadow-[#E63946]/10 active:scale-[0.98] transition-all duration-300 text-left shadow-[0_20px_40px_rgba(0,27,60,0.04)]">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-[#E63946] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-t-2xl"></div>
+<div class="w-20 h-20 rounded-2xl bg-[#E63946]/5 flex items-center justify-center mb-8 transition-colors group-hover:bg-[#E63946]/10">
+<span class="material-symbols-outlined text-5xl text-[#E63946] transition-transform duration-300 group-hover:scale-110" data-icon="person_search" style="font-variation-settings: 'FILL' 0;">person_search</span>
+</div>
+<h3 class="font-headline text-3xl font-bold text-on-surface mb-4">I need help</h3>
+<p class="text-on-surface-variant text-lg font-body mb-8 leading-relaxed">Find skilled professionals for quick tasks, house chores, or professional gigs in minutes.</p>
+<div class="mt-auto flex items-center text-[#E63946] font-bold font-label text-sm uppercase tracking-widest">
+                    Continue as Hirer
+                    <span class="material-symbols-outlined ml-3 text-lg transition-transform duration-300 group-hover:translate-x-2" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+<!-- Work Option -->
+<button class="group relative flex flex-col items-start p-10 rounded-2xl bg-surface-container-lowest border-2 border-transparent hover:border-[#E63946]/20 hover:shadow-2xl hover:shadow-[#E63946]/10 active:scale-[0.98] transition-all duration-300 text-left shadow-[0_20px_40px_rgba(0,27,60,0.04)]">
+<div class="absolute top-0 left-0 w-full h-1.5 bg-[#E63946] scale-x-0 group-hover:scale-x-100 transition-transform duration-500 origin-left rounded-t-2xl"></div>
+<div class="w-20 h-20 rounded-2xl bg-[#E63946]/5 flex items-center justify-center mb-8 transition-colors group-hover:bg-[#E63946]/10">
+<span class="material-symbols-outlined text-5xl text-[#E63946] transition-transform duration-300 group-hover:scale-110" data-icon="work_history" style="font-variation-settings: 'FILL' 0;">work_history</span>
+</div>
+<h3 class="font-headline text-3xl font-bold text-on-surface mb-4">I want gigs</h3>
+<p class="text-on-surface-variant text-lg font-body mb-8 leading-relaxed">Browse local opportunities, complete tasks on your schedule, and get paid instantly.</p>
+<div class="mt-auto flex items-center text-[#E63946] font-bold font-label text-sm uppercase tracking-widest">
+                    Continue as Worker
+                    <span class="material-symbols-outlined ml-3 text-lg transition-transform duration-300 group-hover:translate-x-2" data-icon="arrow_forward">arrow_forward</span>
+</div>
+</button>
+</div>
+<!-- Footer Text -->
+<div class="mt-12 text-center">
+<p class="text-xs font-label text-secondary uppercase tracking-widest flex items-center justify-center gap-2">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">verified_user</span>
+                Safe &amp; Secure Payments Enabled
+            </p>
+</div>
+</main>
+<!-- BottomNavBar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center h-16 px-4 pb-safe bg-white/90 backdrop-blur-md dark:bg-slate-900/90 border-t border-slate-100 dark:border-slate-800 shadow-[0_-10px_30px_rgba(0,27,60,0.04)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-[#E63946] transition-colors px-6 py-2" href="#">
+<span class="material-symbols-outlined" data-icon="support_agent">support_agent</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Support</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 hover:text-[#E63946] transition-colors px-6 py-2" href="#">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest mt-1">Exit</span>
+</a>
+</nav>
+<!-- Decoration Element -->
+<div class="fixed top-0 right-0 -z-10 w-1/2 h-1/2 bg-gradient-to-bl from-[#E63946]/5 to-transparent blur-3xl pointer-events-none"></div>
+<div class="fixed bottom-0 left-0 -z-10 w-1/2 h-1/2 bg-gradient-to-tr from-secondary/5 to-transparent blur-3xl pointer-events-none"></div>
+</body></html>

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Inter:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            colors: {
+              "surface-container-lowest": "#ffffff",
+              "outline": "#8f6f6e",
+              "inverse-surface": "#183153",
+              "tertiary-fixed": "#ffdcc4",
+              "tertiary": "#8b4c11",
+              "surface-container-highest": "#d5e3ff",
+              "secondary-container": "#bbd3fd",
+              "surface-dim": "#c8dbff",
+              "primary": "#b7102a",
+              "error": "#ba1a1a",
+              "on-secondary-fixed-variant": "#30476a",
+              "surface-container-high": "#dee8ff",
+              "on-tertiary-fixed-variant": "#6f3800",
+              "primary-fixed": "#ffdad8",
+              "on-error": "#ffffff",
+              "primary-container": "#db313f",
+              "surface-bright": "#f9f9ff",
+              "inverse-on-surface": "#ecf1ff",
+              "surface-tint": "#bb152c",
+              "secondary-fixed-dim": "#b0c7f1",
+              "on-background": "#001b3c",
+              "tertiary-fixed-dim": "#ffb780",
+              "surface": "#f9f9ff",
+              "secondary": "#485f84",
+              "on-error-container": "#93000a",
+              "error-container": "#ffdad6",
+              "primary-fixed-dim": "#ffb3b1",
+              "on-tertiary": "#ffffff",
+              "on-primary-fixed-variant": "#92001c",
+              "on-primary-container": "#fffbff",
+              "on-surface": "#001b3c",
+              "background": "#f9f9ff",
+              "secondary-fixed": "#d5e3ff",
+              "on-secondary-container": "#445a7f",
+              "outline-variant": "#e4bebc",
+              "surface-variant": "#d5e3ff",
+              "on-secondary": "#ffffff",
+              "on-surface-variant": "#5b403f",
+              "on-primary-fixed": "#410007",
+              "surface-container-low": "#f0f3ff",
+              "tertiary-container": "#a96428",
+              "on-secondary-fixed": "#001b3c",
+              "surface-container": "#e7eeff",
+              "on-primary": "#ffffff",
+              "on-tertiary-fixed": "#2f1400",
+              "on-tertiary-container": "#fffbff",
+              "inverse-primary": "#ffb3b1"
+            },
+            fontFamily: {
+              "headline": ["Plus Jakarta Sans"],
+              "body": ["Inter"],
+              "label": ["Inter"]
+            },
+            borderRadius: {"DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px"},
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-kinetic-gradient {
+            background: linear-gradient(135deg, #b7102a 0%, #db313f 100%);
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-slate-50 dark:bg-slate-950">
+<div class="flex items-center gap-2">
+<span class="text-xl font-black text-slate-900 dark:text-slate-50 font-headline tracking-tight">MinuteWorker</span>
+</div>
+<div class="flex items-center gap-4">
+<button class="text-slate-500 dark:text-slate-400 p-2 hover:bg-slate-200 dark:hover:bg-slate-800 transition-colors rounded-full">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+</header><div class="w-full max-w-md mx-auto mt-24 mb-12">
+<div class="flex justify-between items-center mb-3">
+<span class="font-label text-[10px] font-bold uppercase tracking-[0.2em] text-[#E63946]">Step 3 of 3</span>
+<span class="font-label text-[10px] font-bold uppercase tracking-[0.2em] text-secondary">Profile Setup</span>
+</div>
+<div class="relative h-1 w-full bg-surface-container-high rounded-full overflow-hidden flex gap-1">
+<div class="h-full bg-[#E63946] flex-1 rounded-full transition-all duration-500"></div>
+<div class="h-full bg-[#E63946] flex-1 rounded-full transition-all duration-500"></div>
+<div class="h-full bg-[#E63946] flex-1 rounded-full transition-all duration-500"></div>
+</div>
+</div>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center pb-32 px-4 md:px-6 pt-4">
+<!-- Step Indicator -->
+<!-- Confirmation Card -->
+<div class="w-full max-w-md bg-surface-container-lowest rounded-xl shadow-[0_20px_40px_rgba(0,27,60,0.06)] p-8 md:p-10 relative overflow-hidden group">
+<!-- Asymmetric Accent -->
+<div class="absolute top-0 right-0 w-24 h-24 bg-surface-container-high rounded-bl-full -mr-8 -mt-8 opacity-50"></div>
+<div class="relative z-10 flex flex-col items-center">
+<!-- Avatar Section -->
+<div class="relative mb-8">
+<div class="w-32 h-32 rounded-full flex items-center justify-center overflow-hidden border-4 border-surface-container-lowest shadow-sm bg-surface-container-high"><span class="material-symbols-outlined text-primary text-5xl" data-icon="person">person</span></div>
+<div class="absolute bottom-1 right-1 bg-primary text-on-primary p-1.5 rounded-full shadow-md border-2 border-surface-container-lowest">
+<span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+</div>
+<!-- User Details -->
+<div class="w-full space-y-6 text-center">
+<div>
+<h2 class="font-headline text-2xl font-bold text-on-surface mb-1">Alex Rivera</h2>
+<div class="flex items-center justify-center gap-2 text-on-surface-variant">
+<span class="material-symbols-outlined text-[18px]">verified_user</span>
+<span class="text-sm font-medium">Verified Identity</span>
+</div>
+</div>
+<div class="flex flex-col gap-3 py-6 border-t border-b border-surface-container-low">
+<div class="flex items-center justify-between text-left">
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant/60 font-label">Phone</span>
+<span class="text-sm font-semibold text-on-surface">+1 (555) 000-0000</span>
+</div>
+<div class="flex items-center justify-between text-left">
+<span class="text-xs font-bold uppercase tracking-wider text-on-surface-variant/60 font-label">Location</span>
+<span class="text-sm font-semibold text-on-surface">Austin, Texas</span>
+</div>
+</div>
+<button class="w-full bg-kinetic-gradient text-on-primary py-4 px-6 rounded-xl font-headline font-bold flex items-center justify-center gap-3 shadow-lg shadow-primary/20 hover:opacity-90 active:scale-95 transition-all">
+<span>Confirm and Finish</span>
+<span class="material-symbols-outlined">arrow_forward</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Secondary Action -->
+<div class="mt-8">
+<a class="flex items-center gap-2 text-primary font-bold hover:underline transition-all" href="#">
+<span class="material-symbols-outlined text-sm">edit</span>
+<span class="text-sm font-label uppercase tracking-widest">Edit Details</span>
+</a>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-white dark:bg-slate-900 shadow-[0_-10px_30px_rgba(0,27,60,0.04)] rounded-t-xl">
+<div class="flex flex-col items-center justify-center bg-red-50 dark:bg-red-900/20 text-red-600 dark:text-red-400 rounded-xl px-4 py-2">
+<span class="material-symbols-outlined mb-1" data-icon="stepper" style="font-variation-settings: 'FILL' 1;">steppers</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Progress</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="contact_support">contact_support</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Support</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-red-500 transition-colors">
+<span class="material-symbols-outlined mb-1" data-icon="close">close</span>
+<span class="font-['Inter'] text-[10px] font-bold uppercase tracking-widest">Cancel</span>
+</div>
+</nav>
+</body></html>
