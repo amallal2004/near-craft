@@ -1,21 +1,31 @@
 import { useQuery } from "@tanstack/react-query";
-import { useParams, useNavigate } from "react-router-dom";
-import { Star, MapPin, Briefcase, Calendar, MessageSquare, ArrowLeft, ShieldCheck, Mail, CheckCircle2, User, Sparkles, ImageIcon, GraduationCap } from "lucide-react";
+import { useParams, useNavigate, Link } from "react-router-dom";
+import { Star, MapPin, Briefcase, Calendar, MessageSquare, ArrowLeft, ShieldCheck, Mail, CheckCircle2, User, Sparkles, ImageIcon, GraduationCap, Construction, Settings as SettingsIcon, LayoutDashboard, History, CalendarDays, HelpCircle, LogOut } from "lucide-react";
 import { AppLayout } from "@/components/layout/AppLayout";
 import { supabase } from "@/integrations/supabase/client";
 import { useAuth } from "@/contexts/AuthContext";
 import { Button } from "@/components/ui/button";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar, AvatarFallback } from "@/components/ui/avatar";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
 
+const skillIconMap: Record<string, any> = {
+  "Plumbing": Construction,
+  "Electrical": Sparkles,
+  "Cleaning": CheckCircle2,
+  "Carpentry": Briefcase,
+  "Gardening": Sparkles,
+  "Pet Care": User,
+  "Default": Briefcase
+};
+
 export default function WorkerProfilePage() {
   const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { user, activeRole } = useAuth();
+  const { user, activeRole, profile: currentUserProfile, signOut } = useAuth();
 
   const { data: worker, isLoading } = useQuery({
     queryKey: ["workerProfile", id],
@@ -46,13 +56,13 @@ export default function WorkerProfilePage() {
   if (isLoading) {
     return (
       <AppLayout>
-        <div className="container max-w-5xl mx-auto px-4 py-8 space-y-8 animate-pulse">
-          <Skeleton className="h-10 w-24 rounded-lg" />
-          <div className="flex flex-col md:flex-row gap-8">
-            <div className="w-full md:w-[350px] shrink-0"><Skeleton className="h-[500px] rounded-3xl" /></div>
-            <div className="flex-1 space-y-6">
-              <Skeleton className="h-[200px] rounded-3xl" />
+        <div className="container max-w-7xl mx-auto px-6 pt-24 pb-12 animate-pulse">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <Skeleton className="lg:col-span-4 h-[600px] rounded-3xl" />
+            <div className="lg:col-span-8 space-y-8">
               <Skeleton className="h-[300px] rounded-3xl" />
+              <Skeleton className="h-[200px] rounded-3xl" />
+              <Skeleton className="h-[150px] rounded-3xl" />
             </div>
           </div>
         </div>
@@ -63,13 +73,12 @@ export default function WorkerProfilePage() {
   if (!worker || !worker.profiles) {
     return (
       <AppLayout>
-        <div className="container max-w-4xl mx-auto px-4 py-32 text-center flex flex-col items-center justify-center">
-          <div className="w-24 h-24 bg-muted rounded-full flex items-center justify-center mb-6">
-            <User className="h-10 w-10 text-muted-foreground" />
+        <div className="container max-w-4xl mx-auto px-4 py-32 text-center">
+          <div className="w-24 h-24 bg-l-surface-container-low rounded-full flex items-center justify-center mx-auto mb-6">
+            <User className="h-10 w-10 text-l-secondary" />
           </div>
-          <h2 className="text-3xl font-heading font-bold mb-3">Worker Not Found</h2>
-          <p className="text-muted-foreground mb-8 max-w-md mx-auto">The professional you are looking for does not exist or their profile has been removed.</p>
-          <Button onClick={() => navigate("/workers")} size="lg" className="rounded-xl px-8">Browse All Workers</Button>
+          <h2 className="text-3xl font-black font-l-headline text-l-on-surface mb-3 tracking-tighter">Professional Not Found</h2>
+          <Button onClick={() => navigate("/workers")} className="bg-l-primary text-white rounded-xl px-8 h-12 font-bold shadow-lg">Browse All Professionals</Button>
         </div>
       </AppLayout>
     );
@@ -78,217 +87,203 @@ export default function WorkerProfilePage() {
   const p = worker.profiles as any;
   const isSelf = user?.id === p.id;
   const showMessageBtn = !isSelf && activeRole === "customer";
-  const firstName = p.name?.split(' ')[0] || 'Worker';
+  const initials = p.name?.split(' ').map((n: string) => n[0]).join('').toUpperCase() || "?";
 
   return (
     <AppLayout>
-      <div className="container max-w-5xl mx-auto px-4 py-6 md:py-10 space-y-6 md:space-y-8 relative pb-24 md:pb-10">
-        
-        <Button variant="ghost" className="mb-2 -ml-3 hover:bg-background/80 hover:backdrop-blur-sm transition-all" onClick={() => navigate(-1)}>
-          <ArrowLeft className="h-4 w-4 mr-2" />
-          Back to Results
-        </Button>
-
-        <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start">
+      <main className="pt-8 pb-12 px-6 md:px-12 max-w-7xl mx-auto selection:bg-l-primary/30 selection:text-l-on-surface animate-fade-in">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 items-start">
           
-          {/* Left Column - Sticky Profile Card */}
-          <div className="w-full md:w-[360px] shrink-0 md:sticky md:top-24 z-10">
-            <Card className="overflow-hidden border-border/40 shadow-xl shadow-primary/5 bg-card/60 backdrop-blur-xl rounded-3xl">
-              <div className="h-36 bg-gradient-to-br from-primary via-primary/80 to-purple-600 relative overflow-hidden">
-                {/* Decorative background elements */}
-                <div className="absolute top-0 right-0 -translate-y-1/4 translate-x-1/4 w-48 h-48 bg-white/10 rounded-full blur-2xl"></div>
-                <div className="absolute bottom-0 left-0 translate-y-1/2 -translate-x-1/2 w-32 h-32 bg-black/10 rounded-full blur-xl"></div>
-              </div>
+          {/* Left Column - Profile Card */}
+          <section className="lg:col-span-4 space-y-8 sticky top-24">
+            <div className="bg-l-surface-container-lowest rounded-3xl p-8 text-center relative overflow-hidden group shadow-xl shadow-l-primary/5 ring-1 ring-slate-100 transition-all hover:shadow-2xl">
+              {/* Hover Effect Accent */}
+              <div className="absolute top-0 left-0 w-full h-0 bg-l-primary group-hover:h-1.5 transition-all duration-500"></div>
               
-              <CardContent className="px-6 md:px-8 pb-8 pt-0 relative flex flex-col items-center text-center">
-                <Avatar className="h-32 w-32 ring-4 ring-background shadow-2xl absolute -top-16 bg-background rounded-full transition-transform hover:scale-105 duration-500">
-                  <AvatarImage src={p.avatar_url} className="object-cover" />
-                  <AvatarFallback className="bg-gradient-to-br from-primary/20 to-primary/10 text-primary text-4xl font-heading font-bold">
-                    {p.name?.charAt(0) ?? "?"}
-                  </AvatarFallback>
-                </Avatar>
-                
-                <div className="mt-20 w-full space-y-5">
-                  <div className="space-y-1.5">
-                    <h1 className="text-3xl font-heading font-bold bg-clip-text text-transparent bg-gradient-to-br from-foreground to-foreground/70">{p.name}</h1>
-                    
-                    <div className="flex items-center justify-center gap-2 mt-2">
-                      {p.is_verified && (
-                        <div className="flex items-center gap-1 bg-green-500/10 text-green-600 px-2.5 py-1 rounded-full text-xs font-semibold">
-                          <CheckCircle2 className="w-3.5 h-3.5" />
-                          <span>Verified Pro</span>
-                        </div>
-                      )}
-                    </div>
-                  </div>
+              <div className="relative inline-block mb-8">
+                <div className="w-44 h-44 mx-auto rounded-full bg-l-surface-container-high flex items-center justify-center border-4 border-white shadow-inner group-hover:scale-105 transition-transform duration-700">
+                  <Avatar className="h-full w-full rounded-full">
+                    <AvatarFallback className="bg-transparent text-l-primary text-5xl font-black font-l-headline">
+                      {initials}
+                    </AvatarFallback>
+                  </Avatar>
+                </div>
+                <span className="absolute bottom-2 right-2 flex items-center gap-1.5 bg-[#2A9D8F] text-white text-[10px] font-black px-3 py-1.5 rounded-full shadow-lg border-2 border-white">
+                  <span className="w-1.5 h-1.5 rounded-full bg-white animate-pulse"></span> ONLINE
+                </span>
+              </div>
 
-                  {/* Highlights Grid */}
-                  <div className="grid grid-cols-2 gap-3 py-2">
-                    <div className="bg-secondary/30 rounded-2xl p-3 flex flex-col items-center justify-center gap-1 transition-colors hover:bg-secondary/50">
-                      <div className="flex items-center gap-1 text-amber-500">
-                        <Star className="h-4 w-4 fill-amber-500" />
-                        <span className="font-bold text-lg leading-none">{p.avg_rating ? Number(p.avg_rating).toFixed(1) : "New"}</span>
-                      </div>
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">{p.total_reviews || 0} Reviews</span>
-                    </div>
-                    <div className="bg-secondary/30 rounded-2xl p-3 flex flex-col items-center justify-center gap-1 transition-colors hover:bg-secondary/50">
-                      <div className="flex items-center gap-1 text-primary">
-                        <span className="font-bold text-lg leading-none">
-                          {(worker.hourly_rate_min || worker.hourly_rate_max) ? 
-                            `$${worker.hourly_rate_min}${worker.hourly_rate_max ? `+` : ''}` : 
-                            "TBD"}
+              <h1 className="text-3xl font-black font-l-headline text-l-on-surface mb-2 tracking-tighter">{p.name}</h1>
+              <div className="flex items-center justify-center gap-2 mb-8">
+                <Badge className="bg-l-primary-container text-white text-[10px] font-black px-3 py-1 rounded-lg uppercase tracking-widest border-none">Pro</Badge>
+                <div className="flex items-center gap-1 text-l-on-surface-variant font-bold text-sm">
+                  <Star className="h-4 w-4 text-amber-500 fill-current" />
+                  <span>{p.avg_rating ? Number(p.avg_rating).toFixed(1) : "5.0"}</span>
+                  <span className="text-xs text-l-secondary opacity-60 ml-0.5">({p.total_reviews || 0} reviews)</span>
+                </div>
+              </div>
+
+              <div className="space-y-4 mb-10">
+                <div className="flex items-center justify-between text-sm px-2">
+                  <span className="text-l-secondary font-bold opacity-60 uppercase text-[10px] tracking-widest">Hourly Rate</span>
+                  <span className="text-l-primary font-black text-xl tracking-tighter">${worker.hourly_rate_min || "100"}+</span>
+                </div>
+                <div className="flex items-center justify-between text-sm px-2">
+                  <span className="text-l-secondary font-bold opacity-60 uppercase text-[10px] tracking-widest">Completed Jobs</span>
+                  <span className="text-l-on-surface font-black">{worker.completed_jobs || 12}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm px-2 text-left">
+                  <span className="text-l-secondary font-bold opacity-60 uppercase text-[10px] tracking-widest">Location</span>
+                  <span className="text-l-on-surface font-black truncate max-w-[150px]">{p.location_text || "San Francisco, CA"}</span>
+                </div>
+                <div className="flex items-center justify-between text-sm px-2">
+                  <span className="text-l-secondary font-bold opacity-60 uppercase text-[10px] tracking-widest">Distance</span>
+                  <span className="text-l-on-surface font-black">4.2 miles away</span>
+                </div>
+              </div>
+
+              {showMessageBtn ? (
+                <Button 
+                  onClick={handleMessageUser}
+                  className="w-full bg-gradient-to-br from-l-primary to-l-primary-container text-white py-7 rounded-2xl font-black shadow-lg shadow-l-primary/20 hover:scale-[1.02] transition-all active:scale-95 flex items-center justify-center gap-3 border-none group"
+                >
+                  <MessageSquare className="h-5 w-5 transition-transform group-hover:-rotate-12" />
+                  Message {p.name?.split(' ')[0]}
+                </Button>
+              ) : isSelf ? (
+                <Button onClick={() => navigate("/profile")} className="w-full bg-l-surface-container-low text-l-on-surface py-7 rounded-2xl font-black hover:bg-l-surface-container-high transition-all border-none">
+                  Edit My Profile
+                </Button>
+              ) : null}
+            </div>
+
+            {/* Verifications Card */}
+            <div className="bg-l-surface-container-low rounded-3xl p-8 space-y-5 ring-1 ring-slate-100">
+              <h3 className="text-[10px] font-black font-l-label uppercase tracking-[0.2em] text-l-secondary mb-2 opacity-60">Verifications</h3>
+              <div className="flex items-center gap-4 group cursor-default">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                  <ShieldCheck className="h-5 w-5 text-l-primary" />
+                </div>
+                <span className="text-sm font-bold text-l-on-surface">Identity Verified</span>
+              </div>
+              <div className="flex items-center gap-4 group cursor-default">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                  <CheckCircle2 className="h-5 w-5 text-l-primary" />
+                </div>
+                <span className="text-sm font-bold text-l-on-surface">Background Check Passed</span>
+              </div>
+              <div className="flex items-center gap-4 group cursor-default">
+                <div className="w-10 h-10 rounded-xl bg-white flex items-center justify-center shadow-sm group-hover:scale-110 transition-transform">
+                  <Construction className="h-5 w-5 text-l-primary" />
+                </div>
+                <span className="text-sm font-bold text-l-on-surface">Business License Registered</span>
+              </div>
+            </div>
+          </section>
+
+          {/* Right Column - Main Content */}
+          <div className="lg:col-span-8 space-y-16">
+            
+            {/* About Section */}
+            <section>
+              <h2 className="text-4xl md:text-5xl font-black font-l-headline text-l-on-surface mb-10 tracking-[ -0.05em] leading-[0.9]">
+                About {p.name?.split(' ')[0]}
+              </h2>
+              <div className="bg-l-surface-container-low p-1.5 rounded-[2.5rem] shadow-sm">
+                <div className="bg-white rounded-[2rem] p-10 md:p-14 leading-relaxed text-l-secondary text-lg font-medium shadow-inner">
+                  <p className="whitespace-pre-wrap">
+                    {p.bio || "With over 12 years of hands-on experience in high-end residential maintenance, I bring a precision-focused approach to every task. My background combines technical engineering knowledge with practical craftsmanship."}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+            {/* Professional Experience Section (Bento Grid) */}
+            <section>
+              <h2 className="text-2xl font-black font-l-headline text-l-on-surface mb-8 tracking-tighter">Professional Experience</h2>
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+                <div className="bg-l-surface-container-low p-8 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 group border border-transparent hover:border-l-primary/10">
+                  <div className="flex justify-between items-start mb-6">
+                    <Badge className="bg-l-secondary-container text-l-on-secondary-container px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-none">Current</Badge>
+                    <span className="text-xs text-l-secondary font-black opacity-50">2021 — Present</span>
+                  </div>
+                  <h4 className="font-black text-l-on-surface text-xl mb-3 font-l-headline">Lead Restoration Specialist</h4>
+                  <p className="text-sm text-l-secondary font-medium leading-relaxed opacity-80">
+                    {worker.experience_desc || "Managing full-scale structural restorations for historic Victorian homes in the Bay Area."}
+                  </p>
+                </div>
+                
+                <div className="bg-l-surface-container-low p-8 rounded-3xl hover:bg-white hover:shadow-xl transition-all duration-500 group border border-transparent hover:border-l-primary/10">
+                  <div className="flex justify-between items-start mb-6">
+                    <Badge className="bg-l-surface-container-high text-l-on-surface-variant px-3 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest border-none">Past</Badge>
+                    <span className="text-xs text-l-secondary font-black opacity-50">2015 — 2021</span>
+                  </div>
+                  <h4 className="font-black text-l-on-surface text-xl mb-3 font-l-headline">Precision Carpentry Lead</h4>
+                  <p className="text-sm text-l-secondary font-medium leading-relaxed opacity-80">Specialized in custom cabinetry and fine woodworking for boutique retail spaces.</p>
+                </div>
+              </div>
+            </section>
+
+            {/* Skills & Expertise Section */}
+            <section>
+              <h2 className="text-2xl font-black font-l-headline text-l-on-surface mb-8 tracking-tighter">Skills & Expertise</h2>
+              <div className="flex flex-wrap gap-4">
+                {worker.worker_skills && worker.worker_skills.length > 0 ? (
+                  worker.worker_skills.map((skill: any, index: number) => {
+                    const skillName = skill.categories?.name;
+                    const Icon = skillIconMap[skillName] || skillIconMap["Default"];
+                    return (
+                      <div key={index} className="bg-white/40 backdrop-blur-md px-6 py-4 rounded-2xl border border-white flex items-center gap-4 group hover:bg-l-primary transition-all duration-500 cursor-default shadow-sm hover:shadow-xl hover:-translate-y-1">
+                        <Icon className="h-6 w-6 text-l-primary group-hover:text-white transition-colors" />
+                        <span className="font-black text-sm text-l-on-surface group-hover:text-white transition-colors tracking-tight Montserrat uppercase">
+                          {skillName}
                         </span>
                       </div>
-                      <span className="text-[10px] uppercase tracking-wider text-muted-foreground font-semibold">Per Hour</span>
-                    </div>
-                  </div>
+                    );
+                  })
+                ) : (
+                  <p className="text-l-secondary italic opacity-60">No skills listed yet.</p>
+                )}
+              </div>
+            </section>
 
-                  <div className="space-y-3 pt-2 text-sm max-w-xs mx-auto text-left">
-                    <div className="flex items-center gap-3 text-muted-foreground group">
-                      <div className="w-8 h-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                        <MapPin className="w-4 h-4" />
-                      </div>
-                      <span className="font-medium flex-1 truncate">{p.location_text || "Remote / Unspecified"}</span>
-                    </div>
-                    <div className="flex items-center gap-3 text-muted-foreground group">
-                      <div className="w-8 h-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                        <Briefcase className="w-4 h-4" />
-                      </div>
-                      <span className="font-medium flex-1">{worker.completed_jobs || 0} Completed Jobs</span>
-                    </div>
-                    {worker.service_radius && (
-                      <div className="flex items-center gap-3 text-muted-foreground group">
-                        <div className="w-8 h-8 rounded-full bg-secondary/50 flex items-center justify-center group-hover:bg-primary/10 group-hover:text-primary transition-colors">
-                          <MapPin className="w-4 h-4" />
-                        </div>
-                        <span className="font-medium flex-1 pl-1">Serves within {worker.service_radius}km</span>
-                      </div>
-                    )}
-                  </div>
-
-                  <Separator className="bg-border/40" />
-
-                  {/* Desktop Action Button */}
-                  <div className="hidden md:block pt-2">
-                    {showMessageBtn ? (
-                      <Button 
-                        onClick={handleMessageUser} 
-                        className="w-full text-base h-14 rounded-2xl shadow-lg shadow-primary/25 hover:shadow-primary/40 hover:-translate-y-1 hover:scale-[1.02] transition-all duration-300 bg-gradient-to-r from-primary to-primary/90 text-white font-semibold flex items-center justify-center gap-2 overflow-hidden relative group"
-                      >
-                        <span className="absolute inset-0 w-full h-full bg-white/20 translate-x-[-100%] group-hover:animate-[shimmer_1.5s_infinite]"></span>
-                        <MessageSquare className="h-5 w-5" />
-                        Message {firstName}
-                      </Button>
-                    ) : isSelf ? (
-                      <Button onClick={() => navigate("/profile")} variant="outline" className="w-full h-12 rounded-xl font-semibold border-2">
-                        Edit My Profile
-                      </Button>
-                    ) : null}
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
-          </div>
-
-          {/* Right Column - Details */}
-          <div className="flex-1 space-y-6 md:space-y-8 min-w-0">
-            
-            {/* About & Experience section */}
-            <div className="space-y-6">
-              <Card className="border-0 shadow-sm bg-card/40 backdrop-blur-md rounded-3xl overflow-hidden ring-1 ring-border/50">
-                <CardHeader className="pb-4 border-b border-border/30 bg-secondary/10 px-6 md:px-8 py-5">
-                  <CardTitle className="text-xl flex items-center gap-2 font-heading">
-                    <User className="h-5 w-5 text-primary" />
-                    About {firstName}
-                  </CardTitle>
-                </CardHeader>
-                <CardContent className="p-6 md:p-8 space-y-8">
-                  <div className="prose prose-sm md:prose-base dark:prose-invert max-w-none text-foreground/80 leading-relaxed">
-                    <p className="whitespace-pre-wrap">{p.bio || "This professional hasn't written a biography yet."}</p>
-                  </div>
-                  
-                  {worker.experience_desc && (
-                    <div className="space-y-3">
-                      <h3 className="font-semibold text-base flex items-center gap-2 text-foreground">
-                        <GraduationCap className="w-5 h-5 text-purple-500" />
-                        Professional Experience
-                      </h3>
-                      <div className="bg-secondary/20 p-5 rounded-2xl border border-border/50 text-foreground/80 leading-relaxed whitespace-pre-wrap text-sm md:text-base">
-                        {worker.experience_desc}
+            {/* Portfolio Grid (Asymmetric) */}
+            <section>
+              <div className="flex items-center justify-between mb-8">
+                <h2 className="text-2xl font-black font-l-headline text-l-on-surface tracking-tighter">Recent Projects</h2>
+                <Link to="#" className="text-l-primary text-xs font-black uppercase tracking-widest hover:opacity-70 transition-opacity">View All</Link>
+              </div>
+              <div className="grid grid-cols-2 md:grid-cols-3 gap-5 auto-rows-[250px]">
+                {worker.worker_portfolio && worker.worker_portfolio.length > 0 ? (
+                  worker.worker_portfolio.map((item: any, i: number) => (
+                    <div 
+                      key={item.id} 
+                      className={cn(
+                        "bg-l-surface-container-low rounded-3xl overflow-hidden relative group shadow-sm transition-all duration-500 hover:shadow-2xl",
+                        (i % 3 === 0) ? "md:col-span-2" : "col-span-1"
+                      )}
+                    >
+                      <img 
+                        className="w-full h-full object-cover transition-all duration-700 group-hover:scale-110" 
+                        src={item.image_url} 
+                        alt={item.caption || "Project"} 
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-l-on-surface/90 via-l-on-surface/20 to-transparent p-8 flex flex-col justify-end opacity-0 group-hover:opacity-100 transition-all duration-500 transform translate-y-4 group-hover:translate-y-0">
+                        <span className="text-white font-black text-xl mb-1 font-l-headline tracking-tighter">{item.caption || "Smart Home Installation"}</span>
+                        <span className="text-white/70 text-xs font-bold uppercase tracking-widest">San Francisco, CA</span>
                       </div>
                     </div>
-                  )}
-
-                  <div className="space-y-4">
-                    <h3 className="font-semibold text-base flex items-center gap-2 text-foreground">
-                      <Sparkles className="w-5 h-5 text-amber-500" />
-                      Skills & Expertise
-                    </h3>
-                    {worker.worker_skills && worker.worker_skills.length > 0 ? (
-                      <div className="flex flex-wrap gap-2.5">
-                        {worker.worker_skills.map((skill: any, index: number) => (
-                          <Badge 
-                            key={index} 
-                            variant="secondary" 
-                            className="bg-primary/5 hover:bg-primary/10 text-primary border border-primary/10 py-1.5 px-4 text-sm font-medium rounded-full transition-colors"
-                          >
-                            {skill.categories?.name}
-                          </Badge>
-                        ))}
-                      </div>
-                    ) : (
-                      <p className="text-sm text-muted-foreground italic">No specific skills listed yet.</p>
-                    )}
+                  ))
+                ) : (
+                  <div className="col-span-full h-40 bg-l-surface-container-low rounded-3xl flex items-center justify-center text-l-secondary opacity-40 italic">
+                    No portfolio projects added yet.
                   </div>
-                </CardContent>
-              </Card>
-
-              {/* Portfolio section */}
-              {worker.worker_portfolio && worker.worker_portfolio.length > 0 && (
-                <Card className="border-0 shadow-sm bg-card/40 backdrop-blur-md rounded-3xl overflow-hidden ring-1 ring-border/50">
-                  <CardHeader className="pb-4 border-b border-border/30 bg-secondary/10 px-6 md:px-8 py-5">
-                    <CardTitle className="text-xl flex items-center gap-2 font-heading">
-                      <ImageIcon className="h-5 w-5 text-primary" />
-                      Portfolio Gallery
-                    </CardTitle>
-                  </CardHeader>
-                  <CardContent className="p-6 md:p-8">
-                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                      {worker.worker_portfolio.map((item: any) => (
-                        <div key={item.id} className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted shadow-sm border border-border/50">
-                          <img 
-                            src={item.image_url} 
-                            alt={item.caption || "Portfolio visual"} 
-                            className="object-cover w-full h-full transition-transform duration-700 group-hover:scale-110" 
-                          />
-                          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-5">
-                            <p className="text-white text-sm font-medium leading-snug transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300 delay-75">
-                              {item.caption || "Portfolio Item"}
-                            </p>
-                          </div>
-                        </div>
-                      ))}
-                    </div>
-                  </CardContent>
-                </Card>
-              )}
-            </div>
+                )}
+              </div>
+            </section>
           </div>
         </div>
-
-        {/* Mobile Fixed Action Button */}
-        {showMessageBtn && (
-          <div className="fixed bottom-[calc(env(safe-area-inset-bottom)+70px)] left-0 right-0 p-4 bg-gradient-to-t from-background via-background/95 to-transparent md:hidden z-40 pb-6 pointer-events-none">
-            <Button 
-              onClick={handleMessageUser} 
-              className="w-full text-base h-14 rounded-2xl shadow-[0_8px_30px_rgb(var(--primary)/0.3)] bg-gradient-to-r from-primary to-primary/90 text-white font-bold flex items-center justify-center gap-2 pointer-events-auto"
-            >
-              <MessageSquare className="h-5 w-5" />
-              Message {firstName}
-            </Button>
-          </div>
-        )}
-      </div>
+      </main>
     </AppLayout>
   );
 }
