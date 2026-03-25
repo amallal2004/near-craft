@@ -22,6 +22,7 @@ import ApplicationsPage from "./pages/ApplicationsPage";
 import NotificationsPage from "./pages/NotificationsPage";
 import ReviewsPage from "./pages/ReviewsPage";
 import ProfilePage from "./pages/ProfilePage";
+import ProfileViewPage from "./pages/ProfileViewPage";
 import SettingsPage from "./pages/SettingsPage";
 import AdminPage from "./pages/AdminPage";
 import WorkersPage from "./pages/WorkersPage";
@@ -38,7 +39,12 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
+        <BrowserRouter
+          future={{
+            v7_startTransition: true,
+            v7_relativeSplatPath: true,
+          }}
+        >
           <Routes>
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
@@ -58,6 +64,7 @@ const App = () => (
             <Route path="/notifications" element={<OnboardingGuard><NotificationsPage /></OnboardingGuard>} />
             <Route path="/reviews" element={<OnboardingGuard><ReviewsPage /></OnboardingGuard>} />
             <Route path="/profile" element={<OnboardingGuard><ProfilePage /></OnboardingGuard>} />
+            <Route path="/profiles/:id" element={<OnboardingGuard><ProfileViewPage /></OnboardingGuard>} />
             <Route path="/settings" element={<OnboardingGuard><SettingsPage /></OnboardingGuard>} />
             <Route path="/admin" element={<OnboardingGuard><AdminPage /></OnboardingGuard>} />
             <Route path="/workers" element={<OnboardingGuard><WorkersPage /></OnboardingGuard>} />
