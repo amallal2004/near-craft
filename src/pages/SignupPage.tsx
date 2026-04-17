@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { signupSchema, type SignupInput } from "@/lib/validations";
+import { getSupabaseErrorMessage } from "@/lib/supabase-errors";
 import { Loader2, Mail, Eye, EyeOff, ArrowRight, Lock } from "lucide-react";
 import LoadingScreen from "@/components/auth/LoadingScreen";
 
@@ -15,22 +16,34 @@ export default function SignupPage() {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<SignupInput>({ resolver: zodResolver(signupSchema) });
 
   const onSubmit = async (data: SignupInput) => {
-    const { error } = await supabase.auth.signUp({
-      email: data.email,
-      password: data.password,
-      options: { emailRedirectTo: `${window.location.origin}/callback` },
-    });
-    if (error) {
-      toast.error(error.message);
-    } else {
+    try {
+      const { error } = await supabase.auth.signUp({
+        email: data.email,
+        password: data.password,
+        options: { emailRedirectTo: `${window.location.origin}/callback` },
+      });
+
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
       toast.success("Check your email for a confirmation link!");
       navigate("/login");
+    } catch (error) {
+      console.error("Signup failed", error);
+      toast.error(getSupabaseErrorMessage(error));
     }
   };
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/callback` } });
-    if (error) toast.error(error.message);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/callback` } });
+      if (error) toast.error(error.message);
+    } catch (error) {
+      console.error("Google sign-in failed", error);
+      toast.error(getSupabaseErrorMessage(error));
+    }
   };
 
   if (isSubmitting) {

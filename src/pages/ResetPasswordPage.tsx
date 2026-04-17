@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getSupabaseErrorMessage } from "@/lib/supabase-errors";
 import { toast } from "sonner";
 import { Loader2, Eye, EyeOff } from "lucide-react";
 
@@ -25,13 +26,20 @@ export default function ResetPasswordPage() {
     e.preventDefault();
     if (password.length < 6) { toast.error("Password must be at least 6 characters"); return; }
     setLoading(true);
-    const { error } = await supabase.auth.updateUser({ password });
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-    } else {
+    try {
+      const { error } = await supabase.auth.updateUser({ password });
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
       toast.success("Password updated successfully!");
       navigate("/dashboard");
+    } catch (error) {
+      console.error("Password update failed", error);
+      toast.error(getSupabaseErrorMessage(error));
+    } finally {
+      setLoading(false);
     }
   };
 

@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { getSupabaseErrorMessage } from "@/lib/supabase-errors";
 import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 
@@ -15,15 +16,22 @@ export default function ForgotPasswordPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
-    const { error } = await supabase.auth.resetPasswordForEmail(email, {
-      redirectTo: `${window.location.origin}/reset-password`,
-    });
-    setLoading(false);
-    if (error) {
-      toast.error(error.message);
-    } else {
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
       setSent(true);
       toast.success("Check your email for a reset link!");
+    } catch (error) {
+      console.error("Password reset request failed", error);
+      toast.error(getSupabaseErrorMessage(error));
+    } finally {
+      setLoading(false);
     }
   };
 

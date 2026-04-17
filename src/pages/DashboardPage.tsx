@@ -22,6 +22,7 @@ import {
 } from "lucide-react";
 import { motion, type Variants } from "framer-motion";
 import { toast } from "sonner";
+import { getSupabaseErrorMessage } from "@/lib/supabase-errors";
 import { cn } from "@/lib/utils";
 
 const containerVariants: Variants = {
@@ -191,7 +192,7 @@ const PayoutBanner = () => {
       if (error) throw error;
       if (data?.url) window.location.href = data.url;
     } catch (error: unknown) {
-      const message = error instanceof Error ? error.message : "Failed to start Stripe onboarding";
+      const message = getSupabaseErrorMessage(error) || "Failed to start Stripe onboarding";
       toast.error(message);
     } finally {
       setLoading(false);

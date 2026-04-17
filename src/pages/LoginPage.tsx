@@ -5,6 +5,7 @@ import { toast } from "sonner";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { loginSchema, type LoginInput } from "@/lib/validations";
+import { getSupabaseErrorMessage } from "@/lib/supabase-errors";
 import { Loader2, Mail, Eye, EyeOff, ArrowRight } from "lucide-react";
 import LoadingScreen from "@/components/auth/LoadingScreen";
 
@@ -14,17 +15,28 @@ export default function LoginPage() {
   const { register, handleSubmit, formState: { errors, isSubmitting } } = useForm<LoginInput>({ resolver: zodResolver(loginSchema) });
 
   const onSubmit = async (data: LoginInput) => {
-    const { error } = await supabase.auth.signInWithPassword({ email: data.email, password: data.password });
-    if (error) {
-      toast.error(error.message);
-    } else {
+    try {
+      const { error } = await supabase.auth.signInWithPassword({ email: data.email, password: data.password });
+      if (error) {
+        toast.error(error.message);
+        return;
+      }
+
       navigate("/dashboard");
+    } catch (error) {
+      console.error("Login failed", error);
+      toast.error(getSupabaseErrorMessage(error));
     }
   };
 
   const signInWithGoogle = async () => {
-    const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/callback` } });
-    if (error) toast.error(error.message);
+    try {
+      const { error } = await supabase.auth.signInWithOAuth({ provider: "google", options: { redirectTo: `${window.location.origin}/callback` } });
+      if (error) toast.error(error.message);
+    } catch (error) {
+      console.error("Google sign-in failed", error);
+      toast.error(getSupabaseErrorMessage(error));
+    }
   };
 
   if (isSubmitting) {
