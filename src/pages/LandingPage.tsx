@@ -25,7 +25,7 @@ export default function LandingPage() {
         className="sticky top-0 w-full z-50 bg-white dark:bg-slate-900 shadow-[0_20px_40px_rgba(0,27,60,0.06)] font-['Plus_Jakarta_Sans'] antialiased">
         <div className="flex items-center justify-between px-6 py-4 max-w-[1440px] mx-auto">
             <div className="flex items-center gap-8">
-                <span className="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50">GigUp</span>
+                <span className="text-2xl font-black tracking-tighter text-slate-900 dark:text-slate-50">Near-Craft</span>
                 <div className="hidden lg:flex items-center gap-6">
                     <button onClick={() => scrollTo('categories')} className="text-slate-600 dark:text-slate-400 hover:text-l-primary font-medium transition-colors py-1 cursor-pointer">Categories</button>
                     <button onClick={() => scrollTo('services')} className="text-slate-600 dark:text-slate-400 hover:text-l-primary font-medium transition-colors py-1 cursor-pointer">Popular Services</button>
@@ -529,7 +529,7 @@ export default function LandingPage() {
                 className="bg-gradient-to-r from-l-primary to-l-primary-container rounded-[2.5rem] p-12 lg:p-20 text-white flex flex-col lg:flex-row items-center justify-between gap-12 overflow-hidden relative">
                 <div className="absolute -left-10 -bottom-10 w-64 h-64 bg-white/10 rounded-full blur-3xl"></div>
                 <div className="relative z-10 text-center lg:text-left">
-                    <h2 className="text-4xl lg:text-6xl font-black mb-4 text-inherit">GigUp by the numbers</h2>
+                    <h2 className="text-4xl lg:text-6xl font-black mb-4 text-inherit">Near-Craft by the numbers</h2>
                     <p className="text-l-primary-fixed/80 text-lg">Serving our local community with pride and quality.
                     </p>
                 </div>
@@ -555,7 +555,7 @@ export default function LandingPage() {
                 <div className="bg-white p-10 rounded-3xl shadow-sm transform hover:-translate-y-2 transition-transform">
                     <Quote className="w-12 h-12 text-l-primary" />
                     <p className="text-lg font-medium text-l-on-surface mb-8 italic leading-relaxed">"Finding a reliable plumber who
-                        actually shows up on time is rare. GigUp made it happen in 10 minutes."
+                        actually shows up on time is rare. Near-Craft made it happen in 10 minutes."
                     </p>
                     <div className="flex items-center gap-4">
                         <img className="w-12 h-12 rounded-full object-cover" data-alt="Testimonial author 1"
@@ -662,7 +662,7 @@ export default function LandingPage() {
                 <h2 className="font-l-headline text-5xl lg:text-6xl font-extrabold text-l-on-surface mb-8 tracking-tighter">
                     Ready to Get Started?</h2>
                 <p className="text-l-on-surface-variant text-lg max-w-2xl mx-auto mb-12">Whether you're looking to hire the
-                    best local professional or find your next gig, GigUp is the bridge to your success.</p>
+                    best local professional or find your next gig, Near-Craft is the bridge to your success.</p>
                 <div className="flex flex-col sm:flex-row justify-center gap-6">
                     <Link to={user ? "/jobs/new" : "/signup"} className="px-10 py-5 bg-l-primary text-white font-black rounded-2xl shadow-xl shadow-l-primary/20 hover:scale-105 transition-transform flex items-center justify-center">Find a Professional</Link>
                     <Link to={user ? "/jobs" : "/signup"} className="px-10 py-5 bg-l-secondary-container text-l-on-secondary-container font-black rounded-2xl hover:scale-105 transition-transform flex items-center justify-center">Become a Pro</Link>
@@ -675,7 +675,7 @@ export default function LandingPage() {
         <div
             className="max-w-7xl mx-auto px-6 grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 border-t border-slate-800 pt-16">
             <div className="col-span-2 lg:col-span-1">
-                <span className="text-2xl font-black text-white mb-6 block">GigUp</span>
+                <span className="text-2xl font-black text-white mb-6 block">Near-Craft</span>
                 <p className="text-slate-500 mb-8 max-w-xs">Connecting specialized talent with ambitious projects since
                     2024.</p>
                 <div className="flex gap-4">
@@ -744,7 +744,7 @@ export default function LandingPage() {
         </div>
         <div
             className="max-w-7xl mx-auto px-6 mt-16 pt-8 border-t border-slate-800/50 flex flex-col md:flex-row justify-between items-center gap-4">
-            <p className="text-slate-500 text-xs">© 2024 GigUp Inc. Local Excellence in Gig Work.</p>
+            <p className="text-slate-500 text-xs">© 2024 Near-Craft Inc. Local Excellence in Gig Work.</p>
             <div className="flex gap-8">
                 <a className="text-xs hover:text-white transition-colors" href="#">Privacy Policy</a>
                 <a className="text-xs hover:text-white transition-colors" href="#">Terms of Service</a>

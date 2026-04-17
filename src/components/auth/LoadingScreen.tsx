@@ -20,7 +20,7 @@ const LoadingScreen: React.FC = () => {
         {/* Brand Identity */}
         <div className="mb-12">
           <div className="text-2xl font-black italic text-[#E63946] font-headline tracking-tight">
-            GigUp
+            Near-Craft
           </div>
         </div>
 

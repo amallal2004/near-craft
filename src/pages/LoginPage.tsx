@@ -64,7 +64,7 @@ export default function LoginPage() {
           <div className="relative z-10 flex items-center gap-3 mb-4">
             <Link to="/" className="flex items-center gap-2 group">
               <div className="w-10 h-10 bg-white text-[#b7102a] rounded-xl flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">G</div>
-              <h1 className="text-2xl font-black tracking-tighter text-white font-['Plus_Jakarta_Sans']">GigUp</h1>
+              <h1 className="text-2xl font-black tracking-tighter text-white font-['Plus_Jakarta_Sans']">Near-Craft</h1>
             </Link>
           </div>
           
@@ -116,7 +116,7 @@ export default function LoginPage() {
             <div className="md:hidden mb-6 flex justify-center">
               <Link to="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-[#b7102a] text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-md">G</div>
-                <h1 className="text-2xl font-black tracking-tighter text-[#b7102a] font-['Plus_Jakarta_Sans']">GigUp</h1>
+                <h1 className="text-2xl font-black tracking-tighter text-[#b7102a] font-['Plus_Jakarta_Sans']">Near-Craft</h1>
               </Link>
             </div>
             

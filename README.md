@@ -1,73 +1,69 @@
-# Welcome to your Lovable project
+# 🛠️ Near-Craft — Local Service Marketplace
 
-## Project info
+**Near-Craft** is a sophisticated, full-stack platform designed to bridge the gap between skilled local craftsmen and customers in need of their services. Built with a focus on ease of use, transparency, and efficiency, it empowers users to post jobs, get AI-powered budget estimates, and manage secure payments seamlessy.
 
-**URL**: https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID
+---
 
-## How can I edit this code?
+## ✨ Key Features
 
-There are several ways of editing your application.
+- **🚀 Smart Job Posting**: Post jobs with specific categories, urgency levels, and location data.
+- **🤖 AI Pricing Engine**: Get instant, market-accurate budget suggestions powered by Google Gemini, helping you price your jobs fairly based on Indian local market signals.
+- **💳 Secure Payments**: Integrated with Stripe for smooth payouts and secure checkout sessions.
+- **📊 Real-time Dashboard**: Track your job statuses, manage inquiries, and oversee your earnings in one place.
+- **🔐 Enterprise-Grade Auth**: Robust authentication system using Supabase, supporting both email/password and Google OAuth.
+- **🎨 Premium UI/UX**: A modern, responsive interface built with Tailwind CSS, shadcn/ui, and Framer Motion for a professional look and feel.
 
-**Use Lovable**
+---
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and start prompting.
+## 🚀 Tech Stack
 
-Changes made via Lovable will be committed automatically to this repo.
+- **Frontend**: [React](https://react.dev/) + [TypeScript](https://www.typescriptlang.org/)
+- **Bundler**: [Vite](https://vitejs.dev/)
+- **Styling**: [Tailwind CSS](https://tailwindcss.com/) + [shadcn/ui](https://ui.shadcn.com/)
+- **Backend / Database**: [Supabase](https://supabase.com/)
+- **Serverless**: Supabase Edge Functions (Deno)
+- **AI Integration**: Google Gemini API
+- **Payments**: [Stripe](https://stripe.com/)
 
-**Use your preferred IDE**
+---
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+## 🛠️ Getting Started
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+For a detailed walkthrough on setting up the environment, database, and edge functions, please refer to our **[Setup Guide (SETUP.md)](./SETUP.md)**.
 
-Follow these steps:
+### Quick Start:
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/amallal2004/near-craft.git
+   cd near-craft
+   ```
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+2. **Install dependencies:**
+   ```bash
+   npm install
+   ```
 
-# Step 3: Install the necessary dependencies.
-npm i
+3. **Set up your environment:**
+   Create a `.env` file with your Supabase credentials.
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
-```
+4. **Launch the development server:**
+   ```bash
+   npm run dev
+   ```
 
-**Edit a file directly in GitHub**
+---
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+## 📦 Project Structure
 
-**Use GitHub Codespaces**
+- `src/components`: UI components organized by feature.
+- `src/pages`: Application routes and views.
+- `src/hooks`: Custom React hooks (including AI pricing logic).
+- `supabase/functions`: Serverless Edge Functions for backend logic.
+- `supabase/migrations`: Version-controlled database schema.
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+---
 
-## What technologies are used for this project?
+## 📄 License
 
-This project is built with:
-
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
-
-## How can I deploy this project?
-
-Simply open [Lovable](https://lovable.dev/projects/REPLACE_WITH_PROJECT_ID) and click on Share -> Publish.
-
-## Can I connect a custom domain to my Lovable project?
-
-Yes, you can!
-
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
-
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/features/custom-domain#custom-domain)
+This project is licensed under the MIT License - see the LICENSE file for details.
