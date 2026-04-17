@@ -1,20 +1,27 @@
-import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { AppLayout } from "@/components/layout/AppLayout";
-import { useQuery, useMutation } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Badge } from "@/components/ui/badge";
 import { toast } from "sonner";
-import { Loader2, MapPin, ChevronDown, Sparkles, ArrowRight, ShieldCheck, Lightbulb } from "lucide-react";
-import { useForm, Controller } from "react-hook-form";
+import { Loader2, MapPin, Sparkles, ArrowRight, ShieldCheck, Lightbulb, WandSparkles } from "lucide-react";
+import { useForm, Controller, useWatch } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createJobSchema, type CreateJobInput } from "@/lib/validations";
 import { cn } from "@/lib/utils";
+import { useJobPriceSuggestion } from "@/hooks/useJobPriceSuggestion";
+
+const currencyFormatter = new Intl.NumberFormat("en-IN", {
+  style: "currency",
+  currency: "INR",
+  maximumFractionDigits: 0,
+});
 
 export default function CreateJobPage() {
   const navigate = useNavigate();
@@ -29,6 +36,27 @@ export default function CreateJobPage() {
     resolver: zodResolver(createJobSchema),
     defaultValues: { budget_type: "fixed", urgency: "medium", lat: 0, lng: 0 },
   });
+
+  const watchedValues = useWatch({ control });
+  const selectedCategory = categories?.find((category) => category.id === watchedValues.category_id);
+  const priceSuggestion = useJobPriceSuggestion({
+    title: watchedValues.title ?? "",
+    description: watchedValues.description ?? "",
+    categoryName: selectedCategory?.name,
+    urgency: watchedValues.urgency ?? "medium",
+    budgetType: watchedValues.budget_type ?? "fixed",
+    locationText: watchedValues.location_text ?? "",
+  });
+
+  const applySuggestedAmount = () => {
+    if (!priceSuggestion.suggestion) return;
+    setValue("budget_amount", priceSuggestion.suggestion.suggested_amount, {
+      shouldDirty: true,
+      shouldTouch: true,
+      shouldValidate: true,
+    });
+    toast.success("Suggested amount added to budget");
+  };
 
   const useCurrentLocation = () => {
     if (!navigator.geolocation) { toast.error("Geolocation not supported"); return; }
@@ -187,6 +215,81 @@ export default function CreateJobPage() {
                     />
                   </div>
                 </div>
+                {priceSuggestion.canSuggest && (
+                  <div className="rounded-[1.75rem] border border-l-primary/10 bg-gradient-to-br from-amber-50 via-white to-l-primary/5 p-6 shadow-[0_20px_50px_rgba(0,27,60,0.06)]">
+                    {priceSuggestion.isLoading ? (
+                      <div className="flex items-start gap-4">
+                        <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-l-primary shadow-sm">
+                          <Loader2 className="h-5 w-5 animate-spin" />
+                        </div>
+                        <div className="space-y-2">
+                          <p className="text-xs font-black uppercase tracking-[0.2em] text-l-primary">AI Price Suggestion</p>
+                          <p className="text-sm font-medium text-l-on-surface">Analyzing this job and estimating a fair {watchedValues.budget_type === "hourly" ? "hourly rate" : "fixed price"}...</p>
+                        </div>
+                      </div>
+                    ) : priceSuggestion.suggestion ? (
+                      <div className="space-y-5">
+                        <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+                          <div className="flex items-start gap-4">
+                            <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-white text-l-primary shadow-sm">
+                              <WandSparkles className="h-5 w-5" />
+                            </div>
+                            <div>
+                              <p className="text-xs font-black uppercase tracking-[0.2em] text-l-primary">AI Price Suggestion</p>
+                              <div className="mt-2 flex items-end gap-3">
+                                <p className="text-3xl font-black tracking-tight text-l-on-surface">
+                                  {currencyFormatter.format(priceSuggestion.suggestion.suggested_amount)}
+                                </p>
+                                <p className="pb-1 text-sm font-medium text-l-secondary opacity-80">
+                                  Range: {currencyFormatter.format(priceSuggestion.suggestion.min_amount)} - {currencyFormatter.format(priceSuggestion.suggestion.max_amount)}
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                          <Badge
+                            variant="outline"
+                            className={cn(
+                              "w-fit rounded-full border-none px-3 py-1 text-[10px] font-black uppercase tracking-[0.2em]",
+                              priceSuggestion.suggestion.confidence === "high" && "bg-emerald-100 text-emerald-700",
+                              priceSuggestion.suggestion.confidence === "medium" && "bg-amber-100 text-amber-700",
+                              priceSuggestion.suggestion.confidence === "low" && "bg-slate-200 text-slate-700",
+                            )}
+                          >
+                            {priceSuggestion.suggestion.confidence} confidence
+                          </Badge>
+                        </div>
+
+                        <div className="space-y-2">
+                          {priceSuggestion.suggestion.explanation.split("\n").map((line) => (
+                            <p key={line} className="text-sm font-medium leading-relaxed text-l-secondary">
+                              {line}
+                            </p>
+                          ))}
+                        </div>
+
+                        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+                          <Button
+                            type="button"
+                            onClick={applySuggestedAmount}
+                            className="rounded-2xl bg-l-primary px-6 py-5 text-sm font-black uppercase tracking-[0.18em] text-white shadow-lg shadow-l-primary/20 transition-all hover:scale-[1.01] hover:bg-l-primary"
+                          >
+                            Use This Amount
+                          </Button>
+                          <p className="text-xs font-bold uppercase tracking-[0.18em] text-l-secondary opacity-60">
+                            Based on {selectedCategory?.name?.toLowerCase() ?? "job"} market signals in India
+                          </p>
+                        </div>
+                      </div>
+                    ) : priceSuggestion.error ? (
+                      <div className="rounded-2xl bg-white/80 px-5 py-4 text-sm font-medium text-l-secondary">
+                        <p>AI pricing is temporarily unavailable. You can still post the job with your own budget.</p>
+                        <p className="mt-2 text-xs font-bold uppercase tracking-[0.16em] text-l-secondary/70">
+                          {priceSuggestion.error}
+                        </p>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
                 {errors.budget_amount && <p className="text-xs font-bold text-red-500 animate-in fade-in slide-in-from-top-1">{errors.budget_amount.message}</p>}
               </div>
 

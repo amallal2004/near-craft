@@ -26,3 +26,9 @@ enabled = true
 verify_jwt = false
 import_map = "./functions/create-connect-account/deno.json"
 entrypoint = "./functions/create-connect-account/index.ts"
+
+[functions.suggest-job-price]
+enabled = true
+verify_jwt = false
+import_map = "./functions/suggest-job-price/deno.json"
+entrypoint = "./functions/suggest-job-price/index.ts"
