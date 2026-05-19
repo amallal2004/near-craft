@@ -12,6 +12,7 @@ import { toast } from "sonner";
 import { Loader2 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { motion, AnimatePresence } from "framer-motion";
+import { getSupabaseErrorMessage } from "@/lib/supabase-errors";
 
 export default function OnboardingPage() {
   const navigate = useNavigate();
@@ -48,47 +49,77 @@ export default function OnboardingPage() {
     if (!user || !role) return;
     setLoading(true);
 
-    const { error: profileError } = await supabase.from("profiles").update({
-      name,
-      phone: phone || null,
-      role,
-      active_role: role,
-      location_text: locationText || null,
-    }).eq("id", user.id);
+    try {
+      const { data: existingProfile, error: existingProfileError } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("id", user.id)
+        .maybeSingle();
 
-    if (profileError) {
-      toast.error(profileError.message);
-      setLoading(false);
-      return;
-    }
-
-    if (role === "worker") {
-      const { data: wp, error: wpError } = await supabase.from("worker_profiles").upsert({
-        user_id: user.id,
-        experience_desc: experienceDesc || null,
-        hourly_rate_min: hourlyRateMin,
-        hourly_rate_max: hourlyRateMax,
-        service_radius: serviceRadius,
-      }).select().single();
-
-      if (wpError) {
-        toast.error(wpError.message);
-        setLoading(false);
-        return;
+      if (existingProfileError) {
+        throw existingProfileError;
       }
 
-      if (selectedSkills.length > 0 && wp) {
-        await supabase.from("worker_skills").delete().eq("worker_id", wp.id);
-        await supabase.from("worker_skills").insert(
-          selectedSkills.map((catId) => ({ worker_id: wp.id, category_id: catId }))
+      if (!existingProfile) {
+        throw new Error(
+          "Your profile record does not exist yet. This usually means the Supabase signup trigger or database migrations have not been applied."
         );
       }
-    }
 
-    await refreshProfile();
-    setLoading(false);
-    toast.success("Welcome to MinuteWorker!");
-    navigate("/dashboard", { replace: true });
+      const { error: profileError } = await supabase.from("profiles").update({
+        name,
+        phone: phone || null,
+        role,
+        active_role: role,
+        location_text: locationText || null,
+      }).eq("id", user.id);
+
+      if (profileError) {
+        throw profileError;
+      }
+
+      if (role === "worker") {
+        const { data: wp, error: wpError } = await supabase.from("worker_profiles").upsert({
+          user_id: user.id,
+          experience_desc: experienceDesc || null,
+          hourly_rate_min: hourlyRateMin,
+          hourly_rate_max: hourlyRateMax,
+          service_radius: serviceRadius,
+        }).select().single();
+
+        if (wpError) {
+          throw wpError;
+        }
+
+        if (selectedSkills.length > 0 && wp) {
+          const { error: deleteSkillsError } = await supabase
+            .from("worker_skills")
+            .delete()
+            .eq("worker_id", wp.id);
+
+          if (deleteSkillsError) {
+            throw deleteSkillsError;
+          }
+
+          const { error: insertSkillsError } = await supabase.from("worker_skills").insert(
+            selectedSkills.map((catId) => ({ worker_id: wp.id, category_id: catId }))
+          );
+
+          if (insertSkillsError) {
+            throw insertSkillsError;
+          }
+        }
+      }
+
+      await refreshProfile();
+      toast.success("Welcome to MinuteWorker!");
+      navigate("/dashboard", { replace: true });
+    } catch (error) {
+      console.error("Profile deployment failed", error);
+      toast.error(getSupabaseErrorMessage(error));
+    } finally {
+      setLoading(false);
+    }
   };
 
   const getProgressWidth = () => {
