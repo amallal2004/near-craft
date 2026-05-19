@@ -72,47 +72,51 @@ export default function WorkersPage() {
 
         {/* Filters & Search (Asymmetric Bento style) */}
         <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 mb-12">
-          <div className="lg:col-span-3 bg-l-surface-container-low p-2 rounded-2xl flex items-center flex-wrap gap-2">
-            <Button
-              variant={categoryFilter === "all" ? "default" : "ghost"}
-              onClick={() => setCategoryFilter("all")}
-              className={cn(
-                "px-6 h-11 rounded-xl text-sm font-bold transition-all",
-                categoryFilter === "all" 
-                  ? "bg-white text-l-on-surface shadow-sm hover:bg-white" 
-                  : "text-l-secondary hover:bg-white/50"
-              )}
-            >
-              All Workers
-            </Button>
-            {categories?.slice(0, 4).map((cat) => (
+          <div className="lg:col-span-3 bg-l-surface-container-low p-3 rounded-2xl">
+            <div className="flex flex-wrap gap-2">
               <Button
-                key={cat.id}
-                variant={categoryFilter === cat.id ? "default" : "ghost"}
-                onClick={() => setCategoryFilter(cat.id)}
+                variant={categoryFilter === "all" ? "default" : "ghost"}
+                onClick={() => setCategoryFilter("all")}
                 className={cn(
                   "px-6 h-11 rounded-xl text-sm font-bold transition-all",
-                  categoryFilter === cat.id 
-                    ? "bg-white text-l-on-surface shadow-sm hover:bg-white" 
+                  categoryFilter === "all"
+                    ? "bg-white text-l-on-surface shadow-sm hover:bg-white"
                     : "text-l-secondary hover:bg-white/50"
                 )}
               >
-                {cat.name}
+                All Workers
               </Button>
-            ))}
-            
-            <div className="ml-auto hidden xl:flex items-center space-x-2 pr-4">
-              <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Sort by:</span>
-              <Select value={sortBy} onValueChange={setSortBy}>
-                <SelectTrigger className="bg-transparent border-none text-sm font-bold text-l-primary focus:ring-0 p-0 h-auto gap-1">
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent align="end" className="rounded-xl border-slate-100">
-                  <SelectItem value="Top Rated">Top Rated</SelectItem>
-                  <SelectItem value="Newest">Newest</SelectItem>
-                  <SelectItem value="Price: Low to High">Price: Low to High</SelectItem>
-                </SelectContent>
-              </Select>
+              {categories?.slice(0, 4).map((cat) => (
+                <Button
+                  key={cat.id}
+                  variant={categoryFilter === cat.id ? "default" : "ghost"}
+                  onClick={() => setCategoryFilter(cat.id)}
+                  className={cn(
+                    "px-6 h-11 rounded-xl text-sm font-bold transition-all",
+                    categoryFilter === cat.id
+                      ? "bg-white text-l-on-surface shadow-sm hover:bg-white"
+                      : "text-l-secondary hover:bg-white/50"
+                  )}
+                >
+                  {cat.name}
+                </Button>
+              ))}
+            </div>
+
+            <div className="mt-3 flex justify-start sm:justify-end">
+              <div className="inline-flex items-center gap-3 rounded-xl px-3 py-2">
+                <span className="text-[10px] font-bold text-slate-400 uppercase tracking-[0.2em]">Sort by</span>
+                <Select value={sortBy} onValueChange={setSortBy}>
+                  <SelectTrigger className="h-9 min-w-[140px] border-none bg-transparent px-0 text-sm font-bold text-l-primary shadow-none focus:ring-0 gap-1 justify-start sm:justify-end">
+                    <SelectValue />
+                  </SelectTrigger>
+                  <SelectContent align="end" className="rounded-xl border-slate-100">
+                    <SelectItem value="Top Rated">Top Rated</SelectItem>
+                    <SelectItem value="Newest">Newest</SelectItem>
+                    <SelectItem value="Price: Low to High">Price: Low to High</SelectItem>
+                  </SelectContent>
+                </Select>
+              </div>
             </div>
           </div>
 
