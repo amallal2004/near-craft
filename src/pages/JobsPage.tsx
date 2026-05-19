@@ -441,7 +441,7 @@ function CustomerJobFeed() {
           
           <div className="absolute bottom-12 left-12 flex items-center gap-4 opacity-30 select-none">
             <div className="w-2 h-2 rounded-full bg-l-primary"></div>
-            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-l-secondary">MinuteWorker Studio Workspace</p>
+            <p className="text-[10px] font-black uppercase tracking-[0.3em] text-l-secondary">GigUp Studio Workspace</p>
           </div>
         </div>
       )}
@@ -481,7 +481,7 @@ export default function JobsPage() {
                 <CheckCircle2 className="text-l-primary h-6 w-6" />
               </div>
               <h4 className="font-black text-l-on-surface text-xl mb-3 font-l-headline tracking-tight">Verified Professionals</h4>
-              <p className="text-sm text-l-secondary leading-relaxed font-medium opacity-70">Every freelancer on MinuteWorker undergoes a rigorous 5-step vetting process.</p>
+              <p className="text-sm text-l-secondary leading-relaxed font-medium opacity-70">Every freelancer on GigUp undergoes a rigorous 5-step vetting process.</p>
             </div>
             
             <div className="bg-white/40 border border-white p-10 rounded-[2rem] backdrop-blur-sm group hover:bg-white transition-all duration-500 shadow-sm hover:shadow-xl">
@@ -505,4 +505,3 @@ export default function JobsPage() {
     </AppLayout>
   );
 }
-

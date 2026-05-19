@@ -70,7 +70,7 @@ export default function SignupPage() {
           <div className="relative z-10 flex items-center gap-3 mb-4">
             <Link to="/" className="flex items-center gap-2 group">
               <div className="w-10 h-10 bg-white text-[#b7102a] rounded-xl flex items-center justify-center font-bold text-xl shadow-lg group-hover:scale-105 transition-transform">G</div>
-              <h1 className="text-2xl font-black tracking-tighter text-white font-['Plus_Jakarta_Sans']">Near-Craft</h1>
+              <h1 className="text-2xl font-black tracking-tighter text-white font-['Plus_Jakarta_Sans']">GigUp</h1>
             </Link>
           </div>
           
@@ -90,7 +90,7 @@ export default function SignupPage() {
           {/* Testimonial Section */}
           <div className="relative z-10 mt-4 bg-white/10 backdrop-blur-md border border-white/10 p-5 rounded-2xl">
             <p className="text-lg font-['Plus_Jakarta_Sans'] font-bold text-white leading-tight mb-4 italic">
-              "Near-Craft made it easy to start my local professional career. The platform is intuitive and high-velocity."
+              "GigUp made it easy to start my local professional career. The platform is intuitive and high-velocity."
             </p>
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-white/30 shadow-md">
@@ -116,7 +116,7 @@ export default function SignupPage() {
             <div className="md:hidden mb-6 flex justify-center">
               <Link to="/" className="flex items-center gap-2">
                 <div className="w-8 h-8 bg-[#b7102a] text-white rounded-lg flex items-center justify-center font-bold text-lg shadow-md">G</div>
-                <h1 className="text-2xl font-black tracking-tighter text-[#b7102a] font-['Plus_Jakarta_Sans']">Near-Craft</h1>
+                <h1 className="text-2xl font-black tracking-tighter text-[#b7102a] font-['Plus_Jakarta_Sans']">GigUp</h1>
               </Link>
             </div>
             
@@ -126,7 +126,7 @@ export default function SignupPage() {
                 <span className="text-[10px] uppercase tracking-widest font-bold text-[#b7102a]">Velocity Workspaces</span>
               </div>
               <h2 className="text-3xl md:text-4xl font-['Plus_Jakarta_Sans'] font-black text-[#001b3c] tracking-tight mb-2">Create Your Account</h2>
-              <p className="text-[#485f84] font-medium text-base">Join the global Near-Craft community</p>
+              <p className="text-[#485f84] font-medium text-base">Join the global GigUp community</p>
             </header>
 
 

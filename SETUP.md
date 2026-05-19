@@ -1,6 +1,6 @@
-# 🛠️ Near-Craft — Developer Setup Guide
+# 🛠️ GigUp — Developer Setup Guide
 
-This guide will walk you through setting up the **Near-Craft** project from scratch on your local machine. No prior experience required — just follow each step carefully.
+This guide will walk you through setting up the **GigUp** project from scratch on your local machine. No prior experience required — just follow each step carefully.
 
 ---
 
@@ -22,7 +22,7 @@ This guide will walk you through setting up the **Near-Craft** project from scra
 
 ## 1. What Is This Project?
 
-**Near-Craft** is a full-stack web platform that connects customers with local service providers (like plumbers, carpenters, cleaners, etc.). Key features include:
+**GigUp** is a full-stack web platform that connects customers with local service providers (like plumbers, carpenters, cleaners, etc.). Key features include:
 
 - 📍 Location-based job posting
 - 🤖 AI-powered budget estimation for jobs (powered by Gemini)

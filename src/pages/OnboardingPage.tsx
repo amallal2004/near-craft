@@ -112,7 +112,7 @@ export default function OnboardingPage() {
       }
 
       await refreshProfile();
-      toast.success("Welcome to MinuteWorker!");
+      toast.success("Welcome to GigUp!");
       navigate("/dashboard", { replace: true });
     } catch (error) {
       console.error("Profile deployment failed", error);
@@ -147,7 +147,7 @@ export default function OnboardingPage() {
             animate={{ y: 0, opacity: 1 }}
             className="fixed top-0 left-0 w-full z-50 flex justify-between items-center px-6 py-4 bg-white/80 backdrop-blur-md border-b border-slate-100"
           >
-            <div className="text-2xl font-black italic text-[#E63946] font-['Plus_Jakarta_Sans'] tracking-tight">MinuteWorker</div>
+            <div className="text-2xl font-black italic text-[#E63946] font-['Plus_Jakarta_Sans'] tracking-tight">GigUp</div>
             <div className="flex items-center gap-4">
               <button className="text-slate-500 hover:text-[#E63946] transition-colors p-2">
                 <span className="material-symbols-outlined">help_outline</span>
@@ -643,7 +643,7 @@ export default function OnboardingPage() {
                       role === "customer" ? "bg-white/40" : "bg-white/20"
                     )}></div>
                     <p className="text-white/70 text-sm md:text-base font-medium leading-relaxed max-w-[260px] mx-auto md:mx-0">
-                      Your profile is calibrated and ready for the NearCraft ecosystem.
+                      Your profile is calibrated and ready for the GigUp ecosystem.
                     </p>
                   </motion.div>
 

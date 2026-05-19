@@ -119,7 +119,7 @@ export default function ProfilePage() {
   const handleCopyLink = () => {
     const handle =
       profile?.name?.toLowerCase().replace(/\s+/g, "-") ?? "user";
-    navigator.clipboard.writeText(`nearcraft.app/${handle}`);
+    navigator.clipboard.writeText(`gigup.app/${handle}`);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
   };
@@ -275,7 +275,7 @@ export default function ProfilePage() {
               {/* Save Row */}
               <div className="pt-2 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
                 <p className="text-xs text-slate-400 max-w-xs text-center sm:text-left">
-                  Your profile is visible to all potential clients on the NearCraft network.
+                  Your profile is visible to all potential clients on the GigUp network.
                 </p>
                 <button
                   onClick={handleSave}
@@ -323,7 +323,7 @@ export default function ProfilePage() {
               <div className="flex items-center gap-2 bg-slate-50 rounded-xl px-3 py-2.5 border border-slate-100">
                 <Link2 className="h-3.5 w-3.5 text-slate-400 shrink-0" />
                 <span className="text-xs text-slate-500 font-mono truncate flex-1">
-                  nearcraft.app/{profileHandle}
+                  gigup.app/{profileHandle}
                 </span>
                 <button
                   onClick={handleCopyLink}

@@ -53,11 +53,11 @@ function AppSidebarContent() {
           <div className="mb-10 px-4">
             {!collapsed ? (
               <>
-                <h1 className="text-xl font-bold tracking-tight text-l-on-surface font-l-headline">MinuteWorker</h1>
+                <h1 className="text-xl font-bold tracking-tight text-l-on-surface font-l-headline">GigUp</h1>
                 <p className="text-[10px] uppercase tracking-widest text-l-secondary font-bold font-l-headline">Freelancer Hub</p>
               </>
             ) : (
-              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-l-primary to-l-primary-container text-white font-black text-xl shadow-lg shadow-l-primary/20">M</div>
+              <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-l-primary to-l-primary-container text-white font-black text-xl shadow-lg shadow-l-primary/20">G</div>
             )}
           </div>
           <SidebarContent className="flex-1 mt-4">
@@ -109,11 +109,11 @@ function AppSidebarContent() {
         <div className="mb-10 px-4">
           {!collapsed ? (
             <>
-              <h1 className="text-xl font-bold tracking-tight text-l-on-surface font-l-headline">MinuteWorker</h1>
+              <h1 className="text-xl font-bold tracking-tight text-l-on-surface font-l-headline">GigUp</h1>
               <p className="text-[10px] uppercase tracking-widest text-l-secondary font-bold font-l-headline opacity-70">Velocity Atelier</p>
             </>
           ) : (
-            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-l-primary to-l-primary-container text-white font-black text-xl shadow-lg shadow-l-primary/20">M</div>
+            <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-gradient-to-br from-l-primary to-l-primary-container text-white font-black text-xl shadow-lg shadow-l-primary/20">G</div>
           )}
         </div>
         <SidebarContent className="flex-1">

@@ -88,7 +88,7 @@ serve(async (req) => {
             currency: "inr",
             product_data: {
               name: `Job: ${job.title}`,
-              description: `Payment for ${categoryName} service on Near-Craft`,
+              description: `Payment for ${categoryName} service on GigUp`,
             },
             unit_amount: amountInCents,
           },

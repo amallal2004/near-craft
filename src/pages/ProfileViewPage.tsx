@@ -215,7 +215,7 @@ export default function ProfileViewPage() {
               <h2 className="text-3xl font-black text-l-on-surface tracking-tight font-l-headline">Professional Background</h2>
               <div className="bg-l-surface-container-low rounded-[2.5rem] p-10 md:p-14 relative overflow-hidden group">
                 <div className="relative z-10 leading-relaxed text-l-secondary text-lg font-medium opacity-80 whitespace-pre-wrap font-l-body">
-                  {profile.bio || "This member hasn't provided a bio yet. They are part of the NearCraft network, contributing to technical projects and service exchanges within the community."}
+                  {profile.bio || "This member hasn't provided a bio yet. They are part of the GigUp network, contributing to technical projects and service exchanges within the community."}
                 </div>
               </div>
             </section>

@@ -1,6 +1,6 @@
-# 🛠️ Near-Craft — Local Service Marketplace
+# 🛠️ GigUp — Local Service Marketplace
 
-**Near-Craft** is a sophisticated, full-stack platform designed to bridge the gap between skilled local craftsmen and customers in need of their services. Built with a focus on ease of use, transparency, and efficiency, it empowers users to post jobs, get AI-powered budget estimates, and manage secure payments seamlessy.
+**GigUp** is a sophisticated, full-stack platform designed to bridge the gap between skilled local craftsmen and customers in need of their services. Built with a focus on ease of use, transparency, and efficiency, it empowers users to post jobs, get AI-powered budget estimates, and manage secure payments seamlessy.
 
 ---
 

@@ -65,7 +65,7 @@ export default function SettingsPage() {
                 Account <span className="text-l-primary">Settings</span>
               </h1>
               <p className="text-slate-500 font-medium max-w-2xl">
-                Manage your profile preferences, secure your account, and refine your experience on MinuteWorker.
+                Manage your profile preferences, secure your account, and refine your experience on GigUp.
               </p>
             </motion.div>
 
@@ -185,7 +185,7 @@ export default function SettingsPage() {
             {/* Footer Text */}
             <motion.div variants={itemVariants} className="text-center pt-8 border-t border-slate-100 mt-12 pb-12">
               <p className="text-xs text-slate-400 font-medium tracking-wide">
-                © {new Date().getFullYear()} MinuteWorker Atelier. All rights reserved.
+                © {new Date().getFullYear()} GigUp Atelier. All rights reserved.
               </p>
             </motion.div>
           </motion.div>
