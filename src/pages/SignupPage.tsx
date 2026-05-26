@@ -28,7 +28,7 @@ export default function SignupPage() {
         return;
       }
 
-      toast.success("Check your email for a confirmation link!");
+      toast.success("Account created successfully! You can now sign in.");
       navigate("/login");
     } catch (error) {
       console.error("Signup failed", error);
